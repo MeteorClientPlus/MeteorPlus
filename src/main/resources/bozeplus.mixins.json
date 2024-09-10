@@ -1,0 +1,13 @@
+{
+	"required": false,
+	"package": "nekiplay.bozeplus.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"plugin": "nekiplay.MixinPlugin",
+	"client": [
+		"minecraft.ClientConnectionMixin",
+		"minecraft.PlayerMoveC2SPacketAccessor"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

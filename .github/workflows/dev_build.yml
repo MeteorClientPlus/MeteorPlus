@@ -1,0 +1,23 @@
+name: Development Build
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 18
+          distribution: adopt
+      - name: Build
+        run: ./gradlew build
+      - name: Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          automatic_release_tag: "1.20.4_1.0.9.1"
+          prerelease: true
+          title: "1.20.4 | 1.0.9.1"
+          files: |
+            ./build/libs/*.jar

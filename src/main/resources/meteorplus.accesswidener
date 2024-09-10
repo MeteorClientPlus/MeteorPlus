@@ -1,0 +1,5 @@
+accessWidener	v1	named
+
+accessible method net/minecraft/entity/passive/AbstractHorseEntity canBreed ()Z
+accessible class net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractType
+accessible field net/minecraft/block/AbstractBlock collidable Z
