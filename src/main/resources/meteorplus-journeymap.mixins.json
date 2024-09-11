@@ -1,0 +1,12 @@
+{
+	"required": false,
+	"package": "nekiplay.meteorplus.mixin.journeymap",
+	"compatibilityLevel": "JAVA_17",
+	"plugin": "nekiplay.MixinPlugin",
+	"client": [
+		"WaypointManagerItemMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

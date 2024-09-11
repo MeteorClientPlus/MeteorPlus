@@ -1,0 +1,12 @@
+{
+	"required": false,
+	"package": "nekiplay.meteorplus.mixin.whereisit",
+	"compatibilityLevel": "JAVA_17",
+	"plugin": "nekiplay.MixinPlugin",
+	"client": [
+		"RenderingMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

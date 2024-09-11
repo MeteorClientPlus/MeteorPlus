@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "id": "meteorplus",
+  "version": "${version}",
+  "name": "Meteor+",
+  "description": "An addon for Meteor client and Boze Client that adds many blatant features.",
+  "authors": [
+    "Neki_play"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Nekiplay/MeteorPlus",
+    "issues": "https://github.com/Nekiplay/MeteorPlus/issues",
+    "sources": "https://github.com/Nekiplay/MeteorPlus",
+    "discord": "https://www.guilded.gg/i/27dAlJKk"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/meteorplus/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "nekiplay.Main"
+    ],
+    "meteor": [
+      "nekiplay.meteorplus.MeteorPlusAddon"
+    ]
+  },
+  "mixins": [
+    "meteorplus.mixins.json",
+    "meteorplus-journeymap.mixins.json",
+    "meteorplus-xaeroworldmap.mixins.json",
+    "meteorplus-whereisit.mixins.json"
+  ],
+  "accessWidener": "meteorplus.accesswidener",
+  "custom": {
+    "meteor-client:color": "0,181,73",
+    "github:sha": "${gh_hash}",
+		"modmenu": {
+			"links": {
+				"modmenu.website": "https://nekiplay.github.io/MeteorPlus",
+				"modmenu.discord": "https://discord.gg/Y3ardRfJXr",
+				"Guilded": "https://www.guilded.gg/i/27dAlJKk",
+				"Telegram": "https://t.me/+oST4M1L4pGdiYzgy"
+			},
+			"badges": [ "clientsideOnly" ]
+		}
+  },
+  "depends": {
+    "java": ">=17",
+    "minecraft": ">=${mc_version}"
+  }
+}
