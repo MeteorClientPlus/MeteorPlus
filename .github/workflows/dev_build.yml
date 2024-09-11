@@ -11,6 +11,8 @@ jobs:
         with:
           java-version: 18
           distribution: adopt
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Build
         run: ./gradlew build
       - name: Release
