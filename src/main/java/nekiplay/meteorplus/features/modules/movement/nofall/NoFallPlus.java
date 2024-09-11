@@ -59,6 +59,8 @@ public class NoFallPlus extends Module {
 
 	private void onModeChanged(NoFallModes mode) {
 		switch (mode) {
+			case No_Ground_Elytra -> currentMode = new No_Ground_Elytra();
+			case No_Ground -> currentMode = new No_Ground();
 			case Elytra_Fly -> currentMode = new ElytraFly();
 			case Elytra_Clip -> currentMode = new Eclip();
 			case Matrix_New -> currentMode = new MatrixNew();
