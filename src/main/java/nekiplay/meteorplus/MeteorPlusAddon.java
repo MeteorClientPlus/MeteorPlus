@@ -241,7 +241,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 
 	@Override
 	public GithubRepo getRepo() {
-		return new GithubRepo("Nekiplay", "MeteorPlus",  "main", null);
+		return new GithubRepo("MeteorClientPlus", "MeteorPlus",  "1.20.6", null);
 	}
 
 	@Override
