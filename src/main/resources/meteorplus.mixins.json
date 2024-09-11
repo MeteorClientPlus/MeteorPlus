@@ -1,0 +1,43 @@
+{
+	"required": true,
+	"package": "nekiplay.meteorplus.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"plugin": "nekiplay.MixinPlugin",
+	"client": [
+		"meteorclient.gui.LeftRightSettingsScreenMixin",
+		"meteorclient.modules.ModuleMixin",
+		"meteorclient.gui.ModulesScreenMixin",
+		"meteorclient.gui.WBlockPosEditMixin",
+		"meteorclient.gui.WMeteorModuleMixin",
+		"meteorclient.gui.WPressableMixin",
+		"meteorclient.modules.NameTagsMixin",
+		"meteorclient.modules.AutoToolMixin",
+		"meteorclient.modules.BlockESPMixin",
+		"meteorclient.modules.ESPMixin",
+		"meteorclient.modules.FreecamMixin",
+		"meteorclient.modules.ItemHighlightMixin",
+		"meteorclient.modules.KillAuraMixin",
+		"meteorclient.modules.NoRenderMixin",
+		"meteorclient.modules.TracersMixin",
+		"meteorclient.modules.WaypointsModuleMixin",
+		"meteorclient.modules.MiddleClickExtraMixin",
+		"meteorclient.modules.CriticalsMixin",
+		"minecraft.ClientConnectionAccessor",
+		"minecraft.ClientPlayerInteractionManagerMixin",
+		"minecraft.CraftingScreenHandlerAccessor",
+		"minecraft.MinecraftClientMixin",
+		"minecraft.ShapelessRecipeAccessor",
+		"minecraft.hud.DebugHudMixin",
+		"minecraft.entity.ShulkerEntityAccessor"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"mixins": [
+		"meteorclient.gui.DefaultSettingsWidgetFactoryMixin",
+		"meteorclient.utils.misc.KeybindMixin",
+      "minecraft.entity.ClientPlayerEntityMixin",
+      "minecraft.entity.LivingEntityMixin",
+		"minecraft.StringReaderMixin"
+	]
+}

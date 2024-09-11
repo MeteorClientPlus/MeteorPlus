@@ -1,0 +1,96 @@
+plugins {
+	id "fabric-loom" version "1.6-SNAPSHOT"
+	id "maven-publish"
+}
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
+
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
+
+configurations.all {
+	// Check for snapshots more frequently than Gradle's default of 1 day. 0 = every build.
+	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+repositories {
+	maven {
+		url "https://jm.gserv.me/repository/maven-public/"
+		content {
+			includeGroup "info.journeymap"
+		}
+	}
+	maven {
+		url "https://api.modrinth.com/maven/"
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
+	maven { url = "https://www.cursemaven.com" }
+	maven { url = "https://masa.dy.fi/maven" }
+	// YACL
+	maven {
+		url = uri("https://maven.isxander.dev/releases")
+	}
+	// YACL Snapshots
+	maven {
+		name = "Xander Snapshot Maven"
+		url = uri("https://maven.isxander.dev/snapshots")
+	}
+	// Where Is It, JackFredLib
+	maven {
+		url = uri("https://maven.jackf.red/releases/")
+	}
+
+	// Boze
+	maven {
+		name = "boze-maven"
+		url = "https://maven.boze.dev/releases"
+	}
+	mavenCentral()
+	gradlePluginPortal()
+}
+
+dependencies {
+	// Fabric
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// Mixin extras
+	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.3.6")))
+
+	// Meteor Client
+	modImplementation files("libs\\baritone-unoptimized-fabric-1.10.1-11-g3ed49fd4.jar")
+	modImplementation files("libs\\meteor-client-0.5.7.jar")
+
+	// Journey Map
+	modCompileOnlyApi  group: 'info.journeymap', name: 'journeymap-api', version: project.journeymap_api_fabric_version, changing: true
+	modCompileOnly "maven.modrinth:journeymap:${project.jm_fabric_version}"
+
+	// Xaero's Mods
+	modCompileOnly "maven.modrinth:xaeros-world-map:${project.xwm_fabric_version}" // Xaero's World Map
+	modCompileOnly "maven.modrinth:xaeros-minimap:${project.xmm_fabric_version}" // Xaero's Minimap
+
+	// Litematica
+	modImplementation "curse.maven:litematica-${project.litematica_projectid}:${project.litematica_fileid}"
+	modImplementation "curse.maven:litematica-${project.malilib_projectid}:${project.malilib_fileid}"
+
+	// Chest Tracker
+	modImplementation("red.jackf:whereisit:${project.where_is_it_version}")
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/meteorplus.accesswidener")
+}
+
+processResources {
+	filesMatching("fabric.mod.json") {
+		expand "version": project.mod_version, "mc_version": project.minecraft_version, "gh_hash": (System.getenv("GITHUB_SHA") ?: "")
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding("UTF-8")
+}
