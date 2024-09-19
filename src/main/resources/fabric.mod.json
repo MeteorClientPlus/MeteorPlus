@@ -8,9 +8,9 @@
     "Neki_play"
   ],
   "contact": {
-    "homepage": "https://github.com/Nekiplay/MeteorPlus",
-    "issues": "https://github.com/Nekiplay/MeteorPlus/issues",
-    "sources": "https://github.com/Nekiplay/MeteorPlus",
+    "homepage": "https://github.com/MeteorClientPlus/MeteorPlus",
+    "issues": "https://github.com/MeteorClientPlus/MeteorPlus/issues",
+    "sources": "https://github.com/MeteorClientPlus/MeteorPlus",
     "discord": "https://www.guilded.gg/i/27dAlJKk"
   },
   "license": "GPL-3.0",
@@ -37,7 +37,7 @@
     "github:sha": "${gh_hash}",
 		"modmenu": {
 			"links": {
-				"modmenu.website": "https://nekiplay.github.io/MeteorPlus",
+				"modmenu.website": "http://meteorclientplus.github.io",
 				"modmenu.discord": "https://discord.gg/Y3ardRfJXr",
 				"Guilded": "https://www.guilded.gg/i/27dAlJKk",
 				"Telegram": "https://t.me/+oST4M1L4pGdiYzgy"
