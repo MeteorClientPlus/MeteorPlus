@@ -228,7 +228,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 
 	@Override
 	public String getWebsite() {
-		return "https://meteor-plus.com/";
+		return "https://meteorclientplus.github.io";
 	}
 
 	@Override
