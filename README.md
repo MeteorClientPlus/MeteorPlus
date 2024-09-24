@@ -14,10 +14,9 @@
 	<a href="https://www.guilded.gg/i/27dAlJKk"><img src="https://img.shields.io/badge/support/help/issues-guilded-brightgreen" alt="Guilded"/></a>
 	<br>
 	<p>Thanks some russian paid clients and <a href="https://github.com/CCBlueX/LiquidBounce">LiquidBounce</a> 🤫</p>
-	<br>
+	Recommended server for the game
+3b3t.org - analog of 2b2t - https://discord.gg/3b3t-org
 </div>
-
-  ![Alt](https://repobeats.axiom.co/api/embed/869469d8757653eb3fc621df1708036d196fc1db.svg "Repobeats analytics image")
 
 ## PvE Modules
 | Module                 | Description                                   | Bypasses                      |
