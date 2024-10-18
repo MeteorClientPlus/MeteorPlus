@@ -18,7 +18,6 @@ public class HologramData {
 	public int item_id = 0;
 	public double scale = 1;
 	public int item_scale = 2;
-	public boolean distanceScaling = false;
 
 	public HologramData() {
 
