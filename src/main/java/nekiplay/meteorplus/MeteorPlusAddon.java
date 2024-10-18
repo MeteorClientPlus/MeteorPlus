@@ -19,6 +19,7 @@ import nekiplay.meteorplus.features.modules.render.*;
 import nekiplay.meteorplus.features.modules.render.holograms.*;
 import nekiplay.meteorplus.features.modules.world.*;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarm;
+import nekiplay.meteorplus.features.modules.world.customblocks.CustomBlocksModule;
 import nekiplay.meteorplus.gui.tabs.HiddenModulesTab;
 import nekiplay.meteorplus.hud.TimerPlusCharge;
 import nekiplay.meteorplus.features.modules.integrations.MapIntegration;
@@ -153,6 +154,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 			modules.add(new Hunt());
 		}
 		//modules.add(new KillAuraPlus());
+		modules.add(new CustomBlocksModule());
 		modules.add(new Teams());
 		modules.add(new HologramModule());
 		modules.add(new ChatPrefix());
