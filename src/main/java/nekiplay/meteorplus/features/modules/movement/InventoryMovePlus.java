@@ -66,16 +66,16 @@ public class InventoryMovePlus extends Module {
 	);
 
 	private final Setting<NoSprint> noSprintSetting = sgGeneral.add(new EnumSetting.Builder<NoSprint>()
-		.name("NoSprint")
+		.name("No-Sprint")
 		.description("NoSprint Bypass mode.")
 		.defaultValue(NoSprint.None)
 		.build()
 	);
 
 	private final Setting<Boolean> noMoveClicks = sgGeneral.add(new BoolSetting.Builder()
-		.name("NoMoveClicks")
+		.name("No-Move-Clicks")
 		.description("Block clicks in move.")
-		.defaultValue(true)
+		.defaultValue(false)
 		.build()
 	);
 
@@ -99,7 +99,7 @@ public class InventoryMovePlus extends Module {
 	private final Setting<Boolean> sneak = sgGeneral.add(new BoolSetting.Builder()
 		.name("sneak")
 		.description("Allows you to sneak while in GUIs.")
-		.defaultValue(true)
+		.defaultValue(false)
 		.onChanged(aBoolean -> {
 			if (isActive() && !aBoolean) set(mc.options.sneakKey, false);
 		})
