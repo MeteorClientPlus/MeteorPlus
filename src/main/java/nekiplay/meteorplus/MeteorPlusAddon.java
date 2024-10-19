@@ -11,6 +11,7 @@ import nekiplay.meteorplus.features.modules.combat.*;
 import nekiplay.meteorplus.features.modules.combat.velocity.VelocityPlus;
 import nekiplay.meteorplus.features.modules.misc.*;
 import nekiplay.meteorplus.features.modules.movement.*;
+import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyPlus;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowPlus;
 import nekiplay.meteorplus.features.modules.player.*;
 import nekiplay.meteorplus.features.modules.render.*;
@@ -172,6 +173,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 			modules.add(new Hunt());
 		}
 		//modules.add(new KillAuraPlus());
+		modules.add(new ElytraFlyPlus());
 		modules.add(new CustomBlocksModule());
 		modules.add(new Phase());
 		modules.add(new Teams());
