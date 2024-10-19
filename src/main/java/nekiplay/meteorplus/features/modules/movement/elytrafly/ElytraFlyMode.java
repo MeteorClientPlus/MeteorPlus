@@ -39,7 +39,7 @@ public class ElytraFlyMode {
 	public void onPacketReceive(PacketEvent.Receive event) {
 	}
 
-	public void onPlayerMove() {
+	public void onPlayerMove(PlayerMoveEvent event) {
 	}
 
 	public void onActivate() {
@@ -52,49 +52,8 @@ public class ElytraFlyMode {
 	public void onDeactivate() {
 	}
 
-	public void autoTakeoff() {
 
-	}
 
-	public void handleHorizontalSpeed(PlayerMoveEvent event) {
-		boolean a = false;
-		boolean b = false;
-
-		if (mc.options.forwardKey.isPressed()) {
-			velX += forward.x * getSpeed() * 10;
-			velZ += forward.z * getSpeed() * 10;
-			a = true;
-		} else if (mc.options.backKey.isPressed()) {
-			velX -= forward.x * getSpeed() * 10;
-			velZ -= forward.z * getSpeed() * 10;
-			a = true;
-		}
-
-		if (mc.options.rightKey.isPressed()) {
-			velX += right.x * getSpeed() * 10;
-			velZ += right.z * getSpeed() * 10;
-			b = true;
-		} else if (mc.options.leftKey.isPressed()) {
-			velX -= right.x * getSpeed() * 10;
-			velZ -= right.z * getSpeed() * 10;
-			b = true;
-		}
-
-		if (a && b) {
-			double diagonal = 1 / Math.sqrt(2);
-			velX *= diagonal;
-			velZ *= diagonal;
-		}
-	}
-
-	public void handleVerticalSpeed(PlayerMoveEvent event) {
-		if (mc.options.jumpKey.isPressed()) velY += 0.5 * 0;
-		else if (mc.options.sneakKey.isPressed()) velY -= 0.5 * 0;
-	}
-
-	protected double getSpeed() {
-		return 2.5;
-	}
 
 	public String getHudString() {
 		return type.name();
