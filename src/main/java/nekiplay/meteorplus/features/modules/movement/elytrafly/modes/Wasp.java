@@ -40,7 +40,10 @@ public class Wasp extends ElytraFlyMode {
 		}
 
 		((IVec3d) event.movement).set(x, y, z);
-		mc.player.setVelocity(0, 0, 0);
+
+		if (elytraFly.resetSpeed.get()) {
+			mc.player.setVelocity(0, 0, 0);
+		}
 	}
 
 	private void updateWaspMovement() {
