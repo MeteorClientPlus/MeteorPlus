@@ -10,6 +10,7 @@ import meteordevelopment.meteorclient.mixin.KeyBindingAccessor;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -171,6 +172,7 @@ public class InventoryMovePlus extends Module {
 
 	@EventHandler
 	private void onTick(TickEvent.Pre event) {
+		if (!Utils.canUpdate()) return;
 		if (skip()) return;
 		if (screens.get() == Screens.GUI && !(mc.currentScreen instanceof WidgetScreen)) return;
 		if (screens.get() == Screens.Inventory && !(mc.currentScreen instanceof InventoryScreen)) return;

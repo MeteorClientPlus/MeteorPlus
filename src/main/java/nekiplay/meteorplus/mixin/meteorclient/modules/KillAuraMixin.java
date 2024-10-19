@@ -132,7 +132,7 @@ public class KillAuraMixin extends Module {
 		.defaultValue(2)
 		.min(0)
 		.sliderMax(60)
-		.visible(customDelay::get)
+		.visible(customDelayOneHit::get)
 		.build()
 	);
 

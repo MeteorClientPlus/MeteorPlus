@@ -18,11 +18,14 @@ import nekiplay.Main;
 import nekiplay.meteorplus.MeteorPlusAddon;
 import nekiplay.meteorplus.features.modules.render.holograms.HologramData;
 import nekiplay.meteorplus.features.modules.render.holograms.HologramDataListed;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.profiling.jfr.event.ChunkRegionEvent;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.chunk.WorldChunk;
@@ -80,10 +83,8 @@ public class CustomBlocksModule extends Module {
 					CustomBlockData customBlockData = allBlocks.get(new PosData(pos));
 					if (customBlockData != null) {
 						if (customBlockData.dimension.equals(dimension)) {
-							Item item = Item.byRawId(customBlockData.block_id);
-							Block block = Block.getBlockFromItem(item);
 							if (isValidBlockForReplace(original)) {
-								mc.world.setBlockState(pos, block.getDefaultState());
+								setBlock(pos, customBlockData);
 							}
 						}
 					}
@@ -103,17 +104,23 @@ public class CustomBlocksModule extends Module {
 		return false;
 	}
 
+	private void setBlock(BlockPos pos, CustomBlockData data) {
+		Item item = Item.byRawId(data.block_id);
+		Block block = Block.getBlockFromItem(item);
+		BlockState state = block.getDefaultState();
+
+		mc.world.setBlockState(pos, state);
+	}
+
 	@EventHandler
 	private void onBlockUpdate(BlockUpdateEvent event) {
 		String dimension = PlayerUtils.getDimension().name();
 		CustomBlockData customBlockData = allBlocks.get(new PosData(event.pos));
 		if (customBlockData != null) {
 			if (customBlockData.dimension.equals(dimension)) {
-				Item item = Item.byRawId(customBlockData.block_id);
 				Block original = event.newState.getBlock();
-				Block block = Block.getBlockFromItem(item);
 				if (isValidBlockForReplace(original)) {
-					mc.world.setBlockState(event.pos, block.getDefaultState());
+					setBlock(event.pos, customBlockData);
 				}
 			}
 		}

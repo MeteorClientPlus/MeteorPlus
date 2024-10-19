@@ -8,6 +8,7 @@ import java.util.List;
 public class CustomBlockData {
 	public int block_id;
 	public List<PosData> positions = new ArrayList<PosData>();
+
 	public String world;
 	public String dimension;
 	public CustomBlockData(BlockPos pos,int block_id) {
