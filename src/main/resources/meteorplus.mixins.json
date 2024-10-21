@@ -18,7 +18,6 @@
     "meteorclient.modules.TracersMixin",
     "meteorclient.modules.WaypointsModuleMixin",
     "minecraft.ClientConnectionAccessor",
-    "minecraft.ClientPlayerInteractionManagerMixin",
     "minecraft.CraftingScreenHandlerAccessor",
     "minecraft.MinecraftClientMixin",
     "minecraft.ShapelessRecipeAccessor",

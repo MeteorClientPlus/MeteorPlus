@@ -192,7 +192,7 @@ public class FreecamMixin {
 
 	@Unique
 	private void Work(Cancellable event) {
-		if (baritoneMoveBlinkKey.get().isPressed()) {
+		if (baritoneMoveBlinkKey.get().isPressed() && mc.currentScreen == null) {
 			BlockPos clicked = rayCastClicked();
 
 			if (blinkBaritoneControl.get()) {
