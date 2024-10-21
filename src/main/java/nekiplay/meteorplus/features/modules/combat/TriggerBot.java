@@ -9,7 +9,6 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus;
-import nekiplay.meteorplus.features.modules.misc.MultiTasks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -153,8 +152,6 @@ public class TriggerBot extends Module {
 	private void onTick(TickEvent.Pre event) {
 		if (!mc.player.isAlive() || PlayerUtils.getGameMode() == GameMode.SPECTATOR) return;
 		if (mc.targetedEntity == null) return;
-		MultiTasks multiTasks = Modules.get().get(MultiTasks.class);
-		if (!multiTasks.isActive() && (mc.player.isUsingItem() || mc.interactionManager.isBreakingBlock())) return;
 
 		if (delayCheck() && entityCheck(mc.targetedEntity)) hitEntity(mc.targetedEntity);
 	}
