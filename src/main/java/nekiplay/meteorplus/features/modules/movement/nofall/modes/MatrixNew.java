@@ -33,7 +33,7 @@ public class MatrixNew extends NoFallMode {
 			if (!mc.player.isOnGround()) {
 				if (mc.player.fallDistance > 2.69) {
 					timer.setOverride(0.3);
-					accessor.meteor$setOnGround(true);
+					accessor.setOnGround(true);
 					mc.player.fallDistance = 0;
 				}
 				if (mc.player.fallDistance > 3.5) {
@@ -51,7 +51,7 @@ public class MatrixNew extends NoFallMode {
 			}
 			if (!isEmpty) {
 				if (!((PlayerMoveC2SPacket) event.packet).isOnGround() && mc.player.getVelocity().y < -0.6) {
-					accessor.meteor$setOnGround(true);
+					accessor.setOnGround(true);
 				}
 			}
 		}

@@ -19,7 +19,7 @@ public class Verus extends NoFallMode {
 			PlayerMoveC2SPacketAccessor accessor = (PlayerMoveC2SPacketAccessor)packet;
 
 			if (mc.player.fallDistance > 3.35) {
-				accessor.meteor$setOnGround(true);
+				accessor.setOnGround(true);
 				mc.player.fallDistance = 0f;
 				var vel = mc.player.getVelocity();
 				mc.player.setVelocity(vel.x, 0, vel.z);
