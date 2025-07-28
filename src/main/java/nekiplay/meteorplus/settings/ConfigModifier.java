@@ -130,7 +130,7 @@ public class ConfigModifier {
 						.set("z", () -> Value.number(mc.player != null ? Utils.getPlayerSpeed().z : 0))
 					)
 
-					.set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getBreakingProgress() : 0))
+					.set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).getBreakingProgress() : 0))
 					.set("biome", ConfigModifier::biome)
 
 					.set("dimension", () -> Value.string(PlayerUtils.getDimension().name()))
@@ -208,7 +208,7 @@ public class ConfigModifier {
 						.set("z", () -> Value.number(0))
 					)
 
-					.set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getBreakingProgress() : 0))
+					.set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).getBreakingProgress() : 0))
 					.set("biome", ConfigModifier::biome)
 
 					.set("dimension", () -> Value.string(PlayerUtils.getDimension().name()))
@@ -286,7 +286,7 @@ public class ConfigModifier {
 					.set("z", () -> Value.number(mc.player != null ? Utils.getPlayerSpeed().z : 0))
 				)
 
-				.set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getBreakingProgress() : 0))
+				.set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).getBreakingProgress() : 0))
 				.set("biome", ConfigModifier::biome)
 
 				.set("dimension", () -> Value.string(PlayerUtils.getDimension().name()))

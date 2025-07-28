@@ -69,10 +69,10 @@ public class BreakIndicatorsMixin extends Module  {
 	@EventHandler
 	private void on2DRender(Render2DEvent event) {
 
-		Map<Integer, BlockBreakingInfo> blocks = ((WorldRendererAccessor) mc.worldRenderer).meteor$getBlockBreakingInfos();
+		Map<Integer, BlockBreakingInfo> blocks = ((WorldRendererAccessor) mc.worldRenderer).getBlockBreakingInfos();
 
-		float ownBreakingStage = ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getBreakingProgress();
-		BlockPos ownBreakingPos = ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getCurrentBreakingBlockPos();
+		float ownBreakingStage = ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).getBreakingProgress();
+		BlockPos ownBreakingPos = ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).getCurrentBreakingBlockPos();
 
 
 		if (ownBreakingPos != null && ownBreakingStage > 0) {

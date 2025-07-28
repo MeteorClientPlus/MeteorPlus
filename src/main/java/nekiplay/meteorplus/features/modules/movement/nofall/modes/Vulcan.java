@@ -55,9 +55,9 @@ public class Vulcan extends NoFallMode {
 			PlayerMoveC2SPacketAccessor accessor = (PlayerMoveC2SPacketAccessor) packet;
 
 
-			accessor.meteor$setOnGround(true);
+			accessor.setOnGround(true);
 			doSpoof = false;
-			accessor.meteor$setY((double) Math.round(mc.player.getPos().y * 2) / 2);
+			accessor.setY((double) Math.round(mc.player.getPos().y * 2) / 2);
 			mc.player.setPosition(mc.player.getPos().x, ((PlayerMoveC2SPacket) event.packet).getY(mc.player.getPos().y), mc.player.getPos().z);
 		}
 	}
