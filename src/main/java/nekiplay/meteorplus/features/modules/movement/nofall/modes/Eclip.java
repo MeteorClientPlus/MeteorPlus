@@ -67,7 +67,7 @@ public class Eclip extends NoFallMode {
 		if (!groundcheck) return;
 		if (!(event.packet instanceof PlayerMoveC2SPacket)
 			|| ((IPlayerMoveC2SPacket) event.packet).meteor$getTag() == 1337) return;
-		((PlayerMoveC2SPacketAccessor) event.packet).setOnGround(true);
+		((PlayerMoveC2SPacketAccessor) event.packet).meteor$setOnGround(true);
 	}
 
 	private void clip() {
