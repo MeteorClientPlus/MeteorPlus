@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "1.10-SNAPSHOT"
+	id "fabric-loom" version "1.11-SNAPSHOT"
 	id "maven-publish"
 }
 
@@ -52,12 +52,15 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
+	// Fabric API
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
 	// Mixin extras
 	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.1")))
 
 	// Meteor Client
 	modImplementation files("libs\\baritone-unoptimized-fabric-1.14.0-1.jar")
-	modImplementation files("libs\\meteor-client-1.21.6-2.jar")
+	modImplementation files("libs\\meteor-client-1.21.8-14.jar")
 
 	// Xaero's Mods
 	modCompileOnly "maven.modrinth:xaeros-world-map:${project.xwm_fabric_version}" // Xaero's World Map
