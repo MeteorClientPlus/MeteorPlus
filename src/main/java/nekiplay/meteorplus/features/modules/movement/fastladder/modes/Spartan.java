@@ -68,7 +68,7 @@ public class Spartan extends FastLadderMode {
 				y = move.getY(y);
 
 				if (YGround(y, RGround(startY) - 0.1, RGround(startY) + 0.1)) {
-					((PlayerMoveC2SPacketAccessor) packet).setOnGround(true);
+					((PlayerMoveC2SPacketAccessor) packet).meteor$setOnGround(true);
 				}
 				if (mc.player.isOnGround() && block) {
 					block = false;
