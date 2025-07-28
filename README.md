@@ -5,7 +5,7 @@
 	<br>
 		An addon for <a href="https://github.com/MeteorDevelopment/meteor-client">Meteor client</a> that adds many blatant features.
 	<br>
-	<a href="https://anticope.pages.dev/addons/?addon=MeteorClientPlus%2FMeteorPlus"><img src="https://img.shields.io/static/v1?label=Made%20with&message=Java&logo=java&labelColor=FFA500&color=FF8C00" alt="Verified Addon"></a>
+	<a href="https://www.meteoraddons.com/?addon=MeteorClientPlus%2FMeteorPlus"><img src="https://img.shields.io/static/v1?label=Made%20with&message=Java&logo=java&labelColor=FFA500&color=FF8C00" alt="Verified Addon"></a>
 	<a href="https://www.minecraft.net/"><img src="https://img.shields.io/github/license/MeteorClientPlus/MeteorPlus?logo=mdBook&color=FF8C00" alt="Minecraft version"/></a>
 	<br>
 	<a href="https://anticope.pages.dev/addons/?addon=MeteorClientPlus%2FMeteorPlus"><img src="https://img.shields.io/badge/verified%20addon-yes-brightgreen" alt="Verified Addon"></a>
