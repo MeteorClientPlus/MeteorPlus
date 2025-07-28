@@ -151,7 +151,7 @@ public class AutoAccept extends Module {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						Accept(nickname, pattern, message);
+						Accept(nickname, custom, message);
 					}
 				}
 			});
