@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 import static meteordevelopment.meteorclient.systems.modules.render.BetterTooltips.ECHEST_COLOR;
 
-@Mixin(value = BetterTooltips.class)
+@Mixin(value = BetterTooltips.class, priority = 1001)
 public class BetterTooltipsMixin extends Module {
 	@Shadow
 	@Final
