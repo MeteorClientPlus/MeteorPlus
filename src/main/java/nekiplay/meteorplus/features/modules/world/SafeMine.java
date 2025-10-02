@@ -111,7 +111,7 @@ public class SafeMine extends Module {
 	private void onCanContactLava(TickEvent.Post event)
 	{
 		if (mc.player != null && mc.world != null) {
-			Vec3d underpos = mc.player.getPos().add(0, -1, 0);
+			Vec3d underpos = mc.player.getEntityPos().add(0, -1, 0);
 			BlockPos under = new BlockPos((int) underpos.x, (int) underpos.y, (int) underpos.z);
 			if (mc.world.getBlockState(under).isOf(Blocks.LAVA)) {
 				if (solidLavaFreeze.get() && mc.player.isOnGround()) {
@@ -119,7 +119,7 @@ public class SafeMine extends Module {
 						freeze = true;
 						yaw = mc.player.getYaw();
 						pitch = mc.player.getPitch();
-						position = mc.player.getPos();
+						position = mc.player.getEntityPos();
 					}
 				}
 			}
@@ -230,7 +230,7 @@ public class SafeMine extends Module {
 		if (mc.player != null){
 			yaw = mc.player.getYaw();
 			pitch = mc.player.getPitch();
-			position = mc.player.getPos();
+			position = mc.player.getEntityPos();
 		}
 	}
 

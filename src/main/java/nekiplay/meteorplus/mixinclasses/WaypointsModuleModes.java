@@ -29,8 +29,8 @@ public class WaypointsModuleModes {
 				if (awp != null && bwp != null) {
 					if (awp.getPos() != null && bwp.getPos() != null) {
 
-						distance1 = Math.round(mc.player.getPos().distanceTo(awp.getPos().toCenterPos()));
-						distance2 = Math.round(mc.player.getPos().distanceTo(bwp.getPos().toCenterPos()));
+						distance1 = Math.round(mc.player.getEntityPos().distanceTo(awp.getPos().toCenterPos()));
+						distance2 = Math.round(mc.player.getEntityPos().distanceTo(bwp.getPos().toCenterPos()));
 					}
 				}
 			}

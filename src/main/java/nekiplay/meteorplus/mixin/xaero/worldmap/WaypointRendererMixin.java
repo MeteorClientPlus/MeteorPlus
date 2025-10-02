@@ -70,7 +70,7 @@ public class WaypointRendererMixin {
 
 					rightClickOptions.add((new RightClickOption("gui.world_map.look_at_waypoint", rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
-							Vec3d playerPos = mc.player.getPos();
+							Vec3d playerPos = mc.player.getEntityPos();
 							Vec3d blockCenter = new Vec3d(
 								element.getX() + 0.5,
 								element.getY() + 0.5,

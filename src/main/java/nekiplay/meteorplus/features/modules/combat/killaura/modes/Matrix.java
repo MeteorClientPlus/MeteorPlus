@@ -98,7 +98,7 @@ public class Matrix extends KillAuraPlusMode {
 	}
 
  	private boolean entityCheck(Entity entity) {
-		if (entity.equals(mc.player) || entity.equals(mc.cameraEntity)) return false;
+		if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) return false;
 		if ((entity instanceof LivingEntity livingEntity && livingEntity.isDead()) || !entity.isAlive()) return false;
 
 		Box hitbox = entity.getBoundingBox();
@@ -146,7 +146,7 @@ public class Matrix extends KillAuraPlusMode {
 
 
 	private void updateRotation(boolean attack, float rotationYawSpeed, float rotationPitchSpeed) {
-		Vec3d vec = target.getPos().add(0, clamp(mc.player.getEyeHeight(mc.player.getPose()) - target.getY(),
+		Vec3d vec = target.getEntityPos().add(0, clamp(mc.player.getEyeHeight(mc.player.getPose()) - target.getY(),
 				0, target.getHeight() * (mc.player.distanceTo(target) / settings.range.get())), 0)
 			.subtract(mc.player.getEyePos());
 

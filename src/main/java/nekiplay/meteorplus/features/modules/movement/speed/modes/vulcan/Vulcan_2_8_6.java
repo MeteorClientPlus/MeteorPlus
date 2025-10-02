@@ -42,7 +42,7 @@ public class Vulcan_2_8_6 extends SpeedMode {
 				}
 			}
 			if (ticks == 4) {
-				Vec3d vel = mc.player.getPos();
+				Vec3d vel = mc.player.getEntityPos();
 				mc.player.setPos(vel.x, vel.y - 0.376, vel.z);
 			}
 

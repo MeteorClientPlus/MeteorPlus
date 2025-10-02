@@ -34,7 +34,7 @@ public class Spartan extends FastLadderMode {
 		modify = false;
 
 		assert mc.player != null;
-		startY = mc.player.getPos().y;
+		startY = mc.player.getEntityPos().y;
 	}
 
 	private boolean YGround(double height, double min, double max) {
@@ -72,7 +72,7 @@ public class Spartan extends FastLadderMode {
 				}
 				if (mc.player.isOnGround() && block) {
 					block = false;
-					startY = mc.player.getPos().y;
+					startY = mc.player.getEntityPos().y;
 					start = false;
 				}
 			}
@@ -80,7 +80,7 @@ public class Spartan extends FastLadderMode {
 			assert mc.player != null;
 			if (mc.player.isOnGround() && block) {
 				block = false;
-				startY = mc.player.getPos().y;
+				startY = mc.player.getEntityPos().y;
 				start = false;
 			}
 		}
@@ -92,7 +92,7 @@ public class Spartan extends FastLadderMode {
 	public void onTickEventPre(TickEvent.Pre event) {
 		if (modify) {
 			ClientPlayerEntity player = mc.player;
-			double y = player.getPos().y;
+			double y = player.getEntityPos().y;
 			if (lastY == y && tick > 1) {
 				block = true;
 			} else {
@@ -107,7 +107,7 @@ public class Spartan extends FastLadderMode {
 		ClientPlayerEntity player = mc.player;
 		assert player != null;
 		Vec3d pl_velocity = player.getVelocity();
-		Vec3d pos = player.getPos();
+		Vec3d pos = player.getEntityPos();
 		ClientPlayNetworkHandler h = mc.getNetworkHandler();
 		BlockState state = mc.world.getBlockState(player.getBlockPos());
 		BlockState state2 = mc.world.getBlockState(player.getBlockPos().add(0, 1, 0));
@@ -115,13 +115,13 @@ public class Spartan extends FastLadderMode {
 			modify = player.horizontalCollision && player.isHoldingOntoLadder();
 			if (mc.player.isOnGround()) {
 				block = false;
-				startY = mc.player.getPos().y;
+				startY = mc.player.getEntityPos().y;
 				start = false;
 			}
 			if (player.horizontalCollision) {
 				if (!start) {
 					start = true;
-					startY = mc.player.getPos().y;
+					startY = mc.player.getEntityPos().y;
 					lastY = mc.player.getY();
 				}
 				if (!block) {

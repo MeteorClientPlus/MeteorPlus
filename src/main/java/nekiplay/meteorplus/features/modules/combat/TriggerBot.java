@@ -105,7 +105,7 @@ public class TriggerBot extends Module {
 	private int hitDelayTimer;
 
 	private boolean entityCheck(Entity entity) {
-		if (entity.equals(mc.player) || entity.equals(mc.cameraEntity)) return false;
+		if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) return false;
 		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) return false;
 		if (!entities.get().contains(entity.getType())) return false;
 		if (entity instanceof Tameable tameable

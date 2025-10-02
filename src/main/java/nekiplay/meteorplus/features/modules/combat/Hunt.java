@@ -56,7 +56,7 @@ public class Hunt extends Module {
 	);
 
 	private boolean entityCheck(Entity entity) {
-		if (entity.equals(mc.player) || entity.equals(mc.cameraEntity)) return false;
+		if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) return false;
 		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) return false;
 		if (!entities.get().contains(entity.getType())) return false;
 		if (entity instanceof Tameable tameable
@@ -76,9 +76,9 @@ public class Hunt extends Module {
 		}
 		if (onGround.get()) {
 			if (customCheck.get()) {
-				World world = entity.getWorld();
+				World world = entity.getEntityWorld();
 
-				Vec3d entityPos = entity.getPos();
+				Vec3d entityPos = entity.getEntityPos();
 				BlockPos posBelow = new BlockPos((int) entityPos.x, (int) (entityPos.y - 1), (int) entityPos.z);
 
 				Block blockBelow = world.getBlockState(posBelow).getBlock();

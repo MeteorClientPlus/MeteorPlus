@@ -422,7 +422,7 @@ public class ConfigModifier {
 	private Value posString(boolean opposite, boolean camera) {
 		Vec3d pos;
 		if (camera) pos = mc.gameRenderer.getCamera().getPos();
-		else pos = mc.player != null ? mc.player.getPos() : Vec3d.ZERO;
+		else pos = mc.player != null ? mc.player.getEntityPos() : Vec3d.ZERO;
 
 		double x = pos.x;
 		double z = pos.z;

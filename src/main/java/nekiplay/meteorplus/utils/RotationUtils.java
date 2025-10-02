@@ -141,8 +141,8 @@ public class RotationUtils {
 
 		double yExpand = clamp(me.getEyeHeight(me.getPose()) - to.getY(), 0, to.getHeight() * (mc.player.distanceTo(to) / (range)));
 
-		double xExpand = clamp(mc.player.getPos().x - to.getPos().x, -wHalf, wHalf);
-		double zExpand = clamp(mc.player.getPos().z - to.getPos().z, -wHalf, wHalf);
+		double xExpand = clamp(mc.player.getEntityPos().x - to.getEntityPos().x, -wHalf, wHalf);
+		double zExpand = clamp(mc.player.getEntityPos().z - to.getEntityPos().z, -wHalf, wHalf);
 
 		return new Vector3d(
 			to.getX() - me.getX() + xExpand,

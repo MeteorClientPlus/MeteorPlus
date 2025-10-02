@@ -61,7 +61,7 @@ public class Freeze extends Module {
 		if (mc.player != null){
 			yaw = mc.player.getYaw();
 			pitch = mc.player.getPitch();
-			position = mc.player.getPos();
+			position = mc.player.getEntityPos();
 		}
 	}
 

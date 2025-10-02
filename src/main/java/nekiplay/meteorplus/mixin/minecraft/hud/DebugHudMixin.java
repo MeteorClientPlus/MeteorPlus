@@ -18,40 +18,19 @@ import java.util.List;
 
 @Mixin(value = DebugHud.class, priority = 1001)
 public class DebugHudMixin {
-
-	@Shadow
-	private HitResult blockHit;
-	@Shadow
-	private HitResult fluidHit;
 	@Shadow
 	@Final
 	private MinecraftClient client;
 
 	@Inject(
-		method = "drawLeftText",
+		method = "drawText",
 		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/hud/DebugHud;drawText(Lnet/minecraft/client/gui/DrawContext;Ljava/util/List;Z)V",
-			shift = At.Shift.BEFORE
+			value = "HEAD"
 		),
 		locals = LocalCapture.CAPTURE_FAILHARD
 	)
-	private void modifyDrawLeftText(DrawContext ignored, CallbackInfo ci, List<String> lines) {
-		DebugDrawTextEvent debugDrawTextEvent = DebugDrawTextEvent.get(lines, true, blockHit, fluidHit);
-		MeteorClient.EVENT_BUS.post(debugDrawTextEvent);
-	}
-
-	@Inject(
-		method = "drawRightText",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/hud/DebugHud;drawText(Lnet/minecraft/client/gui/DrawContext;Ljava/util/List;Z)V",
-			shift = At.Shift.BEFORE
-		),
-		locals = LocalCapture.CAPTURE_FAILHARD
-	)
-	private void modifyDrawRightText(DrawContext ignored, CallbackInfo ci, List<String> lines) {
-		DebugDrawTextEvent debugDrawTextEvent = DebugDrawTextEvent.get(lines, false, blockHit, fluidHit);
+	private void modifyDrawLeftText(DrawContext context, List<String> text, boolean left, CallbackInfo ci) {
+		DebugDrawTextEvent debugDrawTextEvent = DebugDrawTextEvent.get(text, left);
 		MeteorClient.EVENT_BUS.post(debugDrawTextEvent);
 	}
 }

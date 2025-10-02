@@ -42,9 +42,9 @@ public class ShadyRotation {
 	}
 
 	public static Rotation getRotationToBlock(BlockPos block) {
-		double diffX = block.getX() - mc.player.getPos().x + 0.5;
-		double diffY = block.getY() - mc.player.getPos().y + 0.5 - mc.player.getEyeY();
-		double diffZ = block.getZ() - mc.player.getPos().z + 0.5;
+		double diffX = block.getX() - mc.player.getEntityPos().x + 0.5;
+		double diffY = block.getY() - mc.player.getEntityPos().y + 0.5 - mc.player.getEyeY();
+		double diffZ = block.getZ() - mc.player.getEntityPos().z + 0.5;
 		double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
 		float pitch = (float) -Math.atan2(dist, diffY);
@@ -56,9 +56,9 @@ public class ShadyRotation {
 	}
 
 	public static Rotation getRotationToEntity(Entity entity) {
-		double diffX = entity.getPos().x - mc.player.getPos().x;
-		double diffY = entity.getPos().y + entity.getEyePos().y - mc.player.getPos().y - mc.player.getEyeY();
-		double diffZ = entity.getPos().z - mc.player.getPos().z;
+		double diffX = entity.getEntityPos().x - mc.player.getEntityPos().x;
+		double diffY = entity.getEntityPos().y + entity.getEyePos().y - mc.player.getEntityPos().y - mc.player.getEyeY();
+		double diffZ = entity.getEntityPos().z - mc.player.getEntityPos().z;
 		double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
 		float pitch = (float) -Math.atan2(dist, diffY);
@@ -70,9 +70,9 @@ public class ShadyRotation {
 	}
 
 	public static Rotation vec3ToRotation(Vec3d vec) {
-		double diffX = vec.x - mc.player.getPos().x;
-		double diffY = vec.y - mc.player.getPos().y - mc.player.getEyeY();
-		double diffZ = vec.z - mc.player.getPos().z;
+		double diffX = vec.x - mc.player.getEntityPos().x;
+		double diffY = vec.y - mc.player.getEntityPos().y - mc.player.getEyeY();
+		double diffZ = vec.z - mc.player.getEntityPos().z;
 		double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
 		float pitch = (float) -Math.atan2(dist, diffY);

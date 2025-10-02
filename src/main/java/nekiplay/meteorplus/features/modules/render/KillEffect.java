@@ -52,7 +52,7 @@ public class KillEffect extends Module {
 						switch (mode.get()) {
 							case Lighting_Bolt -> {
 								LightningEntity lightning = new LightningEntity(EntityType.LIGHTNING_BOLT, mc.world);
-								lightning.refreshPositionAfterTeleport(livingEntity.getPos());
+								lightning.refreshPositionAfterTeleport(livingEntity.getEntityPos());
 								mc.world.addEntity(lightning);
 							}
 							case Falling_Lava -> {

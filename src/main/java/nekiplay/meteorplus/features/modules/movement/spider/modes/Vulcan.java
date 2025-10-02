@@ -33,7 +33,7 @@ public class Vulcan extends SpiderMode {
 		modify = false;
 
 		assert mc.player != null;
-		startY = mc.player.getPos().y;
+		startY = mc.player.getEntityPos().y;
 	}
 
 	private boolean YGround(double height, double min, double max) {
@@ -71,7 +71,7 @@ public class Vulcan extends SpiderMode {
 				}
 				if (mc.player.isOnGround() && block) {
 					block = false;
-					startY = mc.player.getPos().y;
+					startY = mc.player.getEntityPos().y;
 					start = false;
 				}
 			}
@@ -79,7 +79,7 @@ public class Vulcan extends SpiderMode {
 			assert mc.player != null;
 			if (mc.player.isOnGround() && block) {
 				block = false;
-				startY = mc.player.getPos().y;
+				startY = mc.player.getEntityPos().y;
 				start = false;
 			}
 		}
@@ -92,7 +92,7 @@ public class Vulcan extends SpiderMode {
 		if (modify) {
 			ClientPlayerEntity player = mc.player;
 			assert player != null;
-			double y = player.getPos().y;
+			double y = player.getEntityPos().y;
 			if (lastY == y && tick > 1) {
 				block = true;
 			} else {
@@ -129,19 +129,18 @@ public class Vulcan extends SpiderMode {
 		ClientPlayerEntity player = mc.player;
 		assert player != null;
 		Vec3d pl_velocity = player.getVelocity();
-		Vec3d pos = player.getPos();
 		ClientPlayNetworkHandler h = mc.getNetworkHandler();
 		modify = player.horizontalCollision;
 		if (mc.player.isOnGround()) {
 			block = false;
-			startY = mc.player.getPos().y;
+			startY = mc.player.getEntityPos().y;
 			start = false;
 			typeStarted = getType(startY);
 		}
 		if (player.horizontalCollision) {
 			if (!start) {
 				start = true;
-				startY = mc.player.getPos().y;
+				startY = mc.player.getEntityPos().y;
 				lastY = mc.player.getY();
 			}
 			if (!block) {
@@ -157,17 +156,17 @@ public class Vulcan extends SpiderMode {
 				}
 				switch (typeStarted) {
 					case Air -> {
-						if (mc.player.getPos().y >= startY + 1.5) {
+						if (mc.player.getEntityPos().y >= startY + 1.5) {
 							block = true;
 						}
 					}
 					case Slab -> {
-						if (mc.player.getPos().y >= startY + 2.5) {
+						if (mc.player.getEntityPos().y >= startY + 2.5) {
 							block = true;
 						}
 					}
 					case Block -> {
-						if (mc.player.getPos().y >= startY + 2) {
+						if (mc.player.getEntityPos().y >= startY + 2) {
 							block = true;
 						}
 					}

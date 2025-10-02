@@ -165,8 +165,8 @@ public class ElytraFlyPlus extends Module {
 		currentMode.onPlayerMove(event);
 
 		if (noCrash.get() && mc.player.isGliding()) {
-			Vec3d lookAheadPos = mc.player.getPos().add(mc.player.getVelocity().normalize().multiply(crashLookAhead.get()));
-			RaycastContext raycastContext = new RaycastContext(mc.player.getPos(), new Vec3d(lookAheadPos.getX(), mc.player.getY(), lookAheadPos.getZ()), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player);
+			Vec3d lookAheadPos = mc.player.getEntityPos().add(mc.player.getVelocity().normalize().multiply(crashLookAhead.get()));
+			RaycastContext raycastContext = new RaycastContext(mc.player.getEntityPos(), new Vec3d(lookAheadPos.getX(), mc.player.getY(), lookAheadPos.getZ()), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player);
 			BlockHitResult hitResult = mc.world.raycast(raycastContext);
 			if (hitResult != null && hitResult.getType() == HitResult.Type.BLOCK) {
 				((IVec3d) event.movement).meteor$set(0, currentMode.velY, 0);
