@@ -1,7 +1,7 @@
 package nekiplay.meteorplus.mixin.meteorclient.modules;
 
 
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -16,6 +16,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import net.minecraft.client.gui.Click;
+import net.minecraft.client.input.MouseInput;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static nekiplay.meteorplus.MeteorPlusAddon.HUD_TITLE;
@@ -40,10 +42,10 @@ public class MiddleClickExtraMixin extends Module {
 		.build()
 	);
 
-    @Inject(method = "onMouseButton", at = @At("HEAD"), cancellable = true)
-	private void onMouseButton(MouseButtonEvent event, CallbackInfo ci) {
-		if (event.action == KeyAction.Press && event.button == 2 && mc.currentScreen == null) {
-			if (event.action != KeyAction.Press || event.button != GLFW_MOUSE_BUTTON_MIDDLE) return;
+    @Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
+	private void onMouseClick(MouseClickEvent event, CallbackInfo ci) {
+		if (event.action == KeyAction.Press && event.button() == 2 && mc.currentScreen == null) {
+			if (event.action != KeyAction.Press || event.button() != 2) return;
 			if (noInventory.get() && mc.currentScreen != null) {
 				ci.cancel();
 			}

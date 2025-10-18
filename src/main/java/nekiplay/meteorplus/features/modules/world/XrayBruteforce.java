@@ -7,7 +7,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPBlock;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPBlockData;
@@ -479,7 +479,7 @@ public class XrayBruteforce extends Module {
 	}
 
 	@EventHandler
-	private void onMouseButtonEvent(MouseButtonEvent event) {
+	private void onMouseClickEvent(MouseClickEvent event) {
 		if (event.action == KeyAction.Press && isPressed()) {
 			pause_toggle = !pause_toggle;
 			if (pause_toggle) {

@@ -4,7 +4,7 @@ import baritone.api.BaritoneAPI;
 import baritone.api.pathing.goals.GoalBlock;
 import meteordevelopment.meteorclient.events.Cancellable;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.KeybindSetting;
@@ -256,7 +256,7 @@ public class FreecamMixin {
 	}
 	@Unique
 	@EventHandler
-	private void onMouseButtonEvent(MouseButtonEvent event) {
+	private void onMouseClickEvent(MouseClickEvent event) {
 		if (mc.world != null && event.action == KeyAction.Press) {
 			Work(event);
 		}
