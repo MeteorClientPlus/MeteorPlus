@@ -45,7 +45,7 @@ public class MiddleClickExtraMixin extends Module {
     @Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
 	private void onMouseClick(MouseClickEvent event, CallbackInfo ci) {
 		if (event.action == KeyAction.Press && event.button() == 2 && mc.currentScreen == null) {
-			if (event.action != KeyAction.Press || event.button() != 2) return;
+			if (event.action != KeyAction.Press || event.button() != GLFW_MOUSE_BUTTON_MIDDLE) return;
 			if (noInventory.get() && mc.currentScreen != null) {
 				ci.cancel();
 			}
