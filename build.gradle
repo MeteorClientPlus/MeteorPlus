@@ -3,9 +3,12 @@ plugins {
 	id "maven-publish"
 }
 
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
 
-archivesBaseName = project.archives_base_name
+base.archivesName = project.archives_name
 version = project.mod_version
 group = project.maven_group
 
