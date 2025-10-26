@@ -8,7 +8,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import nekiplay.meteorplus.settings.items.HiglightItemData;
+import nekiplay.meteorplus.settings.items.HighlightItemData;
 import nekiplay.meteorplus.settings.items.ItemDataSetting;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -31,17 +31,17 @@ public class ItemHighlightPlus extends Module {
 		.build()
 	);
 
-	public final Setting<HiglightItemData> defaultBlockConfig = sgGeneral.add(new GenericSetting.Builder<HiglightItemData>()
+	public final Setting<HighlightItemData> defaultBlockConfig = sgGeneral.add(new GenericSetting.Builder<HighlightItemData>()
 		.name("whitelist-default-config")
 		.description("Default item config.")
 		.defaultValue(
-			new HiglightItemData(
+			new HighlightItemData(
 				new SettingColor(0, 255, 200, 25)
 			)
 		)
 		.build()
 	);
-	public final Setting<Map<Item, HiglightItemData>> itemsConfigs = sgGeneral.add(new ItemDataSetting.Builder<HiglightItemData>()
+	public final Setting<Map<Item, HighlightItemData>> itemsConfigs = sgGeneral.add(new ItemDataSetting.Builder<HighlightItemData>()
 		.name("whitelist-items-configs")
 		.description("Config for each highlight.")
 		.defaultData(defaultBlockConfig)

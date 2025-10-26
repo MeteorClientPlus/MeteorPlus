@@ -2,16 +2,16 @@ package nekiplay.meteorplus.settings.items;
 
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.gui.utils.IScreenFactory;
+import meteordevelopment.meteorclient.settings.GenericSetting;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
+import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
-import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
 
-public class ESPItemData implements ICopyable<ESPItemData>, ISerializable<ESPItemData>, IChangeable, IItemData<ESPItemData>, IScreenFactory {
+public class ESPItemData implements IGeneric<ESPItemData>, IChangeable, IItemData<ESPItemData> {
 	public ShapeMode shapeMode;
 	public SettingColor lineColor;
 	public SettingColor sideColor;
@@ -36,8 +36,8 @@ public class ESPItemData implements ICopyable<ESPItemData>, ISerializable<ESPIte
 	}
 
 	@Override
-	public WidgetScreen createScreen(GuiTheme theme) {
-		return new ESPItemDataScreen(theme, this, null, null);
+	public WidgetScreen createScreen(GuiTheme theme, GenericSetting<ESPItemData> setting) {
+		return new ESPItemDataScreen(theme, this, setting);
 	}
 
 	@Override
