@@ -1,32 +1,31 @@
 package nekiplay.meteorplus.settings.items;
 
 import meteordevelopment.meteorclient.gui.GuiTheme;
-import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.gui.utils.IScreenFactory;
+import meteordevelopment.meteorclient.gui.WidgetScreen; 
+import meteordevelopment.meteorclient.settings.GenericSetting;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
+import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
-import meteordevelopment.meteorclient.utils.misc.ICopyable;
-import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
 
-public class HiglightItemData implements ICopyable<HiglightItemData>, ISerializable<HiglightItemData>, IChangeable, IItemData<HiglightItemData>, IScreenFactory {
+public class HighlightItemData implements IGeneric<HighlightItemData>, IChangeable, IItemData<HighlightItemData> {
 	public SettingColor Color;
 	private boolean changed;
 
-	public HiglightItemData(SettingColor color) {
+	public HighlightItemData(SettingColor color) {
 		this.Color = color;
 	}
 
 	@Override
-	public WidgetScreen createScreen(GuiTheme theme, Item block, ItemDataSetting<HiglightItemData> setting) {
-		return new HiglightItemDataScren(theme, this, block, setting);
+	public WidgetScreen createScreen(GuiTheme theme, Item block, ItemDataSetting<HighlightItemData> setting) {
+		return new HighlightItemDataScreen(theme, this, block, setting);
 	}
 
 	@Override
-	public WidgetScreen createScreen(GuiTheme theme) {
-		return new HiglightItemDataScren(theme, this, null, null);
+	public WidgetScreen createScreen(GuiTheme theme, GenericSetting<HighlightItemData> setting) {
+		return new HighlightItemDataScreen(theme, this, setting);
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class HiglightItemData implements ICopyable<HiglightItemData>, ISerializa
 	}
 
 	@Override
-	public HiglightItemData set(HiglightItemData value) {
+	public HighlightItemData set(HighlightItemData value) {
 		Color.set(value.Color);
 		changed = value.changed;
 
@@ -51,8 +50,8 @@ public class HiglightItemData implements ICopyable<HiglightItemData>, ISerializa
 	}
 
 	@Override
-	public HiglightItemData copy() {
-		return new HiglightItemData(new SettingColor(Color));
+	public HighlightItemData copy() {
+		return new HighlightItemData(new SettingColor(Color));
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class HiglightItemData implements ICopyable<HiglightItemData>, ISerializa
 	}
 
 	@Override
-	public HiglightItemData fromTag(NbtCompound tag) {
+	public HighlightItemData fromTag(NbtCompound tag) {
 		Color.fromTag(tag.getCompound("color").get());
 		changed = tag.getBoolean("changed").get();
 
