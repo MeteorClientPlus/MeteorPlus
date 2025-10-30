@@ -44,7 +44,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 		isNumbyHack = loader.isModLoaded("numbyhack");
 		isZewo2 = loader.isModLoaded("zewo2");
 
-		isBaritonePresent = loader.isModLoaded("baritone");
+		isBaritonePresent = loader.isModLoaded("baritone-meteor") || loader.isModLoaded("baritone");
 		isJourneyMapPresent = loader.isModLoaded("journeymap");
 		isXaeroWorldMapresent = loader.isModLoaded("xaeroworldmap");
 		isXaeroMiniMapresent = loader.isModLoaded("xaerominimap");
