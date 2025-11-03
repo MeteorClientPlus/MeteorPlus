@@ -131,7 +131,6 @@ public class MeteorPlusAddon extends MeteorAddon {
 		if (isBaritonePresent) {
 			Commands.add(new GotoPlusCommand());
 		}
-		Commands.add(new GPTCommand());
 
 		LOG.info(METEOR_LOGPREFIX + " Loaded commands");
 		//endregion
@@ -153,7 +152,6 @@ public class MeteorPlusAddon extends MeteorAddon {
 		modules.add(new Teams());
 		modules.add(new HologramModule());
 		modules.add(new ChatPrefix());
-		modules.add(new ChatGPT());
 		modules.add(new ItemHighlightPlus());
 		modules.add(new FastLadderPlus());
 		modules.add(new TriggerBot());
