@@ -46,10 +46,10 @@
 | **Teams**     | **Does not beat teammates on BedWars and other modes** |                      |
 
 ## Integrations
-| Module              | Description                                       |
-|---------------------|---------------------------------------------------|
-| **Chest Tracker**   | **Colors support, background disabler, y offset** |
-| **Xaero's MiniMap** | **Support baritone control on context**           |
+| Module                              | Description                                       |
+|-------------------------------------|---------------------------------------------------|
+| **Chest Tracker (Unofficial Port)** | **Colors support, background disabler, y offset** |
+| **Xaero's MiniMap**                 | **Support baritone control on context**           |
 
 ## Commands
 | Command        | Description                                       | Bypasses anti cheats                    |

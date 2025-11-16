@@ -32,3 +32,4 @@ bin/
 
 run/
 src/main/java/META-INF/MANIFEST.MF
+*.stackdump

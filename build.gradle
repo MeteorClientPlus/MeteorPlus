@@ -67,7 +67,7 @@ dependencies {
 	modCompileOnly "maven.modrinth:xaeros-minimap:${project.xmm_fabric_version}" // Xaero's Minimap
 
 	// Chest Tracker
-	modImplementation("red.jackf:whereisit:${project.where_is_it_version}")
+	modImplementation "maven.modrinth:where-is-it-port:${project.where_is_it_version}" // Xaero's World Map
 }
 
 loom {
