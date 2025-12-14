@@ -98,14 +98,14 @@ public class ConfigModifier {
 				ss.set("camera", new ValueMap()
 					.set("pos", new ValueMap()
 						.set("_toString", () -> posString(false, true))
-						.set("x", () -> Value.number(mc.gameRenderer.getCamera().getPos().x + ConfigModifier.get().x_spoof.get()))
-						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getPos().y))
-						.set("z", () -> Value.number(mc.gameRenderer.getCamera().getPos().z + ConfigModifier.get().z_spoof.get()))
+						.set("x", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().x + ConfigModifier.get().x_spoof.get()))
+						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
+						.set("z", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().z + ConfigModifier.get().z_spoof.get()))
 					)
 					.set("opposite_dim_pos", new ValueMap()
 						.set("_toString", () -> posString(true, true))
 						.set("x", () -> oppositeX(true))
-						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getPos().y))
+						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
 						.set("z", () -> oppositeZ(true))
 					)
 
@@ -177,13 +177,13 @@ public class ConfigModifier {
 					.set("pos", new ValueMap()
 						.set("_toString", () -> posString(false, true))
 						.set("x", () -> Value.number(0))
-						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getPos().y))
+						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
 						.set("z", () -> Value.number(0))
 					)
 					.set("opposite_dim_pos", new ValueMap()
 						.set("_toString", () -> posString(true, true))
 						.set("x", () -> Value.number(0))
-						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getPos().y))
+						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
 						.set("z", () -> Value.number(0))
 					)
 
@@ -255,14 +255,14 @@ public class ConfigModifier {
 			ss.set("camera", new ValueMap()
 				.set("pos", new ValueMap()
 					.set("_toString", () -> posString(false, true))
-					.set("x", () -> Value.number(mc.gameRenderer.getCamera().getPos().x))
-					.set("y", () -> Value.number(mc.gameRenderer.getCamera().getPos().y))
-					.set("z", () -> Value.number(mc.gameRenderer.getCamera().getPos().z))
+					.set("x", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().x))
+					.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
+					.set("z", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().z))
 				)
 				.set("opposite_dim_pos", new ValueMap()
 					.set("_toString", () -> posString(true, true))
 					.set("x", () -> oppositeX(true))
-					.set("y", () -> Value.number(mc.gameRenderer.getCamera().getPos().y))
+					.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
 					.set("z", () -> oppositeZ(true))
 				)
 
@@ -333,10 +333,10 @@ public class ConfigModifier {
 	private Value oppositeX(boolean camera) {
 		double x = 0;
 		if (positionProtection.get()) {
-			x = camera ? mc.gameRenderer.getCamera().getPos().x + ConfigModifier.get().x_spoof.get() : (mc.player != null ? mc.player.getX() + ConfigModifier.get().x_spoof.get() : 0);
+			x = camera ? mc.gameRenderer.getCamera().getCameraPos().x + ConfigModifier.get().x_spoof.get() : (mc.player != null ? mc.player.getX() + ConfigModifier.get().x_spoof.get() : 0);
 		}
 		else {
-			x = camera ? mc.gameRenderer.getCamera().getPos().x : (mc.player != null ? mc.player.getX() : 0);
+			x = camera ? mc.gameRenderer.getCamera().getCameraPos().x : (mc.player != null ? mc.player.getX() : 0);
 		}
 		Dimension dimension = PlayerUtils.getDimension();
 
@@ -349,10 +349,10 @@ public class ConfigModifier {
 	private Value oppositeZ(boolean camera) {
 		double z = 0;
 		if (positionProtection.get()) {
-			z = camera ? mc.gameRenderer.getCamera().getPos().z + ConfigModifier.get().z_spoof.get() : (mc.player != null ? mc.player.getZ() + ConfigModifier.get().z_spoof.get() : 0);
+			z = camera ? mc.gameRenderer.getCamera().getCameraPos().z + ConfigModifier.get().z_spoof.get() : (mc.player != null ? mc.player.getZ() + ConfigModifier.get().z_spoof.get() : 0);
 		}
 		else {
-			z = camera ? mc.gameRenderer.getCamera().getPos().z : (mc.player != null ? mc.player.getZ() : 0);
+			z = camera ? mc.gameRenderer.getCamera().getCameraPos().z : (mc.player != null ? mc.player.getZ() : 0);
 		}
 		Dimension dimension = PlayerUtils.getDimension();
 
@@ -421,7 +421,7 @@ public class ConfigModifier {
 	}
 	private Value posString(boolean opposite, boolean camera) {
 		Vec3d pos;
-		if (camera) pos = mc.gameRenderer.getCamera().getPos();
+		if (camera) pos = mc.gameRenderer.getCamera().getCameraPos();
 		else pos = mc.player != null ? mc.player.getEntityPos() : Vec3d.ZERO;
 
 		double x = pos.x;

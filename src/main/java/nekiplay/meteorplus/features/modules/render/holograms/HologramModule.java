@@ -65,7 +65,7 @@ public class HologramModule extends Module {
 
 	@EventHandler
 	private void on2DRender(Render2DEvent event) {
-		Vec3d camera_pos = mc.gameRenderer.getCamera().getPos();
+		Vec3d camera_pos = mc.gameRenderer.getCamera().getCameraPos();
 		for (HologramDataListed hologramData : inWorldHolograms) {
 			Vector3d pos = new Vector3d(hologramData.x, hologramData.y, hologramData.z);
 			if (pos.distance(camera_pos.x, camera_pos.y, camera_pos.z) <= hologramData.max_render_distance) {
