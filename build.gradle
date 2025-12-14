@@ -71,7 +71,7 @@ dependencies {
 	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.0")))
 
 	// Meteor Client
-	modImplementation("meteordevelopment:baritone:1.21.10-SNAPSHOT")
+	modImplementation files("libs\\baritone-unoptimized-fabric-1.15.0-2-gf7a53504.jar")
 	modImplementation("meteordevelopment:meteor-client:${project.minecraft_version}-SNAPSHOT")
 	implementation "org.meteordev:starscript:0.2.5"
 	implementation "meteordevelopment:orbit:0.2.4"
