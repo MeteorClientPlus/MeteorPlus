@@ -32,7 +32,6 @@
 		"meteorclient.gui.TitleScreenCreditsMixin",
 		"meteorclient.utils.misc.KeybindMixin",
 		"minecraft.StringReaderMixin",
-		"minecraft.entity.ClientPlayerEntityMixin",
 		"minecraft.entity.LivingEntityMixin",
 		"minecraft.entity.PlayerMoveC2SPacketAccessor"
 	]
