@@ -1,11 +1,11 @@
 plugins {
-	id("fabric-loom") version "1.14-SNAPSHOT"
+	alias(libs.plugins.fabric.loom)
 	id("maven-publish")
 }
 
 base {
     archivesName = properties["archives_name"] as String
-    version = properties["mod_version"] as String
+    version = libs.versions.mod.version.get()
     group = properties["maven_group"] as String
 }
 
@@ -45,8 +45,8 @@ repositories {
 	// Where Is It, JackFredLib
 	maven {
 		url = uri("https://maven.jackf.red/releases/")
-	// Meteor Client
 	}
+	// Meteor Client
 	maven {
         name = "meteor-maven"
         url = uri("https://maven.meteordev.org/releases")
@@ -61,28 +61,28 @@ repositories {
 
 dependencies {
 	// Fabric
-	minecraft("com.mojang:minecraft:${properties["minecraft_version"] as String}")
-	mappings("net.fabricmc:yarn:${properties["yarn_mappings"] as String}:v2")
-	modImplementation("net.fabricmc:fabric-loader:${properties["loader_version"] as String}")
+	minecraft(libs.minecraft)
+	mappings(variantOf(libs.yarn) { classifier("v2") })
+	modImplementation(libs.fabric.loader)
 
 	// Fabric API
-	modImplementation("net.fabricmc.fabric-api:fabric-api:${properties["fabric_version"] as String}")
+	modImplementation(libs.fabric.api)
 
 	// Mixin extras
 	annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.0")
 
 	// Meteor Client
 	modImplementation(files("libs\\baritone-unoptimized-fabric-1.15.0-2-gf7a53504.jar"))
-	modImplementation("meteordevelopment:meteor-client:${properties["minecraft_version"] as String}-SNAPSHOT")
-	implementation("org.meteordev:starscript:0.2.5")
-	implementation("meteordevelopment:orbit:0.2.4")
+	modImplementation(libs.meteor.client)
+	implementation(libs.starscript)
+	implementation(libs.orbit)
 
 	// Xaero's Mods
-	modCompileOnly("maven.modrinth:xaeros-world-map:${properties["xwm_fabric_version"] as String}") // Xaero's World Map
-	modCompileOnly("maven.modrinth:xaeros-minimap:${properties["xmm_fabric_version"] as String}") // Xaero's Minimap
+	modCompileOnly(libs.xwm) // Xaero's World Map
+	modCompileOnly(libs.xmm) // Xaero's Minimap
 
 	// Chest Tracker
-	modImplementation("red.jackf:whereisit:${properties["where_is_it_version"] as String}")
+	modImplementation(libs.whereisit)
 }
 
 loom {
@@ -93,7 +93,7 @@ tasks {
     processResources {
         val propertyMap = mapOf(
             "version" to project.version,
-            "mc_version" to project.property("minecraft_version"),
+            "mc_version" to libs.versions.minecraft.get(),
             "gh_hash" to (System.getenv("GITHUB_SHA") ?: ""),
         )
         
