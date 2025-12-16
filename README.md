@@ -55,7 +55,6 @@
 | Command        | Description                                       | Bypasses anti cheats                    |
 |----------------|---------------------------------------------------|-----------------------------------------|
 | **eclip**      | **Vertical clip**                                 | **Matrix, Wraith, Spartan, Negativity** |
-| **gpt**        | **Use ChatGPT module**                            |                                         |
 | **clearinv**   | **Clear inventory exploit not work after 1.20.3** | **NCP**                                 |
 | **rawitemid**  | **Get raw item id for holograms module**          |                                         |
 | **rawblockid** | **Get raw block id for custom blocks module**     |                                         |
