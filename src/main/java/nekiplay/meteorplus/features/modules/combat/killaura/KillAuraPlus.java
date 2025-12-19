@@ -36,16 +36,16 @@ public class KillAuraPlus extends Module {
 
 	// General
 
-	public final Setting<KillAura.Weapon> weapon = sgGeneral.add(new EnumSetting.Builder<KillAura.Weapon>()
+	public final Setting<KillAura.AttackItems> weapon = sgGeneral.add(new EnumSetting.Builder<KillAura.AttackItems>()
 		.name("weapon")
 		.description("Only attacks an entity when a specified weapon is in your hand.")
-		.defaultValue(KillAura.Weapon.All)
+		.defaultValue(KillAura.AttackItems.All)
 		.build()
 	);
 
 	public final Setting<Boolean> autoSwitch = sgGeneral.add(new BoolSetting.Builder()
 		.name("auto-switch")
-		.description("Switches to your selected weapon when attacking the target.")
+		.description("Switches to an acceptable weapon when attacking the target.")
 		.defaultValue(false)
 		.build()
 	);
@@ -54,7 +54,7 @@ public class KillAuraPlus extends Module {
 		.name("shield-mode")
 		.description("Will try and use an axe to break target shields.")
 		.defaultValue(KillAura.ShieldMode.Break)
-		.visible(() -> autoSwitch.get() && weapon.get() != KillAura.Weapon.Axe)
+		.visible(autoSwitch::get)
 		.build()
 	);
 
