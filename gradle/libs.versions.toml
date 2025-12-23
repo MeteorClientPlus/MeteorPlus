@@ -51,12 +51,12 @@ xwm = { module = "maven.modrinth:xaeros-world-map", version.ref = "xwm" }
 xmm = { module = "maven.modrinth:xaeros-minimap", version.ref = "xmm" }
 
 # Where Is It
-whereisit = { module = "maven.modrinth:Kaux9SLz", version.ref = "whereisit" }
+whereisit = { module = "maven.modrinth:where-is-it-port", version.ref = "whereisit" }
 # YetAnotherConfigLib
 yacl = { module = "dev.isxander.yacl:yet-another-config-lib-fabric", version.ref = "yacl" }
 
 # MaLiLib
-malilib = { module = "curse.maven:303119", version.ref = "malilib" }
+malilib = { module = "curse.maven:malilib-303119", version.ref = "malilib" }
 
 [plugins]
 fabric-loom = { id = "fabric-loom", version.ref = "loom" }
