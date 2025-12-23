@@ -4,8 +4,8 @@ mod-version = "1.21.11_1.0.9.5"
 # Fabric (https://fabricmc.net/develop)
 minecraft = "1.21.11"
 yarn-mappings = "1.21.11+build.3"
-fabric-loader = "0.18.2"
-fabric-api = "0.139.5+1.21.11"
+fabric-loader = "0.18.3"
+fabric-api = "0.140.2+1.21.11"
 
 # Plugins
 # Loom (https://github.com/FabricMC/fabric-loom)
@@ -24,10 +24,10 @@ xwm = "1.39.17_Fabric_1.21.9"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
 xmm = "25.2.15_Fabric_1.21.9"
 
-# Where Is It (https://modrinth.com/mod/where-is-it/versions)
-whereisit = "2.6.4+1.21.2"
-# YetAnotherConfigLib (https://github.com/JackFred2/WhereIsIt/blob/1.20.6/gradle.properties)
-yacl = "3.3.2+1.20.4+update.1.20.5-SNAPSHOT+update.1.20.5-SNAPSHOT"
+# Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
+whereisit = "2.6.8+1.21.11"
+# YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/1.21.11/gradle.properties)
+yacl = "3.8.1+1.21.11-fabric"
 
 # MaLiLib (https://www.curseforge.com/minecraft/mc-mods/malilib)
 malilib = "7130809"
@@ -51,7 +51,7 @@ xwm = { module = "maven.modrinth:xaeros-world-map", version.ref = "xwm" }
 xmm = { module = "maven.modrinth:xaeros-minimap", version.ref = "xmm" }
 
 # Where Is It
-whereisit = { module = "red.jackf:whereisit", version.ref = "whereisit" }
+whereisit = { module = "maven.modrinth:Kaux9SLz", version.ref = "whereisit" }
 # YetAnotherConfigLib
 yacl = { module = "dev.isxander.yacl:yet-another-config-lib-fabric", version.ref = "yacl" }
 

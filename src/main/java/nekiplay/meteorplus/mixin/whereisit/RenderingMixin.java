@@ -17,7 +17,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 public class RenderingMixin {
 	@Unique
 	private static WhereIsIt whereIsIt;
-	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/text/Text;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/client/font/TextRenderer$TextLayerType;II)I"))
+	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/text/Text;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/client/font/TextRenderer$TextLayerType;II)V"))
 	private static void changeColor(Args args) {
 		if (whereIsIt == null) {
 			whereIsIt = Modules.get().get(WhereIsIt.class);
@@ -54,7 +54,7 @@ public class RenderingMixin {
 		}
 	}
 
-	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumer;vertex(Lorg/joml/Matrix4f;FFF)Lnet/minecraft/client/render/VertexConsumer;"))
+	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumer;vertex(Lorg/joml/Matrix4fc;FFF)Lnet/minecraft/client/render/VertexConsumer;"))
 	private static void backgroundModifer(Args args) {
 		if (whereIsIt == null) {
 			whereIsIt = Modules.get().get(WhereIsIt.class);
