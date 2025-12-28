@@ -80,6 +80,7 @@ dependencies {
 	// Xaero's Mods
 	modCompileOnly(libs.xwm) // Xaero's World Map
 	modCompileOnly(libs.xmm) // Xaero's Minimap
+	modCompileOnly(files("libs\\xaerolib-fabric-1.21.11-1.0.38.jar"))
 
 	// Chest Tracker
 	modImplementation(libs.whereisit)

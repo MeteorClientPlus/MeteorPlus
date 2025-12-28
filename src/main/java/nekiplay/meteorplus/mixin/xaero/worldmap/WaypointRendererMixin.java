@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xaero.map.common.config.option.WorldMapProfiledConfigOptions;
 import xaero.map.WorldMap;
 import xaero.map.gui.GuiMap;
 import xaero.map.gui.IRightClickableElement;
@@ -42,7 +43,7 @@ public class WaypointRendererMixin {
 						SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
 					}
 				});
-				if (WorldMap.settings.coordinates && !SupportMods.xaeroMinimap.hidingWaypointCoordinates()) {
+				if ((Boolean)WorldMap.INSTANCE.getConfigs().getClientConfigManager().getEffective(WorldMapProfiledConfigOptions.COORDINATES) && !SupportMods.xaeroMinimap.hidingWaypointCoordinates()) {
 					rightClickOptions.add(new RightClickOption(String.format("X: %d, Y: %s, Z: %d", element.getX(), element.isyIncluded() ? "" + element.getY() : "~", element.getZ()), rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
 							SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
