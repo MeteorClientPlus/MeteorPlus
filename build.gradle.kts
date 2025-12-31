@@ -69,7 +69,7 @@ dependencies {
 	modImplementation(libs.fabric.api)
 
 	// Mixin extras
-	annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.0")
+	annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.2")
 
 	// Meteor Client
 	modImplementation(files("libs\\baritone-unoptimized-fabric-1.15.0-2-gf7a53504.jar"))
