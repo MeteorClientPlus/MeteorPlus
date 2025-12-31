@@ -53,7 +53,7 @@ public class Matrix extends KillAuraPlusMode {
 		if (target != null && target.isAlive()) {
 			isRotated = false;
 
-			EntityHitResult result = raycastEntity(settings.range.get(), rotateVector.getX(), rotateVector.getY(), 0f);
+			EntityHitResult result = raycastEntity(settings.range.get(), rotateVector.x(), rotateVector.y(), 0f);
 			if (result != null) {
 				ChatUtils.info(result.getType().name());
 			}
@@ -70,7 +70,7 @@ public class Matrix extends KillAuraPlusMode {
             if (settings.rotationType.get() == Type.Fast) {
 				if (ticks > 0) {
 					updateRotation(true, 180, 90);
-					Rotations.rotate(rotateVector.getX(), rotateVector.getY());
+					Rotations.rotate(rotateVector.x(), rotateVector.y());
 					ticks--;
 				} else {
 					reset();
@@ -78,7 +78,7 @@ public class Matrix extends KillAuraPlusMode {
 			} else {
 				if (!isRotated) {
 					updateRotation(false, 80, 35);
-					Rotations.rotate(rotateVector.getX(), rotateVector.getY());
+					Rotations.rotate(rotateVector.x(), rotateVector.y());
 				}
 			}
 		}
@@ -155,8 +155,8 @@ public class Matrix extends KillAuraPlusMode {
 		float yawToTarget = (float) wrapDegrees(Math.toDegrees(Math.atan2(vec.z, vec.x)) - 90);
 		float pitchToTarget = (float) (-Math.toDegrees(Math.atan2(vec.y, hypot(vec.x, vec.z))));
 
-		float yawDelta = (wrapDegrees(yawToTarget - rotateVector.getX()));
-		float pitchDelta = (wrapDegrees(pitchToTarget - rotateVector.getY()));
+		float yawDelta = (wrapDegrees(yawToTarget - rotateVector.x()));
+		float pitchDelta = (wrapDegrees(pitchToTarget - rotateVector.y()));
 		int roundedYaw = (int) yawDelta;
 
 		switch (settings.rotationType.get()) {
@@ -175,13 +175,13 @@ public class Matrix extends KillAuraPlusMode {
 					clampedYaw = this.lastYaw + 3.1f;
 				}
 
-				float yaw = rotateVector.getX() + (yawDelta > 0 ? clampedYaw : -clampedYaw);
-				float pitch = clamp(rotateVector.getY() + (pitchDelta > 0 ? clampedPitch : -clampedPitch), -89.0F, 89.0F);
+				float yaw = rotateVector.x() + (yawDelta > 0 ? clampedYaw : -clampedYaw);
+				float pitch = clamp(rotateVector.y() + (pitchDelta > 0 ? clampedPitch : -clampedPitch), -89.0F, 89.0F);
 
 
 				float gcd = GameSensitivityUtils.getGCDValue();
-				yaw -= (yaw - rotateVector.getX()) % gcd;
-				pitch -= (pitch - rotateVector.getY()) % gcd;
+				yaw -= (yaw - rotateVector.x()) % gcd;
+				pitch -= (pitch - rotateVector.y()) % gcd;
 
 
 				rotateVector = new Vector2f(yaw, pitch);
@@ -192,12 +192,12 @@ public class Matrix extends KillAuraPlusMode {
 				//}
 			}
 			case Fast -> {
-				float yaw = rotateVector.getX() + roundedYaw;
-				float pitch = clamp(rotateVector.getY() + pitchDelta, -90, 90);
+				float yaw = rotateVector.x() + roundedYaw;
+				float pitch = clamp(rotateVector.y() + pitchDelta, -90, 90);
 
 				float gcd = GameSensitivityUtils.getGCDValue();
-				yaw -= (yaw - rotateVector.getX()) % gcd;
-				pitch -= (pitch - rotateVector.getY()) % gcd;
+				yaw -= (yaw - rotateVector.x()) % gcd;
+				pitch -= (pitch - rotateVector.y()) % gcd;
 
 				rotateVector = new Vector2f(yaw, pitch);
 

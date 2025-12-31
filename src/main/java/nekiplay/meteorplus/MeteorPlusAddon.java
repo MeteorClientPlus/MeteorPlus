@@ -227,7 +227,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 
 	@Override
 	public GithubRepo getRepo() {
-		return new GithubRepo("MeteorClientPlus", "MeteorPlus",  "1.21.10", null);
+		return new GithubRepo("MeteorClientPlus", "MeteorPlus",  "1.21.11", null);
 	}
 
 	@Override
