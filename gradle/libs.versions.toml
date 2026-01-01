@@ -22,7 +22,7 @@ orbit = "0.2.4"
 # Xaero's World Map (https://modrinth.com/mod/xaeros-world-map/versions)
 xwm = "1.40.1_Fabric_1.21.11"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
-xmm = "25.3.1_Fabric_1.21.11"
+xmm = "25.3.2_NeoForge_1.21.11"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
 whereisit = "2.7.0+"
