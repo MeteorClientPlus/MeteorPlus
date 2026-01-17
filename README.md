@@ -13,7 +13,6 @@
 	<a href="https://github.com/Nekiplay/MeteorClientPlus/releases"><img src="https://img.shields.io/github/downloads/MeteorClientPlus/MeteorPlus/total" alt="Downloads"/></a>
 	<a href="https://github.com/Nekiplay/MeteorClientPlus/stargazers"><img src="https://badgen.net/github/stars/MeteorClientPlus/MeteorPlus" alt="GitHub stars"/></a>
 	<br>
-	<a href="https://www.guilded.gg/Monolith-Development"><img src="https://img.shields.io/badge/support/help/issues-guilded-orange" alt="Guilded"/></a>
 	<a href="https://discord.gg/N3gqYc7GRS"><img src="https://img.shields.io/badge/support/help/issues-discord-brightgreen" alt="Discord"/></a>
 	<br>
 	<p>Thanks some russian paid clients and <a href="https://github.com/CCBlueX/LiquidBounce">LiquidBounce</a> 🤫</p>
