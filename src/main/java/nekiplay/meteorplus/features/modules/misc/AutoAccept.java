@@ -86,7 +86,7 @@ public class AutoAccept extends Module {
 		TPPattern HolyWorld = new TPPattern("(.*) просит телепортироваться.*", 1, "/tpaccept");
 		TPPattern SimpleTpa = new TPPattern(".*\\[SimpleTpa\\] (.*) has sent you a teleport request!.*", 1, "/tpaccept");
 		TPPattern EssentialsEN = new TPPattern("(.*) has requested to teleport to you\\..*", 1, "/tpaccept");
-		TPPattern DonutSMP = new TPPattern("(.*) sent you a tpa request");
+		TPPattern DonutSMP = new TPPattern("(.*) sent you a tpa request", 1, "/tpaccept");
 		patterns.add(MST_Network);
 		patterns.add(HolyWorld);
 		patterns.add(SimpleTpa);
