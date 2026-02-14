@@ -25,7 +25,7 @@ xwm = "1.40.2_Fabric_1.21.11"
 xmm = "25.3.2_Fabric_1.21.11"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
-whereisit = "2.7.1+"
+whereisit = "2.7.2+"
 # YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/1.21.11/gradle.properties)
 yacl = "3.8.1+1.21.11-fabric"
 
