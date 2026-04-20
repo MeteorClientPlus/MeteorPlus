@@ -9,6 +9,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
@@ -19,7 +20,7 @@ public class BlockRawIdCommand extends Command {
 	public void build(LiteralArgumentBuilder<CommandSource> builder) {
 		builder.executes(context -> {
 			if (mc.crosshairTarget != null && mc.crosshairTarget.getType() == HitResult.Type.BLOCK) {
-				BlockPos pos = new BlockPos((int) mc.crosshairTarget.getPos().x, (int) mc.crosshairTarget.getPos().y, (int) mc.crosshairTarget.getPos().z);
+				BlockPos pos = ((BlockHitResult) mc.crosshairTarget).getBlockPos();
 				BlockState state = mc.world.getBlockState(pos);
 				int raw_id = Block.getRawIdFromState(state);
 				info(String.valueOf(raw_id));
