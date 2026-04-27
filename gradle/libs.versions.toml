@@ -12,7 +12,7 @@ fabric-api = "0.140.2+1.21.11"
 loom = "1.14-SNAPSHOT"
 
 # Meteor (https://github.com/MeteorDevelopment/meteor-client)
-meteor = "1.21.11-SNAPSHOT"
+meteor = "26.1.2-SNAPSHOT"
 # Starscript (https://github.com/MeteorDevelopment/starscript)
 starscript = "0.2.5"
 # Orbit (https://github.com/MeteorDevelopment/orbit)
