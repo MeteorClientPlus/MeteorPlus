@@ -45,7 +45,7 @@ xmm = { module = "maven.modrinth:xaeros-minimap", version.ref = "xmm" }
 # Where Is It
 whereisit = { module = "maven.modrinth:where-is-it-port", version.ref = "whereisit" }
 # YetAnotherConfigLib
-yacl = { module = "dev.isxander.yacl:yet-another-config-lib-fabric", version.ref = "yacl" }
+yacl = { module = "maven.modrinth:yacl", version.ref = "yacl" }
 
 [plugins]
 fabric-loom = { id = "net.fabricmc.fabric-loom", version.ref = "loom" }
