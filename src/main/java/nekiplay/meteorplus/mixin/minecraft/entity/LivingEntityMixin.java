@@ -26,11 +26,9 @@ public class LivingEntityMixin {
 	private void hookTickMovement(CallbackInfo ci) {
 		Modules modules = Modules.get();
 		if (modules != null) {
-			NoJumpDelay noJumpDelay = modules.get(NoJumpDelay.class);
-			if (noJumpDelay != null) {
-				if (noJumpDelay.isActive()) {
-					noJumpDelay = 0;
-				}
+			NoJumpDelay module = modules.get(NoJumpDelay.class);
+			if (module != null && module.isActive()) {
+				this.noJumpDelay = 0;
 			}
 		}
 	}
