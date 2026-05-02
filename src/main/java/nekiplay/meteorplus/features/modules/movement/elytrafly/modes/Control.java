@@ -1,7 +1,7 @@
 package nekiplay.meteorplus.features.modules.movement.elytrafly.modes;
 
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
-import meteordevelopment.meteorclient.mixininterface.IVec3d;
+import meteordevelopment.meteorclient.mixininterface.IVec3;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyMode;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyModes;
 import net.minecraft.world.entity.Pose;
@@ -51,7 +51,7 @@ public class Control extends ElytraFlyMode {
 			y = -elytraFly.downSpeed_control.get();
 		}
 
-		((IVec3d) event.movement).meteor$set(x, y, z);
+		((IVec3) event.movement).meteor$set(x, y, z);
 		if (elytraFly.resetSpeed.get()) {
 			mc.player.setDeltaMovement(0, 0, 0);
 		}

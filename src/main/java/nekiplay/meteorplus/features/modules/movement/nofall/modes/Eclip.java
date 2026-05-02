@@ -2,8 +2,8 @@ package nekiplay.meteorplus.features.modules.movement.nofall.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixin.PlayerMoveC2SPacketAccessor;
-import meteordevelopment.meteorclient.mixininterface.IPlayerMoveC2SPacket;
+import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
+import meteordevelopment.meteorclient.mixininterface.IServerboundMovePlayerPacket;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
@@ -66,8 +66,8 @@ public class Eclip extends NoFallMode {
 	public void onSendPacket(PacketEvent.Send event) {
 		if (!groundcheck) return;
 		if (!(event.packet instanceof ServerboundMovePlayerPacket)
-			|| ((IPlayerMoveC2SPacket) event.packet).meteor$getTag() == 1337) return;
-		((PlayerMoveC2SPacketAccessor) event.packet).meteor$setOnGround(true);
+			|| ((IServerboundMovePlayerPacket) event.packet).meteor$getTag() == 1337) return;
+		((ServerboundMovePlayerPacketAccessor) event.packet).meteor$setOnGround(true);
 	}
 
 	private void clip() {

@@ -1,6 +1,6 @@
 package nekiplay.meteorplus.settings;
 
-import meteordevelopment.meteorclient.mixin.ClientPlayerInteractionManagerAccessor;
+import meteordevelopment.meteorclient.mixin.MultiPlayerGameModeAccessor;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.config.Config;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -130,7 +130,7 @@ public class ConfigModifier {
 						.set("z", () -> Value.number(mc.player != null ? Utils.getPlayerSpeed().z : 0))
 					)
 
-					.set("breaking_progress", () -> Value.number(mc.gameMode != null ? ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getBreakingProgress() : 0))
+					.set("breaking_progress", () -> Value.number(mc.gameMode != null ? ((MultiPlayerGameModeAccessor) mc.gameMode).meteor$getBreakingProgress() : 0))
 					.set("biome", ConfigModifier::biome)
 
 					.set("dimension", () -> Value.string(PlayerUtils.getDimension().name()))
@@ -208,7 +208,7 @@ public class ConfigModifier {
 						.set("z", () -> Value.number(0))
 					)
 
-					.set("breaking_progress", () -> Value.number(mc.gameMode != null ? ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getBreakingProgress() : 0))
+					.set("breaking_progress", () -> Value.number(mc.gameMode != null ? ((MultiPlayerGameModeAccessor) mc.gameMode).meteor$getBreakingProgress() : 0))
 					.set("biome", ConfigModifier::biome)
 
 					.set("dimension", () -> Value.string(PlayerUtils.getDimension().name()))
@@ -286,7 +286,7 @@ public class ConfigModifier {
 					.set("z", () -> Value.number(mc.player != null ? Utils.getPlayerSpeed().z : 0))
 				)
 
-				.set("breaking_progress", () -> Value.number(mc.gameMode != null ? ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getBreakingProgress() : 0))
+				.set("breaking_progress", () -> Value.number(mc.gameMode != null ? ((MultiPlayerGameModeAccessor) mc.gameMode).meteor$getBreakingProgress() : 0))
 				.set("biome", ConfigModifier::biome)
 
 				.set("dimension", () -> Value.string(PlayerUtils.getDimension().name()))

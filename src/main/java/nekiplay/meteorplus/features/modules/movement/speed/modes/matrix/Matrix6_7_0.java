@@ -2,7 +2,7 @@ package nekiplay.meteorplus.features.modules.movement.speed.modes.matrix;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixininterface.IVec3d;
+import meteordevelopment.meteorclient.mixininterface.IVec3;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedMode;
@@ -60,14 +60,14 @@ public class Matrix6_7_0 extends SpeedMode {
 		if (mc.player.onGround() && PlayerUtils.isMoving()) {
 			mc.options.keyJump.setDown(false);
 			mc.player.jumpFromGround();
-			IVec3d v = (IVec3d) mc.player.getDeltaMovement();
+			IVec3 v = (IVec3) mc.player.getDeltaMovement();
 			v.meteor$setY(0.41050001145141919810);
 			if (Math.abs(mc.player.getAbilities().getFlyingSpeed()) < 0.1) {
 				MovementUtils.strafe(MovementUtils.getSpeed());
 			}
 		}
 		if (!PlayerUtils.isMoving()) {
-			IVec3d v = (IVec3d) mc.player.getDeltaMovement();
+			IVec3 v = (IVec3) mc.player.getDeltaMovement();
 			v.meteor$setXZ(0, 0);
 		}
 	}

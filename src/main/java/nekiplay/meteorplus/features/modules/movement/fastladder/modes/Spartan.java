@@ -2,7 +2,7 @@ package nekiplay.meteorplus.features.modules.movement.fastladder.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixin.PlayerMoveC2SPacketAccessor;
+import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -68,7 +68,7 @@ public class Spartan extends FastLadderMode {
 				y = move.getY(y);
 
 				if (YGround(y, RGround(startY) - 0.1, RGround(startY) + 0.1)) {
-					((PlayerMoveC2SPacketAccessor) packet).meteor$setOnGround(true);
+					((ServerboundMovePlayerPacketAccessor) packet).meteor$setOnGround(true);
 				}
 				if (mc.player.onGround() && block) {
 					block = false;

@@ -6,7 +6,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
-import meteordevelopment.meteorclient.events.meteor.KeyEvent;
+import meteordevelopment.meteorclient.events.meteor.KeyInputEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPBlock;
@@ -464,7 +464,7 @@ public class XrayBruteforce extends Module {
 	}
 
 	@EventHandler
-	private void onKeyEvent(KeyEvent event)
+	private void onKeyInputEvent(KeyInputEvent event)
 	{
 		if (event.action == KeyAction.Press && isPressed()) {
 			pause_toggle = !pause_toggle;

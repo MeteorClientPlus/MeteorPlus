@@ -2,7 +2,7 @@ package nekiplay.meteorplus.features.modules.movement.nofall.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixininterface.IPlayerMoveC2SPacket;
+import meteordevelopment.meteorclient.mixininterface.IServerboundMovePlayerPacket;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
@@ -46,7 +46,7 @@ public class No_Ground_Elytra extends NoFallMode {
 
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
-		if (event.packet instanceof IPlayerMoveC2SPacket move) {
+		if (event.packet instanceof IServerboundMovePlayerPacket move) {
 			ServerboundMovePlayerPacketAccessor move2 = (ServerboundMovePlayerPacketAccessor) move;
 			if (move2.getOnGround()) {
 				mc.player.connection.send(new ServerboundPlayerCommandPacket(mc.player, ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));

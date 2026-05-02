@@ -2,7 +2,7 @@ package nekiplay.meteorplus.features.modules.movement.spider.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixin.PlayerMoveC2SPacketAccessor;
+import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderMode;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -67,7 +67,7 @@ public class Vulcan extends SpiderMode {
 				y = move.getY(y);
 
 				if (YGround(y, RGround(startY) - 0.1, RGround(startY) + 0.1)) {
-					((PlayerMoveC2SPacketAccessor) packet).meteor$setOnGround(true);
+					((ServerboundMovePlayerPacketAccessor) packet).meteor$setOnGround(true);
 				}
 				if (mc.player.onGround() && block) {
 					block = false;

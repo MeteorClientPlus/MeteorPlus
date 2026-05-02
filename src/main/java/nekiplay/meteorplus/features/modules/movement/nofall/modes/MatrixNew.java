@@ -1,7 +1,7 @@
 package nekiplay.meteorplus.features.modules.movement.nofall.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
-import meteordevelopment.meteorclient.mixin.PlayerMoveC2SPacketAccessor;
+import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
@@ -27,7 +27,7 @@ public class MatrixNew extends NoFallMode {
 	public void onSendPacket(PacketEvent.Send event) {
 		if (event.packet instanceof ServerboundMovePlayerPacket) {
 			ServerboundMovePlayerPacket packet = (ServerboundMovePlayerPacket)event.packet;
-			PlayerMoveC2SPacketAccessor accessor = (PlayerMoveC2SPacketAccessor)packet;
+			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor)packet;
 			timer = Modules.get().get(Timer.class);
 
 			if (!mc.player.onGround()) {

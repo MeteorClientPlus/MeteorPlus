@@ -3,7 +3,7 @@ package nekiplay.meteorplus.mixin.meteorclient.modules;
 import baritone.api.BaritoneAPI;
 import baritone.api.pathing.goals.GoalBlock;
 import meteordevelopment.meteorclient.events.Cancellable;
-import meteordevelopment.meteorclient.events.meteor.KeyEvent;
+import meteordevelopment.meteorclient.events.meteor.KeyInputEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
@@ -251,7 +251,7 @@ public class FreecamMixin {
 
 	@Unique
 	@EventHandler
-	private void onKeyEvent(KeyEvent event)
+	private void onKeyEvent(KeyInputEvent event)
 	{
 		if (mc.level != null && event.action == KeyAction.Press) {
 			Work(event);

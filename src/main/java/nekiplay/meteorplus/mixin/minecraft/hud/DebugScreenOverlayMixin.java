@@ -3,7 +3,7 @@ package nekiplay.meteorplus.mixin.minecraft.hud;
 import meteordevelopment.meteorclient.MeteorClient;
 import nekiplay.main.events.hud.DebugDrawTextEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.DebugScreenOverlay;
 import net.minecraft.world.phys.HitResult;
 import org.spongepowered.asm.mixin.Final;
@@ -29,7 +29,7 @@ public class DebugScreenOverlayMixin {
 		),
 		locals = LocalCapture.CAPTURE_FAILHARD
 	)
-	private void modifyDrawLeftText(GuiGraphics context, List<String> text, boolean left, CallbackInfo ci) {
+	private void modifyDrawLeftText(GuiGraphicsExtractor context, List<String> text, boolean left, CallbackInfo ci) {
 		DebugDrawTextEvent debugDrawTextEvent = DebugDrawTextEvent.get(text, left);
 		MeteorClient.EVENT_BUS.post(debugDrawTextEvent);
 	}

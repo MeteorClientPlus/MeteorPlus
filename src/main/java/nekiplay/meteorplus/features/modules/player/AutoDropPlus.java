@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ShulkerBoxMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 
 import java.util.List;
 
@@ -102,7 +102,7 @@ public class AutoDropPlus extends Module  {
 			if (items.get().contains(itemStack.getItem().asItem())) {
 				if (tick == 0) {
 					if (removeItems.get() && sync != -1) {
-						mc.gameMode.handleInventoryMouseClick(sync, invIndexToSlotId(i), 300, ClickType.SWAP, mc.player);
+						mc.gameMode.handleInventoryMouseClick(sync, invIndexToSlotId(i), 300, ContainerInput.SWAP, mc.player);
 					}
 					else if (!removeItems.get()) { InvUtils.drop().slot(i); }
 					if (!workInstant.get()) {
@@ -126,7 +126,7 @@ public class AutoDropPlus extends Module  {
 				if (items.get().contains(item.asItem())) {
 					if (tick == 0) {
 						if (removeItems.get()) {
-							mc.gameMode.handleInventoryMouseClick(handler.containerId, getIndexToSlotId(handler, i), 300, ClickType.SWAP, mc.player);
+							mc.gameMode.handleInventoryMouseClick(handler.containerId, getIndexToSlotId(handler, i), 300, ContainerInput.SWAP, mc.player);
 						}
 						else { InvUtils.drop().slotId(i); }
 						if (!workInstant.get()) {

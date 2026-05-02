@@ -3,7 +3,7 @@ package nekiplay.meteorplus.features.modules.movement.elytrafly;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixininterface.IVec3d;
+import meteordevelopment.meteorclient.mixininterface.IVec3;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -169,7 +169,7 @@ public class ElytraFlyPlus extends Module {
 			ClipContext raycastContext = new ClipContext(mc.player.position(), new Vec3(lookAheadPos.x(), mc.player.getY(), lookAheadPos.z()), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mc.player);
 			BlockHitResult hitResult = mc.level.clip(raycastContext);
 			if (hitResult != null && hitResult.getType() == HitResult.Type.BLOCK) {
-				((IVec3d) event.movement).meteor$set(0, currentMode.velY, 0);
+				((IVec3) event.movement).meteor$set(0, currentMode.velY, 0);
 			}
 		}
 	}

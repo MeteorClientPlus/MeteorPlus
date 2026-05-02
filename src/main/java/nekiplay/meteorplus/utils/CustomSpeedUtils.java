@@ -1,7 +1,7 @@
 package nekiplay.meteorplus.utils;
 
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
-import meteordevelopment.meteorclient.mixininterface.IVec3d;
+import meteordevelopment.meteorclient.mixininterface.IVec3;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.Anchor;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -28,6 +28,6 @@ public class CustomSpeedUtils {
 			velZ = anchor.deltaZ;
 		}
 
-		((IVec3d) event.movement).meteor$set(velX, event.movement.y, velZ);
+		((IVec3) event.movement).meteor$set(velX, event.movement.y, velZ);
 	}
 }

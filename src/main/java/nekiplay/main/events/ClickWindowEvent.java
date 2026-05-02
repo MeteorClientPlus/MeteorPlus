@@ -1,6 +1,6 @@
 package nekiplay.main.events;
 
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 
 public class ClickWindowEvent extends Cancellable {
 	private static final ClickWindowEvent INSTANCE = new ClickWindowEvent();
@@ -8,9 +8,9 @@ public class ClickWindowEvent extends Cancellable {
 	public int windowId;
 	public int slotId;
 	public int mouseButtonClicked;
-	public ClickType mode;
+	public ContainerInput mode;
 
-	public static ClickWindowEvent get(int windowId, int slotId, int mouseButtonClicked, ClickType mode) {
+	public static ClickWindowEvent get(int windowId, int slotId, int mouseButtonClicked, ContainerInput mode) {
 		INSTANCE.setCancelled(false);
 		INSTANCE.windowId = windowId;
 		INSTANCE.mouseButtonClicked = mouseButtonClicked;;

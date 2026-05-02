@@ -1,8 +1,8 @@
 package nekiplay.meteorplus.mixin.meteorclient.modules;
 
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
-import meteordevelopment.meteorclient.mixin.ClientPlayerInteractionManagerAccessor;
-import meteordevelopment.meteorclient.mixin.WorldRendererAccessor;
+import meteordevelopment.meteorclient.mixin.MultiPlayerGameModeAccessor;
+import meteordevelopment.meteorclient.mixin.LevelRendererAccessor;
 import meteordevelopment.meteorclient.renderer.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.ColorSetting;
@@ -69,10 +69,10 @@ public class BreakIndicatorsMixin extends Module  {
 	@EventHandler
 	private void on2DRender(Render2DEvent event) {
 
-		Map<Integer, BlockDestructionProgress> blocks = ((WorldRendererAccessor) mc.levelRenderer).meteor$getBlockBreakingInfos();
+		Map<Integer, BlockDestructionProgress> blocks = ((LevelRendererAccessor) mc.levelRenderer).meteor$getBlockBreakingInfos();
 
-		float ownBreakingStage = ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getBreakingProgress();
-		BlockPos ownBreakingPos = ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getCurrentBreakingBlockPos();
+		float ownBreakingStage = ((MultiPlayerGameModeAccessor) mc.gameMode).meteor$getBreakingProgress();
+		BlockPos ownBreakingPos = ((MultiPlayerGameModeAccessor) mc.gameMode).meteor$getCurrentBreakingBlockPos();
 
 
 		if (ownBreakingPos != null && ownBreakingStage > 0) {
