@@ -16,10 +16,12 @@ meteor = "26.1.2-SNAPSHOT"
 baritone = "26.1-SNAPSHOT"
 
 # Xaero's Mods
+# XaeroLib
+xlib = "1.1.13"
 # Xaero's World Map (https://modrinth.com/mod/xaeros-world-map/versions)
-xwm = "fabric-26.1.2-1.40.14"
+xwm = "1.40.14"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
-xmm = "fabric-26.1.2-25.3.11"
+xmm = "25.3.11"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
 whereisit = "2.7.4+26.1"
@@ -39,8 +41,9 @@ meteor-client = { module = "meteordevelopment:meteor-client", version.ref = "met
 baritone = { module = "meteordevelopment:baritone", version.ref = "baritone" }
 
 # Xaero's Mods
-xwm = { module = "maven.modrinth:xaeros-world-map", version.ref = "xwm" }
-xmm = { module = "maven.modrinth:xaeros-minimap", version.ref = "xmm" }
+xlib = { module = "xaero.lib:xaerolib-fabric-26.1.2", version.ref = "xlib" }
+xwm = { module = "xaero.map:xaeroworldmap-fabric-26.1.2", version.ref = "xwm" }
+xmm = { module = "xaero.minimap:xaerominimap-fabric-26.1.2", version.ref = "xmm" }
 
 # Where Is It
 whereisit = { module = "maven.modrinth:where-is-it-port", version.ref = "whereisit" }

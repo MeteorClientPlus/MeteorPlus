@@ -15,6 +15,7 @@ configurations.all {
 }
 
 repositories {
+	// Modrinth
 	maven {
 		url = uri("https://api.modrinth.com/maven/")
 		content {
@@ -30,6 +31,11 @@ repositories {
         name = "meteor-maven-snapshots"
         url = uri("https://maven.meteordev.org/snapshots")
     }
+	// XaeroLib
+	maven {
+		name = "Xaero's Maven"
+		url = uri("https://chocolateminecraft.com/maven")
+	}
 	mavenCentral()
 	gradlePluginPortal()
 }
@@ -50,9 +56,9 @@ dependencies {
 	implementation(libs.meteor.client)
 
 	// Xaero's Mods
+	compileOnly(libs.xlib) // XaeroLib
 	compileOnly(libs.xwm) // Xaero's World Map
 	compileOnly(libs.xmm) // Xaero's Minimap
-	compileOnly(files("libs\\xaerolib-fabric-26.1.2-1.1.13.jar"))
 
 	// Chest Tracker
 	implementation(libs.whereisit)
