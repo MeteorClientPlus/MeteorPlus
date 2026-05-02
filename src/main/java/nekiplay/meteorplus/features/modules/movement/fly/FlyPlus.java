@@ -110,8 +110,8 @@ public class FlyPlus extends Module {
 	}
 
 	@EventHandler
-	public void onRecivePacket(PacketEvent.Receive event) {
-		currentMode.onRecivePacket(event);
+	public void onReceivePacket(PacketEvent.Receive event) {
+		currentMode.onReceivePacket(event);
 	}
 
 	@EventHandler

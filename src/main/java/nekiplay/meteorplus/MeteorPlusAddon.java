@@ -20,7 +20,7 @@ import nekiplay.meteorplus.features.modules.integrations.MapIntegration;
 import nekiplay.meteorplus.features.modules.integrations.WhereIsIt;
 import nekiplay.meteorplus.features.modules.misc.AutoAccept;
 import nekiplay.meteorplus.features.modules.misc.ChatPrefix;
-import nekiplay.meteorplus.features.modules.misc.CordinateProtector;
+import nekiplay.meteorplus.features.modules.misc.CoordinateProtector;
 import nekiplay.meteorplus.features.modules.movement.Freeze;
 import nekiplay.meteorplus.features.modules.movement.NoJumpDelay;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyPlus;
@@ -79,7 +79,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 		ArrayList<String> notFoundBaritoneIntegrations = new ArrayList<>();
 		ArrayList<String> enabledIntegrations = new ArrayList<>();
 
-		if (isXaeroWorldMapresent) {
+		if (isXaeroWorldMapPresent) {
 			if (!isBaritonePresent) {
 				notFoundBaritoneIntegrations.add("Xaero's World Map");
 			} else {
@@ -126,7 +126,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 			LOG.warn(METEOR_LOGPREFIX + " Not found mods for integrations: " + String.join(", ", notFoundIntegrations));
 		}
 
-		MeteorClient.EVENT_BUS.subscribe(new CordinateProtector());
+		MeteorClient.EVENT_BUS.subscribe(new CoordinateProtector());
 		ConfigModifier.get();
 
 		//region Commands
@@ -191,7 +191,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 		}
 		modules.add(new NoSlowPlus());
 		if (isBaritonePresent) {
-			if (isXaeroWorldMapresent || isJourneyMapPresent) {
+			if (isXaeroWorldMapPresent || isJourneyMapPresent) {
 				modules.add(new MapIntegration());
 			}
 		}
@@ -214,9 +214,9 @@ public class MeteorPlusAddon extends MeteorAddon {
 	@Override
 	public void onRegisterCategories() {
 		LOG.info(METEOR_LOGPREFIX + " registering categories...");
-		if (isXaeroWorldMapresent ||
+		if (isXaeroWorldMapPresent ||
 			isJourneyMapPresent ||
-			MixinPlugin.isLitematicaMapresent ||
+			MixinPlugin.isLitematicaMapPresent ||
 			MixinPlugin.isWhereIsIt
 		) {
 			Modules.registerCategory(CATEGORYMODS);

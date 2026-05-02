@@ -123,7 +123,7 @@ public class FreecamMixin {
 			block == Blocks.JUNGLE_WALL_SIGN ||
 			block == Blocks.MANGROVE_WALL_SIGN ||
 			block == Blocks.WARPED_WALL_SIGN ||
-			// Mushroms
+			// Mushrooms
 			block == Blocks.BROWN_MUSHROOM ||
 			block == Blocks.RED_MUSHROOM ||
 			block == Blocks.CRIMSON_FUNGUS ||

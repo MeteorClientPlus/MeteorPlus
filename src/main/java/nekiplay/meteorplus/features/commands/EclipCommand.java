@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.Blocks;
 
 public class EclipCommand extends Command {
 	public EclipCommand() {
-		super("eclip", "Elyta clip need elytra bypass most anticheats");
+		super("eclip", "Elytra clip need elytra bypass most anticheats");
 	}
 
 	public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {

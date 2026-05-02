@@ -1,7 +1,7 @@
 package nekiplay.meteorplus.features.modules.movement.noslow;
 
 public enum NoSlowModes {
-	Vanila,
+	Vanilla,
 	NCP_Strict,
 	Grim_1dot8,
 	Grim_New,

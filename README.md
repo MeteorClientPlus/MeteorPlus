@@ -77,9 +77,9 @@
 
 # Installation Guide
 1. Install [Minecraft](https://www.minecraft.net)
-2. Install [Fabric](https://fabricmc.net) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) for your version of minecraft
-3. Download [Meteor Client](https://meteorclient.com) for your version of minecraft
-4. Download [Meteor Plus](https://github.com/MeteorClientPlus/MeteorPlus/releases) for your version of minecraft
+2. Install [Fabric](https://fabricmc.net) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) for your version of Minecraft
+3. Download [Meteor Client](https://meteorclient.com) for your version of Minecraft
+4. Download [Meteor Plus](https://github.com/MeteorClientPlus/MeteorPlus/releases) for your version of Minecraft
 5. Place the Meteor Client and Meteor Plus in your mods folder
 
     A: Make Commit we welcome anyone who makes a useful contribution to our free open source product

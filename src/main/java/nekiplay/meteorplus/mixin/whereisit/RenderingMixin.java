@@ -27,7 +27,7 @@ public class RenderingMixin {
 		if (whereIsIt != null && whereIsIt.isActive()) {
 			Component text1 = args.get(0);
 			String text2 = text1.getString();
-			if (whereIsIt.suport_color_symbols.get()) {
+			if (whereIsIt.support_color_symbols.get()) {
 				String text3 = ColorRemover.GetVerbatim(text2);
 				args.set(0, Component.nullToEmpty(text3));
 
@@ -55,7 +55,7 @@ public class RenderingMixin {
 	}
 
 	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;addVertex(Lorg/joml/Matrix4fc;FFF)Lcom/mojang/blaze3d/vertex/VertexConsumer;"))
-	private static void backgroundModifer(Args args) {
+	private static void backgroundModifier(Args args) {
 		if (whereIsIt == null) {
 			whereIsIt = Modules.get().get(WhereIsIt.class);
 		}

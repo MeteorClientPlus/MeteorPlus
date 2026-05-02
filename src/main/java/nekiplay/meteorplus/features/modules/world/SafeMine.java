@@ -65,7 +65,7 @@ public class SafeMine extends Module {
 	);
 
 	private final Setting<Integer> delay = ALSettings.add(new IntSetting.Builder()
-		.name("Repalce delay")
+		.name("Replace delay")
 		.description("Delay for replace lava.")
 		.defaultValue(0)
 		.min(0)
@@ -207,7 +207,7 @@ public class SafeMine extends Module {
 
 	private final Setting<Boolean> FreezeLookPlace = FSettings.add(new BoolSetting.Builder()
 		.name("Freeze look place support")
-		.description("Unfreez you yaw and pitch on place")
+		.description("Unfreeze you yaw and pitch on place")
 		.defaultValue(false)
 		.visible(FreezeLookSilent::get)
 		.build()

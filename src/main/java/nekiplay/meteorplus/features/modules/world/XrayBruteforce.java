@@ -62,8 +62,8 @@ public class XrayBruteforce extends Module {
 	}
 
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
-	private final SettingGroup sgSVisual = settings.createGroup("Scaner");
-	private final SettingGroup sgRVisual = settings.createGroup("Scaner Render Visuals");
+	private final SettingGroup sgSVisual = settings.createGroup("Scanner");
+	private final SettingGroup sgRVisual = settings.createGroup("Scanner Render Visuals");
 	private final SettingGroup sgSRenderer = settings.createGroup("Scanned Renderer");
 	private final SettingGroup sgSaver = settings.createGroup("Scanned Saver");
 	private final SettingGroup sgDelayer = settings.createGroup("Scanned Delayer");
@@ -273,23 +273,23 @@ public class XrayBruteforce extends Module {
 		.build()
 	);
 
-	public final Setting<Integer> rescanerDelay = sgDelayer.add(new IntSetting.Builder()
-		.name("rescaner-delay")
-		.description("Deley for rechecking blobk.")
+	public final Setting<Integer> rescannerDelay = sgDelayer.add(new IntSetting.Builder()
+		.name("rescanner-delay")
+		.description("Delay for rechecking block.")
 		.defaultValue(2000)
 		.build()
 	);
 
 	public final Setting<Boolean> tps_sync = sgDelayer.add(new BoolSetting.Builder()
 		.name("TPS-sync")
-		.description("TPS sync scaning.")
+		.description("TPS sync scanning.")
 		.defaultValue(true)
 		.build()
 	);
 
 	public final Setting<Boolean> fps_sync = sgDelayer.add(new BoolSetting.Builder()
 		.name("FPS-sync")
-		.description("FPS sync scaning.")
+		.description("FPS sync scanning.")
 		.defaultValue(false)
 		.build()
 	);
@@ -882,28 +882,28 @@ public class XrayBruteforce extends Module {
 	}
 
 	private boolean send(BlockPos blockpos) {
-		boolean sucess = true;
+		boolean success = true;
 		if (blockpos == null) {
-			sucess = false;
+			success = false;
 		}
 		ClientPacketListener conn = mc.getConnection();
 		if (conn == null) {
-			sucess = false;
+			success = false;
 		}
 		if (mc.level == null) {
-			sucess = false;
+			success = false;
 		} else {
 			BlockState state = mc.level.getBlockState(blockpos);
 			if (state.getBlock() == Blocks.WALL_TORCH || state.getBlock() == Blocks.TORCH || state.getBlock() == Blocks.AIR || state.getBlock() == Blocks.LAVA || state.getBlock() == Blocks.WATER) {
-				sucess = false;
+				success = false;
 			}
 		}
 
 		if (!EntityUtils.isInRenderDistance(blockpos)) {
-			sucess = false;
+			success = false;
 		}
 
-		if (sucess) {
+		if (success) {
 			currentScanBlock = blockpos;
 			ServerboundPlayerActionPacket packet_one = getPacket(blockpos, packet_first);
 			if (packet_one != null) {
@@ -913,14 +913,14 @@ public class XrayBruteforce extends Module {
 			if (packet_tw != null) {
 				conn.send(packet_tw);
 			}
-			addNeedRescan(blockpos, rescanerDelay.get());
+			addNeedRescan(blockpos, rescannerDelay.get());
 		} else {
 			currentScanBlock = null;
 		}
-		if (sucess && !scanned.contains(blockpos)) {
+		if (success && !scanned.contains(blockpos)) {
 			scanned.add(blockpos);
 		}
-		return sucess;
+		return success;
 	}
 
 	private ServerboundPlayerActionPacket getPacket(BlockPos blockpos, Setting<PacketMode> setting) {
@@ -1037,7 +1037,7 @@ public class XrayBruteforce extends Module {
 		need_rescan.clear();
 	}
 
-	private void reScaner() {
+	private void reScanner() {
 		synchronized (need_rescan) {
 			float timeSinceLastTick = TickRate.INSTANCE.getTimeSinceLastTick();
 			Iterator<BlockScanned> iterator = need_rescan.iterator();
@@ -1051,7 +1051,7 @@ public class XrayBruteforce extends Module {
 							for (BlockPos pos : getBlocks(blockscanned.pos, clusterRange.get(), clusterRange.get())) {
 								addBlock(pos, true);
 								if (!scanned.contains(pos)) {
-									addNeedRescan(pos, rescanerDelay.get());
+									addNeedRescan(pos, rescannerDelay.get());
 								}
 							}
 						} else {
@@ -1086,7 +1086,7 @@ public class XrayBruteforce extends Module {
 			addRandomBlock();
 			while (scan) {
 				checker();
-				reScaner();
+				reScanner();
 			}
 		});
 		clickerThread.start();

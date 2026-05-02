@@ -4,9 +4,9 @@ import nekiplay.main.events.PlayerUseMultiplierEvent;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowMode;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowModes;
 
-public class Vanila extends NoSlowMode {
-	public Vanila() {
-		super(NoSlowModes.Vanila);
+public class Vanilla extends NoSlowMode {
+	public Vanilla() {
+		super(NoSlowModes.Vanilla);
 	}
 
 	@Override

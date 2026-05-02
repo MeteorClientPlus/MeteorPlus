@@ -48,7 +48,7 @@ public class MapIntegration extends Module {
 	public final Setting<Boolean> showBlock = fullMap.add(new BoolSetting.Builder()
 		.name("Show block")
 		.description("Shows the name of the block in the clicked position.")
-		.visible(() -> MixinPlugin.isXaeroWorldMapresent)
+		.visible(() -> MixinPlugin.isXaeroWorldMapPresent)
 		.defaultValue(true)
 		.build()
 	);

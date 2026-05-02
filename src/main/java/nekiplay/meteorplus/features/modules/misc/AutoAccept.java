@@ -126,7 +126,7 @@ public class AutoAccept extends Module {
 	}
 
 	@EventHandler()
-	public void onMessageRecieve(ReceiveMessageEvent event) {
+	public void onMessageReceive(ReceiveMessageEvent event) {
 		if (event.getMessage() != null && mc.player != null) {
 			String message = ColorRemover.GetVerbatim(event.getMessage().getString());
 			if (Debug.get()) {

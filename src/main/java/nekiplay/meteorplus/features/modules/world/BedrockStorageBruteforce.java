@@ -113,16 +113,16 @@ public class BedrockStorageBruteforce extends Module {
 				int x = Utils.random(playerPos.getX() - ranger, playerPos.getX() + ranger);
 				int y = Utils.random(1, 4);
 				int z = Utils.random(playerPos.getZ() - ranger, playerPos.getZ() + ranger);
-				BlockPos posible = new BlockPos(x, y, z);
+				BlockPos possible = new BlockPos(x, y, z);
 				if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() >= millis) {
-					if (isAllowScan(posible)) {
+					if (isAllowScan(possible)) {
 						ClientPacketListener conn = mc.getConnection();
 						if (conn != null) {
-							last = posible;
-							scanned.add(posible);
-							ServerboundPlayerActionPacket abortPacket = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK, posible, Direction.UP, 0);
+							last = possible;
+							scanned.add(possible);
+							ServerboundPlayerActionPacket abortPacket = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK, possible, Direction.UP, 0);
 							conn.send(abortPacket);
-							ServerboundPlayerActionPacket abortPacket2 = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, posible, Direction.UP, 0);
+							ServerboundPlayerActionPacket abortPacket2 = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, possible, Direction.UP, 0);
 							conn.send(abortPacket2);
 							millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + Utils.random(delaymin.get(), delaymax.get());
 						}

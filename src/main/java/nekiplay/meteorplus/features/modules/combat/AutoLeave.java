@@ -62,12 +62,12 @@ public class AutoLeave extends Module {
 				} else {
 					assert mc.level != null;
 					mc.level.disconnect(Component.nullToEmpty(""));
-					mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal(String.format("[§dAuto Leaeve§r] player %s was detected", event.entity.getName()))));
+					mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal(String.format("[§dAuto Leave§r] player %s was detected", event.entity.getName()))));
 				}
 				if (AutoDisable.get()) this.toggle();
 			}
 		} else if (event.entity.isAlwaysTicking()) {
-			mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal(String.format("[§dAuto Leaeve§r] player %s was detected", event.entity.getName()))));
+			mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal(String.format("[§dAuto Leave§r] player %s was detected", event.entity.getName()))));
 			if (AutoDisable.get()) this.toggle();
 		}
 	}

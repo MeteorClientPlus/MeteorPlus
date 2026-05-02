@@ -72,7 +72,7 @@ public class VelocityPlus extends Module {
 	}
 
 	@EventHandler
-	private void onRecivePacket(PacketEvent.Receive event) {
+	private void onReceivePacket(PacketEvent.Receive event) {
 		currentMode.onReceivePacket(event);
 	}
 }

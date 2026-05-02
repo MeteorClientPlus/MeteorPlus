@@ -1,7 +1,7 @@
 package nekiplay.meteorplus.features.modules.world.autoobsidianmine;
 
 public enum AutoObsidianFarmModes {
-	Portals_Vanila,
+	Portals_Vanilla,
 	Portal_Homes,
 	Cauldrons;
 

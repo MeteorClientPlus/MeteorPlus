@@ -18,7 +18,7 @@ import java.util.Locale;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public class CordinateProtector {
+public class CoordinateProtector {
 	@EventHandler
 	private void onDebugF3RenderText(DebugDrawTextEvent event) {
 		List<String> lines = event.getLines();

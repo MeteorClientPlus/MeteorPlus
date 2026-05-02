@@ -58,7 +58,7 @@ public abstract class GuiMapMixin {
 	}
 
 	@Inject(method = "getRightClickOptions", at = @At(value = "RETURN"), remap = false)
-	private void rightClickOptins(CallbackInfoReturnable<ArrayList<RightClickOption>> cir) {
+	private void rightClickOptions(CallbackInfoReturnable<ArrayList<RightClickOption>> cir) {
 		Modules modules = Modules.get();
 		if (modules != null) {
 			MapIntegration mapIntegration = modules.get(MapIntegration.class);
@@ -95,7 +95,7 @@ public abstract class GuiMapMixin {
 					));
 				}
 
-				if (!MixinPlugin.isXaeroPlusMapresent) {
+				if (!MixinPlugin.isXaeroPlusMapPresent) {
 					if (mapIntegration.baritoneGoto.get()) {
 						options.addAll(3, List.of(
 							new RightClickOption(I18n.get("gui.world_map.baritone_goal_here"), options.size(), guiMap) {

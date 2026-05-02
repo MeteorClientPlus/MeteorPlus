@@ -28,7 +28,7 @@ import java.util.List;
 
 public class Portals extends AutoObsidianFarmMode {
 	public Portals() {
-		super(AutoObsidianFarmModes.Portals_Vanila);
+		super(AutoObsidianFarmModes.Portals_Vanilla);
 	}
 
 	private final Shape shape = Shape.Cube;
@@ -137,7 +137,7 @@ public class Portals extends AutoObsidianFarmMode {
 					}
 				}
 			}
-		} else if (settings.workingMode.get() == AutoObsidianFarmModes.Portals_Vanila) {
+		} else if (settings.workingMode.get() == AutoObsidianFarmModes.Portals_Vanilla) {
 			if (PlayerUtils.getDimension() == Dimension.Overworld) {
 
 				BlockPos to = settings.twoPortalPosition.get();

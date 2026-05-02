@@ -29,7 +29,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 @Mixin(WaypointReader.class)
 public class WaypointRendererMixin {
 	@Inject(method = "getRightClickOptions(Lxaero/map/mods/gui/Waypoint;Lxaero/map/gui/IRightClickableElement;)Ljava/util/ArrayList;", at = @At("HEAD"), remap = false, cancellable = true)
-	private void rightClickOptins(Waypoint element, IRightClickableElement target, CallbackInfoReturnable<ArrayList<RightClickOption>> cir) {
+	private void rightClickOptions(Waypoint element, IRightClickableElement target, CallbackInfoReturnable<ArrayList<RightClickOption>> cir) {
 		Modules modules = Modules.get();
 		if (modules != null) {
 			MapIntegration mapIntegration = modules.get(MapIntegration.class);

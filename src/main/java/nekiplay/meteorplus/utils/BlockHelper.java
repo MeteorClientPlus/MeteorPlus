@@ -46,14 +46,14 @@ public class BlockHelper {
 	}
 
 
-	public static BlockPos getBlockPosFromDirection(Direction direction, BlockPos orginalPos) {
+	public static BlockPos getBlockPosFromDirection(Direction direction, BlockPos originalPos) {
 		return switch (direction) {
-			case UP -> orginalPos.above();
-			case DOWN -> orginalPos.below();
-			case EAST -> orginalPos.east();
-			case WEST -> orginalPos.west();
-			case NORTH -> orginalPos.north();
-			case SOUTH -> orginalPos.south();
+			case UP -> originalPos.above();
+			case DOWN -> originalPos.below();
+			case EAST -> originalPos.east();
+			case WEST -> originalPos.west();
+			case NORTH -> originalPos.north();
+			case SOUTH -> originalPos.south();
 		};
 	}
 

@@ -23,7 +23,7 @@ public class AutoObsidianFarm extends Module {
 	public final Setting<AutoObsidianFarmModes> workingMode = sgGeneral.add(new EnumSetting.Builder<AutoObsidianFarmModes>()
 		.name("mode")
 		.description("Working mode.")
-		.defaultValue(AutoObsidianFarmModes.Portals_Vanila)
+		.defaultValue(AutoObsidianFarmModes.Portals_Vanilla)
 		.onModuleActivated(modesSetting -> onModeChanged(modesSetting.get()))
 		.onChanged(this::onModeChanged)
 		.build()
@@ -32,14 +32,14 @@ public class AutoObsidianFarm extends Module {
 	public final Setting<BlockPos> mainPortalPosition = sgGeneral.add(new BlockPosSetting.Builder()
 		.name("portal location 1")
 		.description("the position of the portal to hell")
-		.visible(() -> workingMode.get() == AutoObsidianFarmModes.Portals_Vanila)
+		.visible(() -> workingMode.get() == AutoObsidianFarmModes.Portals_Vanilla)
 		.build()
 	);
 
 	public final Setting<BlockPos> twoPortalPosition = sgGeneral.add(new BlockPosSetting.Builder()
 		.name("portal location 2")
 		.description("portal position in hell for new portal generations")
-		.visible(() -> workingMode.get() == AutoObsidianFarmModes.Portals_Vanila)
+		.visible(() -> workingMode.get() == AutoObsidianFarmModes.Portals_Vanilla)
 		.build()
 	);
 
@@ -123,7 +123,7 @@ public class AutoObsidianFarm extends Module {
 		.name("disable-baritone-breaking-if-not-mine-portal")
 		.description("No break blocks if is not mining portal.")
 		.defaultValue(true)
-		.visible(() -> workingMode.get() == AutoObsidianFarmModes.Portals_Vanila)
+		.visible(() -> workingMode.get() == AutoObsidianFarmModes.Portals_Vanilla)
 		.build()
 	);
 
@@ -131,7 +131,7 @@ public class AutoObsidianFarm extends Module {
 		.name("disable-baritone-place")
 		.description("No place blocks.")
 		.defaultValue(true)
-		.visible(() -> workingMode.get() == AutoObsidianFarmModes.Portals_Vanila)
+		.visible(() -> workingMode.get() == AutoObsidianFarmModes.Portals_Vanilla)
 		.build()
 	);
 
@@ -162,7 +162,7 @@ public class AutoObsidianFarm extends Module {
 
 	private void onModeChanged(AutoObsidianFarmModes mode) {
 		switch (mode) {
-			case Portal_Homes, Portals_Vanila -> {
+			case Portal_Homes, Portals_Vanilla -> {
 				if (MixinPlugin.isBaritonePresent) {
 					currentMode = new Portals();
 				} else {

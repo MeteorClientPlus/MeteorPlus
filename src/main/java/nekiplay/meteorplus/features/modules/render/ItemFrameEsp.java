@@ -28,7 +28,7 @@ import java.util.Map;
 public class ItemFrameEsp extends Module {
 
 	public ItemFrameEsp() {
-		super(Categories.Render, "ItemFrame-esp", "backlighting of the frames in which the selected items");
+		super(Categories.Render, "ItemFrame-esp", "back lightning of the frames in which the selected items");
 	}
 
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();

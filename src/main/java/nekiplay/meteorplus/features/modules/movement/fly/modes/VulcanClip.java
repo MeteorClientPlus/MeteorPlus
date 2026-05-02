@@ -59,8 +59,8 @@ public class VulcanClip extends FlyMode {
 	}
 
 	@Override
-	public void onRecivePacket(PacketEvent.Receive event) {
-		super.onRecivePacket(event);
+	public void onReceivePacket(PacketEvent.Receive event) {
+		super.onReceivePacket(event);
 		if (event.packet instanceof ClientboundPlayerPositionPacket && waitFlag) {
 			ClientboundPlayerPositionPacket packet = (ClientboundPlayerPositionPacket) event.packet;
 			Vec3 playerPos = mc.player.position();

@@ -27,10 +27,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
 	public static boolean isBaritonePresent = false; // Baritone for auto walking
 	public static boolean isJourneyMapPresent = false; // Currently not used
-	public static boolean isXaeroWorldMapresent = false; // Extension for map and baritone
-	public static boolean isXaeroMiniMapresent = false; // Extension for map and baritone
-	public static boolean isXaeroPlusMapresent = false; // other extension for map and baritone
-	public static boolean isLitematicaMapresent = false; // Detect litematica mod
+	public static boolean isXaeroWorldMapPresent = false; // Extension for map and baritone
+	public static boolean isXaeroMiniMapPresent = false; // Extension for map and baritone
+	public static boolean isXaeroPlusMapPresent = false; // other extension for map and baritone
+	public static boolean isLitematicaMapPresent = false; // Detect litematica mod
 	public static boolean isWhereIsIt = false; // Utility for ChestTracker for render 3d text
 
 	@Override
@@ -47,10 +47,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
 		isBaritonePresent = loader.isModLoaded("baritone-meteor") || loader.isModLoaded("baritone");
 		isJourneyMapPresent = loader.isModLoaded("journeymap");
-		isXaeroWorldMapresent = loader.isModLoaded("xaeroworldmap");
-		isXaeroMiniMapresent = loader.isModLoaded("xaerominimap");
-		isXaeroPlusMapresent = loader.isModLoaded("xaeroplus");
-		isLitematicaMapresent = loader.isModLoaded("litematica");
+		isXaeroWorldMapPresent = loader.isModLoaded("xaeroworldmap");
+		isXaeroMiniMapPresent = loader.isModLoaded("xaerominimap");
+		isXaeroPlusMapPresent = loader.isModLoaded("xaeroplus");
+		isLitematicaMapPresent = loader.isModLoaded("litematica");
 		isWhereIsIt = loader.isModLoaded("whereisit");
 	}
 
@@ -71,7 +71,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 		} else if (mixinClassName.startsWith(mixinPackageMeteorPlus + ".journeymap")) {
 			return isBaritonePresent && isJourneyMapPresent && isMeteorClient;
 		} else if (mixinClassName.startsWith(mixinPackageMeteorPlus + ".xaero.worldmap")) {
-			return isBaritonePresent && isXaeroWorldMapresent && isMeteorClient;
+			return isBaritonePresent && isXaeroWorldMapPresent && isMeteorClient;
 		} else if (mixinClassName.startsWith(mixinPackageMeteorPlus + ".whereisit")) {
 			return isWhereIsIt && isMeteorClient;
 		} else if (mixinClassName.startsWith(mixinPackageMeteorPlus + ".minecraft")) {

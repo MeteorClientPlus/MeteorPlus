@@ -46,7 +46,7 @@ public class Freeze extends Module {
 
 	private final Setting<Boolean> FreezeLookPlace = FSettings.add(new BoolSetting.Builder()
 		.name("Freeze look place support")
-		.description("Unfreez you yaw and pitch on place")
+		.description("Unfreeze you yaw and pitch on place")
 		.defaultValue(false)
 		.visible(FreezeLookSilent::get)
 		.build()
