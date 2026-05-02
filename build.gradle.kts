@@ -16,12 +16,6 @@ configurations.all {
 
 repositories {
 	maven {
-		url = uri("https://jm.gserv.me/repository/maven-public/")
-		content {
-			includeGroup("info.journeymap")
-		}
-	}
-	maven {
 		url = uri("https://api.modrinth.com/maven/")
 		content {
 			includeGroup("maven.modrinth")
