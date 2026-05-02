@@ -84,7 +84,7 @@ public class XChunk {
 
 
 	public static XChunk searchChunk(ChunkAccess chunk, List<Block> blocks) {
-		XChunk schunk = new XChunk(chunk.getPos().x, chunk.getPos().z);
+		XChunk schunk = new XChunk(chunk.getPos().x(), chunk.getPos().z());
 		if (schunk.shouldBeDeleted()) return schunk;
 
 		for (int x = chunk.getPos().getMinBlockX(); x <= chunk.getPos().getMaxBlockX(); x++) {

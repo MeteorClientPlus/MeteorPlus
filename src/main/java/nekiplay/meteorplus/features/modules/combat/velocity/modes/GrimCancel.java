@@ -36,7 +36,7 @@ public class GrimCancel extends VelocityMode {
 			canCancel = true;
 		}
 
-		if (((packet instanceof ClientboundSetEntityMotionPacket && ((ClientboundSetEntityMotionPacket) packet).getId() == mc.player.getId()) || packet instanceof ClientboundExplodePacket) && canCancel) {
+		if (((packet instanceof ClientboundSetEntityMotionPacket motionPacket && motionPacket.id() == mc.player.getId()) || packet instanceof ClientboundExplodePacket) && canCancel) {
 			event.cancel();
 			MeteorExecutor.execute(() -> {
                try { Thread.sleep(20); } catch (Exception ignore) { }

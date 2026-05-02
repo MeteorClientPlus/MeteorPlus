@@ -48,10 +48,10 @@ public class CordinateProtector {
 				} else if (str.startsWith("Chunk:")) {
 					BlockPos blockPos = mc.getCameraEntity().blockPosition();
 					blockPos = blockPos.offset(ConfigModifier.get().x_spoof.get(), 0, ConfigModifier.get().z_spoof.get());
-					ChunkPos chunkPos = new ChunkPos(blockPos);
+					ChunkPos chunkPos = ChunkPos.containing(blockPos);
 
 					if (ConfigModifier.get().spoofMode.get() == SpoofMode.Fake) {
-						String chunk = String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkPos.x, SectionPos.blockToSectionCoord(blockPos.getY()), chunkPos.z, chunkPos.getRegionLocalX(), chunkPos.getRegionLocalZ(), chunkPos.getRegionX(), chunkPos.getRegionZ());
+						String chunk = String.format(Locale.ROOT, "Chunk: %d %d %d [%d %d in r.%d.%d.mca]", chunkPos.x(), SectionPos.blockToSectionCoord(blockPos.getY()), chunkPos.z(), chunkPos.getRegionLocalX(), chunkPos.getRegionLocalZ(), chunkPos.getRegionX(), chunkPos.getRegionZ());
 						lines.set(index, chunk);
 					} else if (ConfigModifier.get().spoofMode.get() == SpoofMode.Sensor) {
 						lines.set(index, "Chunk: *** *** *** [*** *** in ***.***.mca]");

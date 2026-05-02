@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MultiPlayerGameMode.class)
 public class MultiPlayerGameModeMixin {
-	@Inject(method = "handleInventoryMouseClick", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "handleContainerInput", at = @At("HEAD"), cancellable = true)
 	private void windowClick(int syncId, int slotId, int button, ContainerInput actionType, Player player, CallbackInfo callbackInfo) {
 		final ClickWindowEvent event = ClickWindowEvent.get(syncId, slotId, button, actionType);
 		MeteorClient.EVENT_BUS.post(event);

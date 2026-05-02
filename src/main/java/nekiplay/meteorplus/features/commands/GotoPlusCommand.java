@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
@@ -31,7 +31,7 @@ public class GotoPlusCommand extends Command {
 	private final Pool<Cross> crossPool = new Pool<>(Cross::new);
 	private final List<Cross> crosses = new ArrayList<>();
 
-	public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
+	public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {
 		builder.then(literal("nolight").executes(c -> {
 			MeteorExecutor.execute(() -> {
 				for (Cross cross : crosses) crossPool.free(cross);

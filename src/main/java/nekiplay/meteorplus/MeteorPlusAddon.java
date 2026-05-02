@@ -44,7 +44,7 @@ import static nekiplay.MixinPlugin.*;
 public class MeteorPlusAddon extends MeteorAddon {
 	public static final Logger LOG = LoggerFactory.getLogger(MeteorPlusAddon.class);
 
-	public static final Category CATEGORYMODS = new Category("Integrations", ModItems.METEOR_PLUS_LOGO_MODS_ITEM.getDefaultInstance());
+	public static final Category CATEGORYMODS = new Category("Integrations", () -> ModItems.METEOR_PLUS_LOGO_MODS_ITEM.getDefaultInstance());
 	public static final String HUD_TITLE = "Meteor+";
 	public static final HudGroup HUD_GROUP = new HudGroup(HUD_TITLE);
 

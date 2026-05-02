@@ -1,9 +1,11 @@
 package nekiplay.main.items;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.Identifier;
 
 import java.util.function.Function;
@@ -11,8 +13,13 @@ import java.util.function.Function;
 public class ModItems {
 
 	public static Item register(String path, Function<Item.Properties, Item> factory, Item.Properties settings) {
-		final ResourceKey<Item> registryKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("meteorplus", path));
-		return Items.registerItem(registryKey, factory, settings);
+		Identifier id = Identifier.fromNamespaceAndPath("meteorplus", path);
+		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, id);
+		return Registry.register(
+			BuiltInRegistries.ITEM,
+			key,
+			factory.apply(settings.setId(key))
+		);
 	}
 	public static Item METEOR_PLUS_LOGO_ITEM = null;
 	public static Item METEOR_PLUS_LOGO_MODS_ITEM = null;

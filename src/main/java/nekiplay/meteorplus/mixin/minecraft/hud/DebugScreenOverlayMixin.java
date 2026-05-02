@@ -23,7 +23,7 @@ public class DebugScreenOverlayMixin {
 	private Minecraft minecraft;
 
 	@Inject(
-		method = "renderLines",
+		method = "extractLines",
 		at = @At(
 			value = "HEAD"
 		),

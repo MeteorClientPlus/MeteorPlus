@@ -2,6 +2,7 @@ package nekiplay.meteorplus.features.modules.movement.spider.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
 import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketMixin;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderMode;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -66,7 +67,7 @@ public class Matrix extends SpiderMode {
 				y = move.getY(y);
 
 				if (YGround(y, RGround(startY) - 0.1, RGround(startY) + 0.1)) {
-					((ServerboundMovePlayerPacketMixin) packet).meteor$setOnGround(true);
+					((ServerboundMovePlayerPacketAccessor) packet).meteor$setOnGround(true);
 				}
 				if (mc.player.onGround() && block) {
 					block = false;

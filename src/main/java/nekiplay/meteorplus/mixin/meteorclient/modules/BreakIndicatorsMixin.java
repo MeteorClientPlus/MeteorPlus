@@ -69,7 +69,7 @@ public class BreakIndicatorsMixin extends Module  {
 	@EventHandler
 	private void on2DRender(Render2DEvent event) {
 
-		Map<Integer, BlockDestructionProgress> blocks = ((LevelRendererAccessor) mc.levelRenderer).meteor$getBlockBreakingInfos();
+		Map<Integer, BlockDestructionProgress> blocks = ((LevelRendererAccessor) mc.levelRenderer).meteor$getDestroyingBlocks();
 
 		float ownBreakingStage = ((MultiPlayerGameModeAccessor) mc.gameMode).meteor$getBreakingProgress();
 		BlockPos ownBreakingPos = ((MultiPlayerGameModeAccessor) mc.gameMode).meteor$getCurrentBreakingBlockPos();
@@ -118,7 +118,7 @@ public class BreakIndicatorsMixin extends Module  {
 		if (percentageRender.get()) {
 			if (NametagUtils.to2D(vector3d, 1, true)) {
 				TextRenderer text = TextRenderer.get();
-				NametagUtils.begin(vector3d, event.drawContext);
+				NametagUtils.begin(vector3d, event.graphics);
 				text.beginBig();
 				String label = String.format("%1$,.0f", shrinkFactor * 100) + "%";
 
@@ -134,7 +134,7 @@ public class BreakIndicatorsMixin extends Module  {
 				text.render(label, hX, hY, percentageColor.get(), true);
 
 				text.end();
-				NametagUtils.end(event.drawContext);
+				NametagUtils.end(event.graphics);
 			}
 		}
 	}

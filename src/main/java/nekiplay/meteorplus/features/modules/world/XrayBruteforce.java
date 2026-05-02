@@ -536,7 +536,7 @@ public class XrayBruteforce extends Module {
 	private final Long2ObjectMap<XChunk> chunks = new Long2ObjectOpenHashMap<>();
 
 	public XBlock getBlock(int x, int y, int z) {
-		XChunk chunk = chunks.get(ChunkPos.asLong(x >> 4, z >> 4));
+		XChunk chunk = chunks.get(ChunkPos.pack(x >> 4, z >> 4));
 		return chunk == null ? null : chunk.get(x, y, z);
 	}
 
