@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.input.MouseInput;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static nekiplay.meteorplus.MeteorPlusAddon.HUD_TITLE;
@@ -44,9 +44,9 @@ public class MiddleClickExtraMixin extends Module {
 
     @Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
 	private void onMouseClick(MouseClickEvent event, CallbackInfo ci) {
-		if (event.action == KeyAction.Press && event.button() == 2 && mc.currentScreen == null) {
+		if (event.action == KeyAction.Press && event.button() == 2 && mc.screen == null) {
 			if (event.action != KeyAction.Press || event.button() != GLFW_MOUSE_BUTTON_MIDDLE) return;
-			if (noInventory.get() && mc.currentScreen != null) {
+			if (noInventory.get() && mc.screen != null) {
 				ci.cancel();
 			}
 		}

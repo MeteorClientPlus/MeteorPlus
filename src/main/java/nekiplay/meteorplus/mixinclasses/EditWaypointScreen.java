@@ -19,7 +19,7 @@ public class EditWaypointScreen extends EditSystemScreen<Waypoint> {
 	@Override
 	public Waypoint create() {
 		return new Waypoint.Builder()
-			.pos(mc.player.getBlockPos().up(2))
+			.pos(mc.player.blockPosition().above(2))
 			.dimension(PlayerUtils.getDimension())
 			.build();
 	}

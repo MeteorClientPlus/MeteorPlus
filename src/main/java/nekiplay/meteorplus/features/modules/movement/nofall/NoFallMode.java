@@ -3,16 +3,16 @@ package nekiplay.meteorplus.features.modules.movement.nofall;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public class NoFallMode {
-	protected final MinecraftClient mc;
+	protected final Minecraft mc;
 	protected final NoFallPlus settings;
 	private final NoFallModes type;
 
 	public NoFallMode(NoFallModes type) {
 		this.settings = Modules.get().get(NoFallPlus.class);
-		this.mc = MinecraftClient.getInstance();
+		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
 

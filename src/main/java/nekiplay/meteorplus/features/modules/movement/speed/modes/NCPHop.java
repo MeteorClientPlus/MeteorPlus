@@ -20,17 +20,17 @@ public class NCPHop extends SpeedMode {
 	@Override
 	public void onDeactivate() {
 		Modules.get().get(Timer.class).setOverride(Timer.OFF);
-		mc.player.getAbilities().setFlySpeed(0.02f);
+		mc.player.getAbilities().setFlyingSpeed(0.02f);
 	}
 
 	@Override
 	public void onTickEventPre(TickEvent.Pre event) {
-		if (mc.player.isTouchingWater() || mc.player.isInLava() ||
-			mc.player.isClimbing() || mc.player.isRiding()) return;
+		if (mc.player.isInWater() || mc.player.isInLava() ||
+			mc.player.onClimbable() || mc.player.isHandsBusy()) return;
 		Timer timer = Modules.get().get(Timer.class);
-		if (PlayerUtils.isMoving() && mc.player.isOnGround()) {
-			mc.player.jump();
-			mc.player.getAbilities().setFlySpeed(0.0223f);
+		if (PlayerUtils.isMoving() && mc.player.onGround()) {
+			mc.player.jumpFromGround();
+			mc.player.getAbilities().setFlyingSpeed(0.0223f);
 		}
 		else {
 			timer.setOverride(1);

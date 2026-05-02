@@ -1,23 +1,23 @@
 package nekiplay.main.events;
 
-import net.minecraft.block.entity.SignText;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.entity.SignText;
+import net.minecraft.client.renderer.MultiBufferSource;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.core.BlockPos;
 
 public class RenderSignTextEvent {
 	private static final RenderSignTextEvent INSTANCE = new RenderSignTextEvent();
 
 	public BlockPos pos;
 	public SignText signText;
-	public MatrixStack matrices;
-	public VertexConsumerProvider vertexConsumers;
+	public PoseStack matrices;
+	public MultiBufferSource vertexConsumers;
 	public int light;
 	public int lineHeight;
 	public int lineWidth;
 	public boolean front;
 
-	public static RenderSignTextEvent get(BlockPos pos, SignText signText, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int lineHeight, int lineWidth, boolean front) {
+	public static RenderSignTextEvent get(BlockPos pos, SignText signText, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int lineHeight, int lineWidth, boolean front) {
 		INSTANCE.pos = pos;
 		INSTANCE.signText = signText;
 		INSTANCE.matrices = matrices;

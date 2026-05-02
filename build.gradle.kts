@@ -28,10 +28,10 @@ repositories {
 		}
 	}
 	maven {
-        url = uri("https://www.cursemaven.com") 
+        url = uri("https://www.cursemaven.com")
     }
-	maven { 
-        url = uri("https://masa.dy.fi/maven") 
+	maven {
+        url = uri("https://masa.dy.fi/maven")
         }
 	// YACL
 	maven {
@@ -62,7 +62,7 @@ repositories {
 dependencies {
 	// Fabric
 	minecraft(libs.minecraft)
-	mappings(variantOf(libs.yarn) { classifier("v2") })
+	mappings(loom.officialMojangMappings())
 	modImplementation(libs.fabric.loader)
 
 	// Fabric API
@@ -97,7 +97,7 @@ tasks {
             "mc_version" to libs.versions.minecraft.get(),
             "gh_hash" to (System.getenv("GITHUB_SHA") ?: ""),
         )
-        
+
 	    filesMatching("fabric.mod.json") {
 		    expand (propertyMap)
         }

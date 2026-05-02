@@ -6,10 +6,10 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.text.Text;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.network.chat.Component;
 
 import java.nio.charset.CharsetEncoder;
 
@@ -42,16 +42,16 @@ public class Teams extends Module {
 		return false;
 	}
 	public boolean isInYourTeam(LivingEntity entity) {
-		ClientPlayerEntity player = mc.player;
+		LocalPlayer player = mc.player;
 		if (player == null) { return false; }
 
 		if (!isActive()) { return false; }
 
-		if (scoreBoardTeam.get() && player.getScoreboardTeam() != null && entity.getScoreboardTeam() != null && player.isTeamPlayer(entity.getScoreboardTeam())) {
+		if (scoreBoardTeam.get() && player.getTeam() != null && entity.getTeam() != null && player.isAlliedTo(entity.getTeam())) {
 			return true;
 		}
 
-		Text displayName = player.getDisplayName();
+		Component displayName = player.getDisplayName();
 		if (gommeSkyWars.get() && displayName != null && entity.getDisplayName() != null) {
 			String targetName = entity.getDisplayName().getString().replaceAll("§r", "");
 			String clientName = displayName.getString().replaceAll("§r", "");

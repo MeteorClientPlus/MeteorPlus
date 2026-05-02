@@ -9,9 +9,9 @@ import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.meteorplus.features.modules.integrations.MapIntegration;
 import nekiplay.meteorplus.utils.RotationUtils;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -71,15 +71,15 @@ public class WaypointRendererMixin {
 
 					rightClickOptions.add((new RightClickOption("gui.world_map.look_at_waypoint", rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
-							Vec3d playerPos = mc.player.getEntityPos();
-							Vec3d blockCenter = new Vec3d(
+							Vec3 playerPos = mc.player.position();
+							Vec3 blockCenter = new Vec3(
 								element.getX() + 0.5,
 								element.getY() + 0.5,
 								element.getZ() + 0.5
 							);
 
 							// Вычисляем вектор направления от игрока к блоку
-							Vec3d direction = blockCenter.subtract(playerPos).normalize();
+							Vec3 direction = blockCenter.subtract(playerPos).normalize();
 
 							// Преобразуем вектор направления в углы поворота (yaw и pitch)
 							double distanceXZ = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
@@ -87,8 +87,8 @@ public class WaypointRendererMixin {
 							float pitch = (float)Math.toDegrees(-Math.atan2(direction.y, distanceXZ));
 
 							// Устанавливаем поворот игрока
-							mc.player.setYaw(yaw);
-							mc.player.setPitch(pitch);
+							mc.player.setYRot(yaw);
+							mc.player.setXRot(pitch);
 						}
 
 						public boolean isActive() {

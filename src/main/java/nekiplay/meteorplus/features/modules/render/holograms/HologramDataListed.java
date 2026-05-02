@@ -3,7 +3,7 @@ package nekiplay.meteorplus.features.modules.render.holograms;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.meteorplus.features.modules.world.customblocks.PosData;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 import java.util.ArrayList;
 import java.util.Objects;

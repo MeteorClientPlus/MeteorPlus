@@ -1,6 +1,6 @@
 package nekiplay.meteorplus.features.modules.world.customblocks;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ public class CustomBlockData {
 
 	public String world;
 	public String dimension;
-	public CustomBlockData(BlockPos pos,int block_id) {
+	public CustomBlockData(BlockPos pos, int block_id) {
 		this.positions.add(new PosData(pos));
 		this.block_id = block_id;
 	}

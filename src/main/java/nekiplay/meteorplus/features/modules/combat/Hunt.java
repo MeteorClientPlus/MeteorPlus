@@ -13,16 +13,16 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Tameable;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -57,12 +57,12 @@ public class Hunt extends Module {
 
 	private boolean entityCheck(Entity entity) {
 		if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) return false;
-		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) return false;
+		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDeadOrDying()) || !entity.isAlive()) return false;
 		if (!entities.get().contains(entity.getType())) return false;
-		if (entity instanceof Tameable tameable
-			&& tameable.getOwner().getUuid() != null
-			&& tameable.getOwner().getUuid().equals(mc.player.getUuid())) return false;
-		if (entity instanceof PlayerEntity player) {
+		if (entity instanceof OwnableEntity tameable
+			&& tameable.getOwner().getUUID() != null
+			&& tameable.getOwner().getUUID().equals(mc.player.getUUID())) return false;
+		if (entity instanceof Player player) {
 			if (player.isCreative()) return false;
 			if (!Friends.get().shouldAttack(player)) return false;
 			AntiBotPlus antiBotPlus = Modules.get().get(AntiBotPlus.class);
@@ -76,16 +76,16 @@ public class Hunt extends Module {
 		}
 		if (onGround.get()) {
 			if (customCheck.get()) {
-				World world = entity.getEntityWorld();
+				Level world = entity.level();
 
-				Vec3d entityPos = entity.getEntityPos();
+				Vec3 entityPos = entity.position();
 				BlockPos posBelow = new BlockPos((int) entityPos.x, (int) (entityPos.y - 1), (int) entityPos.z);
 
 				Block blockBelow = world.getBlockState(posBelow).getBlock();
 
 				return (blockBelow != Blocks.AIR && blockBelow != Blocks.WATER && blockBelow != Blocks.LAVA);
 			}
-			else return entity.isOnGround();
+			else return entity.onGround();
 		}
 		return true;
 	}
@@ -99,12 +99,12 @@ public class Hunt extends Module {
 
 	@EventHandler
 	private void onTickEvent(TickEvent.Pre event) {
-		if (mc.world != null) {
+		if (mc.level != null) {
 			TargetUtils.getList(targets, this::entityCheck, SortPriority.LowestDistance, 25);
 
 			for (Entity entity : targets) {
 
-				PathManagers.get().moveTo(entity.getBlockPos());
+				PathManagers.get().moveTo(entity.blockPosition());
 				return;
 			}
 		}

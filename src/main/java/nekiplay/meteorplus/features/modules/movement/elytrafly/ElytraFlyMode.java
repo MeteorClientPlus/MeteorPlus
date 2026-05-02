@@ -3,11 +3,11 @@ package nekiplay.meteorplus.features.modules.movement.elytrafly;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.phys.Vec3;
 
 public class ElytraFlyMode {
-	protected final MinecraftClient mc;
+	protected final Minecraft mc;
 	protected final ElytraFlyPlus elytraFly;
 	private final ElytraFlyModes type;
 
@@ -17,12 +17,12 @@ public class ElytraFlyMode {
 	protected int jumpTimer;
 	protected double velX, velY, velZ;
 	protected double ticksLeft;
-	protected Vec3d forward, right;
+	protected Vec3 forward, right;
 	protected double acceleration;
 
 	public ElytraFlyMode(ElytraFlyModes type) {
 		this.elytraFly = Modules.get().get(ElytraFlyPlus.class);
-		this.mc = MinecraftClient.getInstance();
+		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
 

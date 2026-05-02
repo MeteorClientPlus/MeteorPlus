@@ -34,7 +34,7 @@ import nekiplay.meteorplus.features.modules.movement.jesus.JesusPlus;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallPlus;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedPlus;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderPlus;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ import static nekiplay.MixinPlugin.*;
 public class MeteorPlusAddon extends MeteorAddon {
 	public static final Logger LOG = LoggerFactory.getLogger(MeteorPlusAddon.class);
 
-	public static final Category CATEGORYMODS = new Category("Integrations", ModItems.METEOR_PLUS_LOGO_MODS_ITEM.getDefaultStack());
+	public static final Category CATEGORYMODS = new Category("Integrations", ModItems.METEOR_PLUS_LOGO_MODS_ITEM.getDefaultInstance());
 	public static final String HUD_TITLE = "Meteor+";
 	public static final HudGroup HUD_GROUP = new HudGroup(HUD_TITLE);
 
@@ -136,7 +136,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 		//endregion
 
 		LOG.info(METEOR_LOGPREFIX + " Initializing better chat custom head...");
-		BetterChat.registerCustomHead("[Meteor+]", Identifier.of("meteorplus", "chat/icon.png"));
+		BetterChat.registerCustomHead("[Meteor+]", Identifier.fromNamespaceAndPath("meteorplus", "chat/icon.png"));
 		LOG.info(METEOR_LOGPREFIX + " Loaded better chat");
 
 

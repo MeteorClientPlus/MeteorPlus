@@ -8,12 +8,12 @@ import meteordevelopment.meteorclient.utils.player.InvUtils;
 import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ShulkerBoxScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ShulkerBoxMenu;
+import net.minecraft.world.inventory.ClickType;
 
 import java.util.List;
 
@@ -93,16 +93,16 @@ public class AutoDropPlus extends Module  {
 
 	@EventHandler
 	public void onTickPost(TickEvent.Pre event) {
-		int sync = mc.player.currentScreenHandler.syncId;
+		int sync = mc.player.containerMenu.containerId;
 
 
-		for (int i = autoDropExcludeHotbar.get() ? 0 : 9; i < mc.player.getInventory().size(); i++) {
-			ItemStack itemStack = mc.player.getInventory().getStack(i);
+		for (int i = autoDropExcludeHotbar.get() ? 0 : 9; i < mc.player.getInventory().getContainerSize(); i++) {
+			ItemStack itemStack = mc.player.getInventory().getItem(i);
 
 			if (items.get().contains(itemStack.getItem().asItem())) {
 				if (tick == 0) {
 					if (removeItems.get() && sync != -1) {
-						mc.interactionManager.clickSlot(sync, invIndexToSlotId(i), 300, SlotActionType.SWAP, mc.player);
+						mc.gameMode.handleInventoryMouseClick(sync, invIndexToSlotId(i), 300, ClickType.SWAP, mc.player);
 					}
 					else if (!removeItems.get()) { InvUtils.drop().slot(i); }
 					if (!workInstant.get()) {
@@ -119,14 +119,14 @@ public class AutoDropPlus extends Module  {
 		}
 		if (removeContainersItems.get()) {
 			for (int i = 0; i < SlotUtils.indexToId(SlotUtils.MAIN_START); i++) {
-				ScreenHandler handler = mc.player.currentScreenHandler;
-				if (!handler.getSlot(i).hasStack()) continue;
+				AbstractContainerMenu handler = mc.player.containerMenu;
+				if (!handler.getSlot(i).hasItem()) continue;
 
-				Item item = handler.getSlot(i).getStack().getItem();
+				Item item = handler.getSlot(i).getItem().getItem();
 				if (items.get().contains(item.asItem())) {
 					if (tick == 0) {
 						if (removeItems.get()) {
-							mc.interactionManager.clickSlot(handler.syncId, getIndexToSlotId(handler, i), 300, SlotActionType.SWAP, mc.player);
+							mc.gameMode.handleInventoryMouseClick(handler.containerId, getIndexToSlotId(handler, i), 300, ClickType.SWAP, mc.player);
 						}
 						else { InvUtils.drop().slotId(i); }
 						if (!workInstant.get()) {
@@ -146,12 +146,12 @@ public class AutoDropPlus extends Module  {
 		return invIndex < 9 && invIndex != -1 ? 44 - (8 - invIndex) : invIndex;
 	}
 
-	public static int getIndexToSlotId(ScreenHandler handler, int invIndex) {
-		if (handler instanceof GenericContainerScreenHandler genericContainerScreenHandler) {
+	public static int getIndexToSlotId(AbstractContainerMenu handler, int invIndex) {
+		if (handler instanceof ChestMenu genericContainerScreenHandler) {
 			int count = genericContainerScreenHandler.slots.size();
 			return invIndex < 0 && invIndex != -1 ? count - (-1 - invIndex) : invIndex;
 		}
-		else if (handler instanceof ShulkerBoxScreenHandler genericContainerScreenHandler) {
+		else if (handler instanceof ShulkerBoxMenu genericContainerScreenHandler) {
 			int count = genericContainerScreenHandler.slots.size();
 			return invIndex < 0 && invIndex != -1 ? count - (-1 - invIndex) : invIndex;
 		}

@@ -5,9 +5,9 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.utils.RotationUtils;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -42,9 +42,9 @@ public class ShadyRotation {
 	}
 
 	public static Rotation getRotationToBlock(BlockPos block) {
-		double diffX = block.getX() - mc.player.getEntityPos().x + 0.5;
-		double diffY = block.getY() - mc.player.getEntityPos().y + 0.5 - mc.player.getEyeY();
-		double diffZ = block.getZ() - mc.player.getEntityPos().z + 0.5;
+		double diffX = block.getX() - mc.player.position().x + 0.5;
+		double diffY = block.getY() - mc.player.position().y + 0.5 - mc.player.getEyeY();
+		double diffZ = block.getZ() - mc.player.position().z + 0.5;
 		double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
 		float pitch = (float) -Math.atan2(dist, diffY);
@@ -56,9 +56,9 @@ public class ShadyRotation {
 	}
 
 	public static Rotation getRotationToEntity(Entity entity) {
-		double diffX = entity.getEntityPos().x - mc.player.getEntityPos().x;
-		double diffY = entity.getEntityPos().y + entity.getEyePos().y - mc.player.getEntityPos().y - mc.player.getEyeY();
-		double diffZ = entity.getEntityPos().z - mc.player.getEntityPos().z;
+		double diffX = entity.position().x - mc.player.position().x;
+		double diffY = entity.position().y + entity.getEyePosition().y - mc.player.position().y - mc.player.getEyeY();
+		double diffZ = entity.position().z - mc.player.position().z;
 		double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
 		float pitch = (float) -Math.atan2(dist, diffY);
@@ -69,10 +69,10 @@ public class ShadyRotation {
 		return new Rotation(pitch, yaw);
 	}
 
-	public static Rotation vec3ToRotation(Vec3d vec) {
-		double diffX = vec.x - mc.player.getEntityPos().x;
-		double diffY = vec.y - mc.player.getEntityPos().y - mc.player.getEyeY();
-		double diffZ = vec.z - mc.player.getEntityPos().z;
+	public static Rotation vec3ToRotation(Vec3 vec) {
+		double diffX = vec.x - mc.player.position().x;
+		double diffY = vec.y - mc.player.position().y - mc.player.getEyeY();
+		double diffZ = vec.z - mc.player.position().z;
 		double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
 		float pitch = (float) -Math.atan2(dist, diffY);
@@ -92,8 +92,8 @@ public class ShadyRotation {
 
 		ShadyRotation.callback = callback;
 
-		pitchDifference = wrapAngleTo180(rotation.pitch - mc.player.getPitch());
-		yawDifference = wrapAngleTo180(rotation.yaw - mc.player.getYaw());
+		pitchDifference = wrapAngleTo180(rotation.pitch - mc.player.getXRot());
+		yawDifference = wrapAngleTo180(rotation.yaw - mc.player.getYRot());
 
 		ShadyRotation.ticks = ticks * 20;
 		ShadyRotation.tickCounter = 0;
@@ -109,8 +109,8 @@ public class ShadyRotation {
 
 		ShadyRotation.callback = callback;
 		if (client) {
-			pitchDifference = wrapAngleTo180(rotation.getPitch() - mc.player.getPitch());
-			yawDifference = wrapAngleTo180(rotation.getYaw() - mc.player.getYaw());
+			pitchDifference = wrapAngleTo180(rotation.getPitch() - mc.player.getXRot());
+			yawDifference = wrapAngleTo180(rotation.getYaw() - mc.player.getYRot());
 		} else {
 			pitchDifference = wrapAngleTo180(rotation.getPitch() - Rotations.serverPitch);
 			yawDifference = wrapAngleTo180(rotation.getYaw() - Rotations.serverYaw);
@@ -123,8 +123,8 @@ public class ShadyRotation {
 	public static void smartLook(Rotation rotation, int ticksPer180, boolean client, Runnable callback) {
 		ShadyRotation.client = client;
 		float rotationDifference = Math.max(
-			Math.abs(rotation.pitch - mc.player.getPitch()),
-			Math.abs(rotation.yaw - mc.player.getYaw())
+			Math.abs(rotation.pitch - mc.player.getXRot()),
+			Math.abs(rotation.yaw - mc.player.getYRot())
 		);
 		smoothLook(rotation, (int) (rotationDifference / 180 * ticksPer180), client, callback);
 	}
@@ -133,8 +133,8 @@ public class ShadyRotation {
 		Rotations.serverYaw = rotation.yaw;
 		Rotations.serverPitch = rotation.pitch;
 		if (client) {
-			mc.player.setPitch(rotation.pitch);
-			mc.player.setYaw(rotation.yaw);
+			mc.player.setXRot(rotation.pitch);
+			mc.player.setYRot(rotation.yaw);
 		}
 	}
 
@@ -147,8 +147,8 @@ public class ShadyRotation {
 		if(tickCounter < ticks) {
 			running = true;
 			if (client) {
-				mc.player.setPitch(mc.player.getPitch() + pitchDifference / ticks);
-				mc.player.setYaw(mc.player.getYaw() + yawDifference / ticks);
+				mc.player.setXRot(mc.player.getXRot() + pitchDifference / ticks);
+				mc.player.setYRot(mc.player.getYRot() + yawDifference / ticks);
 			}
 			else {
 				Rotations.setCamRotation(Rotations.serverYaw + yawDifference / ticks, Rotations.serverPitch + pitchDifference / ticks);

@@ -4,7 +4,7 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedMode;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedModes;
 import nekiplay.meteorplus.utils.MovementUtils;
@@ -18,7 +18,7 @@ public class Matrix6_7_0 extends SpeedMode {
 
 	@Override
 	public void onDeactivate() {
-		mc.player.getAbilities().setFlySpeed(0.02f);
+		mc.player.getAbilities().setFlyingSpeed(0.02f);
 	}
 
 	@Override
@@ -31,43 +31,43 @@ public class Matrix6_7_0 extends SpeedMode {
 	}
 
 	public void onReceivePacket(PacketEvent.Receive event) {
-		if (event.packet instanceof EntityVelocityUpdateS2CPacket velocity) {
-			if (mc.player != null && mc.world != null && mc.world.getEntityById(velocity.getEntityId()) != null) {
-				if (mc.player == mc.world.getEntityById(velocity.getEntityId()))
+		if (event.packet instanceof ClientboundSetEntityMotionPacket velocity) {
+			if (mc.player != null && mc.level != null && mc.level.getEntity(velocity.getId()) != null) {
+				if (mc.player == mc.level.getEntity(velocity.getId()))
 					noVelocityY = 10;
 			}
 		}
 	}
 
 	private void work() {
-		if (!mc.player.isOnGround() && noVelocityY <= 0) {
-			if (mc.player.getVelocity().y > 0) {
-				mc.player.getVelocity().add(0, -0.0005, 0);
+		if (!mc.player.onGround() && noVelocityY <= 0) {
+			if (mc.player.getDeltaMovement().y > 0) {
+				mc.player.getDeltaMovement().add(0, -0.0005, 0);
 			}
-			mc.player.getVelocity().add(0, -0.0094001145141919810, 0);
+			mc.player.getDeltaMovement().add(0, -0.0094001145141919810, 0);
 		}
-		if (!mc.player.isOnGround() && noVelocityY < 8) {
+		if (!mc.player.onGround() && noVelocityY < 8) {
 			if (MovementUtils.getSpeed() < 0.2177 && noVelocityY < 8) {
 				MovementUtils.strafe(0.2177f);
 			}
 		}
-		if (Math.abs(mc.player.getAbilities().getFlySpeed()) < 0.1) {
-			mc.player.getAbilities().setFlySpeed(0.026f);
+		if (Math.abs(mc.player.getAbilities().getFlyingSpeed()) < 0.1) {
+			mc.player.getAbilities().setFlyingSpeed(0.026f);
 		}
 		else {
-			mc.player.getAbilities().setFlySpeed(0.0247f);
+			mc.player.getAbilities().setFlyingSpeed(0.0247f);
 		}
-		if (mc.player.isOnGround() && PlayerUtils.isMoving()) {
-			mc.options.jumpKey.setPressed(false);
-			mc.player.jump();
-			IVec3d v = (IVec3d) mc.player.getVelocity();
+		if (mc.player.onGround() && PlayerUtils.isMoving()) {
+			mc.options.keyJump.setDown(false);
+			mc.player.jumpFromGround();
+			IVec3d v = (IVec3d) mc.player.getDeltaMovement();
 			v.meteor$setY(0.41050001145141919810);
-			if (Math.abs(mc.player.getAbilities().getFlySpeed()) < 0.1) {
+			if (Math.abs(mc.player.getAbilities().getFlyingSpeed()) < 0.1) {
 				MovementUtils.strafe(MovementUtils.getSpeed());
 			}
 		}
 		if (!PlayerUtils.isMoving()) {
-			IVec3d v = (IVec3d) mc.player.getVelocity();
+			IVec3d v = (IVec3d) mc.player.getDeltaMovement();
 			v.meteor$setXZ(0, 0);
 		}
 	}

@@ -15,11 +15,11 @@ import nekiplay.meteorplus.MeteorPlusAddon;
 import nekiplay.meteorplus.features.modules.combat.Teams;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyPlus;
 import nekiplay.meteorplus.features.modules.movement.fly.FlyPlus;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 import nekiplay.meteorplus.features.modules.combat.AntiBotPlus;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -160,7 +160,7 @@ public class KillAuraMixin extends Module {
 	private void delayCheck(CallbackInfoReturnable<Boolean> cir) {
 		Modules modules = Modules.get();
 		if (onlyCrits.get() && !allowCrit() && needCrit(getTarget())) {
-			if (ignoreOnlyCritsOnLevitation.get() && !Objects.requireNonNull(mc.player).hasStatusEffect(StatusEffects.LEVITATION)) {
+			if (ignoreOnlyCritsOnLevitation.get() && !Objects.requireNonNull(mc.player).hasEffect(MobEffects.LEVITATION)) {
 				cir.setReturnValue(false);
 				return;
 			}
@@ -204,7 +204,7 @@ public class KillAuraMixin extends Module {
 		}
 
 		if (smartDelayv2.get() && getTarget() instanceof LivingEntity livingEntity) {
-			if (DamageUtils.getAttackDamage(mc.player, livingEntity) >= livingEntity.getHealth() + 1.5 &&  mc.player.getAttackCooldownProgress(0.5f) >= 0.25 && livingEntity.hurtTime <= maxHurtTime.get()) {
+			if (DamageUtils.getAttackDamage(mc.player, livingEntity) >= livingEntity.getHealth() + 1.5 &&  mc.player.getAttackStrengthScale(0.5f) >= 0.25 && livingEntity.hurtTime <= maxHurtTime.get()) {
 				cir.setReturnValue(true);
 			}
 		}
@@ -230,7 +230,7 @@ public class KillAuraMixin extends Module {
 	protected void entityCheck(Entity entity, CallbackInfoReturnable<Boolean> cir) {
 		AntiBotPlus antiBotPlus = Modules.get().get(AntiBotPlus.class);
 		Teams teams = Modules.get().get(Teams.class);
-		if (antiBotPlus != null && teams != null && entity instanceof PlayerEntity) {
+		if (antiBotPlus != null && teams != null && entity instanceof Player) {
 			if (cir.getReturnValueZ()) {
 				boolean ignore = !antiBotPlus.isBot(entity);
 				if (ignore) {

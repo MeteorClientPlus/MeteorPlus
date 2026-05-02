@@ -9,10 +9,10 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
-import net.minecraft.util.Formatting;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.ChatFormatting;
 
 public class ChatPrefix extends Module {
 	public ChatPrefix() {
@@ -50,14 +50,14 @@ public class ChatPrefix extends Module {
 		}
 	}
 
-	public Text getPrefix() {
-		MutableText value = Text.literal(prefix.get());
-		MutableText prefix = Text.literal("");
+	public Component getPrefix() {
+		MutableComponent value = Component.literal(prefix.get());
+		MutableComponent prefix = Component.literal("");
 		value.setStyle(value.getStyle().withColor(TextColor.fromRgb(prefixColor.get().getPacked())));
-		prefix.setStyle(prefix.getStyle().withFormatting(Formatting.GRAY))
-			.append(Text.literal("["))
+		prefix.setStyle(prefix.getStyle().applyFormat(ChatFormatting.GRAY))
+			.append(Component.literal("["))
 			.append(value)
-			.append(Text.literal("] "));
+			.append(Component.literal("] "));
 		return prefix;
 	}
 }

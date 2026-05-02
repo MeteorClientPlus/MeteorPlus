@@ -16,10 +16,10 @@ public class Wasp extends ElytraFlyMode {
 
 	@Override
 	public void onPlayerMove(PlayerMoveEvent event) {
-		if (!mc.player.isGliding()) {return;}
+		if (!mc.player.isFallFlying()) {return;}
 
 		updateWaspMovement();
-		pitch = mc.player.getPitch();
+		pitch = mc.player.getXRot();
 
 		double cos = Math.cos(Math.toRadians(yaw + 90));
 		double sin = Math.sin(Math.toRadians(yaw + 90));
@@ -32,25 +32,25 @@ public class Wasp extends ElytraFlyMode {
 			y *= Math.abs(Math.sin(Math.toRadians(pitch)));
 		}
 
-		if (mc.options.sneakKey.isPressed() && !mc.options.jumpKey.isPressed()) {
+		if (mc.options.keyShift.isDown() && !mc.options.keyJump.isDown()) {
 			y = -elytraFly.down_wasp.get();
 		}
-		if (!mc.options.sneakKey.isPressed() && mc.options.jumpKey.isPressed()) {
+		if (!mc.options.keyShift.isDown() && mc.options.keyJump.isDown()) {
 			y = elytraFly.up_wasp.get();
 		}
 
 		((IVec3d) event.movement).meteor$set(x, y, z);
 
 		if (elytraFly.resetSpeed.get()) {
-			mc.player.setVelocity(0, 0, 0);
+			mc.player.setDeltaMovement(0, 0, 0);
 		}
 	}
 
 	private void updateWaspMovement() {
-		float yaw = mc.player.getYaw();
+		float yaw = mc.player.getYRot();
 
-		float forward = mc.player.input.getMovementInput().y;
-		float sideways = mc.player.input.getMovementInput().x;
+		float forward = mc.player.input.getMoveVector().y;
+		float sideways = mc.player.input.getMoveVector().x;
 
 		if (forward > 0) {
 			moving = true;

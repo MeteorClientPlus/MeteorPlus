@@ -10,10 +10,10 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.modes.Control;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.modes.Wasp;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.ClipContext;
 
 public class ElytraFlyPlus extends Module {
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
@@ -164,10 +164,10 @@ public class ElytraFlyPlus extends Module {
 	private void onPlayerMove(PlayerMoveEvent event) {
 		currentMode.onPlayerMove(event);
 
-		if (noCrash.get() && mc.player.isGliding()) {
-			Vec3d lookAheadPos = mc.player.getEntityPos().add(mc.player.getVelocity().normalize().multiply(crashLookAhead.get()));
-			RaycastContext raycastContext = new RaycastContext(mc.player.getEntityPos(), new Vec3d(lookAheadPos.getX(), mc.player.getY(), lookAheadPos.getZ()), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player);
-			BlockHitResult hitResult = mc.world.raycast(raycastContext);
+		if (noCrash.get() && mc.player.isFallFlying()) {
+			Vec3 lookAheadPos = mc.player.position().add(mc.player.getDeltaMovement().normalize().scale(crashLookAhead.get()));
+			ClipContext raycastContext = new ClipContext(mc.player.position(), new Vec3(lookAheadPos.x(), mc.player.getY(), lookAheadPos.z()), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mc.player);
+			BlockHitResult hitResult = mc.level.clip(raycastContext);
 			if (hitResult != null && hitResult.getType() == HitResult.Type.BLOCK) {
 				((IVec3d) event.movement).meteor$set(0, currentMode.velY, 0);
 			}

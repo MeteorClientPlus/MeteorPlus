@@ -1,6 +1,6 @@
 package nekiplay.meteorplus.utils;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -15,7 +15,7 @@ public class GameSensitivityUtils {
 
 	public static float getGCD() {
 		float f1;
-		return (f1 = (float) (mc.options.getMouseSensitivity().getValue() * 0.6 + 0.2)) * f1 * f1 * 8;
+		return (f1 = (float) (mc.options.sensitivity().get() * 0.6 + 0.2)) * f1 * f1 * 8;
 	}
 
 	public static float getDeltaMouse(float delta) {

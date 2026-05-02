@@ -1,7 +1,7 @@
 package nekiplay.main.events.hud;
 
 import nekiplay.main.events.Cancellable;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.phys.HitResult;
 
 import java.util.ArrayList;
 import java.util.List;

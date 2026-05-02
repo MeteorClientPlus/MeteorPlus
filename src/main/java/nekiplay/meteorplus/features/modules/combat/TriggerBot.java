@@ -10,15 +10,15 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Tameable;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.world.GameMode;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.util.Objects;
@@ -106,12 +106,12 @@ public class TriggerBot extends Module {
 
 	private boolean entityCheck(Entity entity) {
 		if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) return false;
-		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) return false;
+		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDeadOrDying()) || !entity.isAlive()) return false;
 		if (!entities.get().contains(entity.getType())) return false;
-		if (entity instanceof Tameable tameable
-			&& tameable.getOwner().getUuid() != null
-			&& tameable.getOwner().getUuid().equals(mc.player.getUuid())) return false;
-		if (entity instanceof PlayerEntity player) {
+		if (entity instanceof OwnableEntity tameable
+			&& tameable.getOwner().getUUID() != null
+			&& tameable.getOwner().getUUID().equals(mc.player.getUUID())) return false;
+		if (entity instanceof Player player) {
 			if (player.isCreative()) return false;
 			if (!Friends.get().shouldAttack(player)) return false;
 			AntiBotPlus antiBotPlus = Modules.get().get(AntiBotPlus.class);
@@ -124,12 +124,12 @@ public class TriggerBot extends Module {
 			}
 		}
 
-		return !(entity instanceof AnimalEntity) || babies.get() || !((AnimalEntity) entity).isBaby();
+		return !(entity instanceof Animal) || babies.get() || !((Animal) entity).isBaby();
 	}
 
 	private boolean delayCheck() {
-		if (onlyCrits.get() && !CriticalsPlus.allowCrit() && needCrit(mc.targetedEntity)) {
-			if (ignoreOnlyCritsOnLevitation.get() && !Objects.requireNonNull(mc.player).hasStatusEffect(StatusEffects.LEVITATION)) {
+		if (onlyCrits.get() && !CriticalsPlus.allowCrit() && needCrit(mc.crosshairPickEntity)) {
+			if (ignoreOnlyCritsOnLevitation.get() && !Objects.requireNonNull(mc.player).hasEffect(MobEffects.LEVITATION)) {
 				return false;
 			}
 			else if (!ignoreOnlyCritsOnLevitation.get()) {
@@ -137,7 +137,7 @@ public class TriggerBot extends Module {
 			}
 		}
 
-		if (smartDelay.get()) return mc.player.getAttackCooldownProgress(0.5f) >= 1;
+		if (smartDelay.get()) return mc.player.getAttackStrengthScale(0.5f) >= 1;
 
 		if (hitDelayTimer > 0) {
 			hitDelayTimer--;
@@ -151,14 +151,14 @@ public class TriggerBot extends Module {
 
 	@EventHandler
 	private void onTick(Render3DEvent event) {
-		if (!mc.player.isAlive() || PlayerUtils.getGameMode() == GameMode.SPECTATOR) return;
-		if (mc.targetedEntity == null) return;
+		if (!mc.player.isAlive() || PlayerUtils.getGameMode() == GameType.SPECTATOR) return;
+		if (mc.crosshairPickEntity == null) return;
 
-		if (delayCheck() && entityCheck(mc.targetedEntity)) hitEntity(mc.targetedEntity);
+		if (delayCheck() && entityCheck(mc.crosshairPickEntity)) hitEntity(mc.crosshairPickEntity);
 	}
 
 	private void hitEntity(Entity target) {
-		mc.interactionManager.attackEntity(mc.player, target);
-		mc.player.swingHand(Hand.MAIN_HAND);
+		mc.gameMode.attack(mc.player, target);
+		mc.player.swing(InteractionHand.MAIN_HAND);
 	}
 }

@@ -4,12 +4,12 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import nekiplay.meteorplus.features.modules.world.XrayBruteforce;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.chunk.ChunkAccess;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static meteordevelopment.meteorclient.utils.Utils.getRenderDistance;
 
 public class XChunk {
-	private static final BlockPos.Mutable blockPos = new BlockPos.Mutable();
+	private static final BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
 
 	private final int x, z;
 	public Long2ObjectMap<XBlock> blocks;
@@ -70,8 +70,8 @@ public class XChunk {
 
 	public boolean shouldBeDeleted() {
 		int viewDist = getRenderDistance() + 1;
-		int chunkX = ChunkSectionPos.getSectionCoord(mc.player.getBlockPos().getX());
-		int chunkZ = ChunkSectionPos.getSectionCoord(mc.player.getBlockPos().getZ());
+		int chunkX = SectionPos.blockToSectionCoord(mc.player.blockPosition().getX());
+		int chunkZ = SectionPos.blockToSectionCoord(mc.player.blockPosition().getZ());
 
 		return x > chunkX + viewDist || x < chunkX - viewDist || z > chunkZ + viewDist || z < chunkZ - viewDist;
 	}
@@ -83,15 +83,15 @@ public class XChunk {
 	}
 
 
-	public static XChunk searchChunk(Chunk chunk, List<Block> blocks) {
+	public static XChunk searchChunk(ChunkAccess chunk, List<Block> blocks) {
 		XChunk schunk = new XChunk(chunk.getPos().x, chunk.getPos().z);
 		if (schunk.shouldBeDeleted()) return schunk;
 
-		for (int x = chunk.getPos().getStartX(); x <= chunk.getPos().getEndX(); x++) {
-			for (int z = chunk.getPos().getStartZ(); z <= chunk.getPos().getEndZ(); z++) {
-				int height = chunk.getHeightmap(Heightmap.Type.WORLD_SURFACE).get(x - chunk.getPos().getStartX(), z - chunk.getPos().getStartZ());
+		for (int x = chunk.getPos().getMinBlockX(); x <= chunk.getPos().getMaxBlockX(); x++) {
+			for (int z = chunk.getPos().getMinBlockZ(); z <= chunk.getPos().getMaxBlockZ(); z++) {
+				int height = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE).getFirstAvailable(x - chunk.getPos().getMinBlockX(), z - chunk.getPos().getMinBlockZ());
 
-				for (int y = mc.world.getBottomY(); y < height; y++) {
+				for (int y = mc.level.getMinY(); y < height; y++) {
 					blockPos.set(x, y, z);
 					BlockState bs = chunk.getBlockState(blockPos);
 

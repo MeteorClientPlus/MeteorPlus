@@ -12,8 +12,8 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.phys.Vec3;
 import nekiplay.meteorplus.MeteorPlusAddon;
 
 public class Freeze extends Module {
@@ -54,32 +54,32 @@ public class Freeze extends Module {
 
 	private float yaw = 0;
 	private float pitch = 0;
-	private Vec3d position = Vec3d.ZERO;
+	private Vec3 position = Vec3.ZERO;
 
 	@Override()
 	public void onActivate() {
 		if (mc.player != null){
-			yaw = mc.player.getYaw();
-			pitch = mc.player.getPitch();
-			position = mc.player.getEntityPos();
+			yaw = mc.player.getYRot();
+			pitch = mc.player.getXRot();
+			position = mc.player.position();
 		}
 	}
 
 	private boolean rotate = false;
 
-	private void setFreezeLook(PacketEvent.Send event, PlayerMoveC2SPacket playerMove)
+	private void setFreezeLook(PacketEvent.Send event, ServerboundMovePlayerPacket playerMove)
 	{
-		if (playerMove.changesLook() && FreezeLook.get() && FreezeLookSilent.get() && !rotate) {
+		if (playerMove.hasRotation() && FreezeLook.get() && FreezeLookSilent.get() && !rotate) {
 			event.setCancelled(true);
 		}
-		else if (mc.player != null && playerMove.changesLook() && FreezeLook.get() && !FreezeLookSilent.get()) {
+		else if (mc.player != null && playerMove.hasRotation() && FreezeLook.get() && !FreezeLookSilent.get()) {
 			event.setCancelled(true);
-			mc.player.setYaw(yaw);
-			mc.player.setPitch(pitch);
+			mc.player.setYRot(yaw);
+			mc.player.setXRot(pitch);
 		}
-		if (mc.player != null && playerMove.changesPosition()) {
-			mc.player.setVelocity(0, 0, 0);
-			mc.player.setPos(position.x, position.y, position.z);
+		if (mc.player != null && playerMove.hasPosition()) {
+			mc.player.setDeltaMovement(0, 0, 0);
+			mc.player.setPosRaw(position.x, position.y, position.z);
 			event.setCancelled(true);
 		}
 	}
@@ -87,17 +87,17 @@ public class Freeze extends Module {
 	@EventHandler
 	private void InteractBlockEvent(InteractBlockEvent event)
 	{
-		if (mc.player != null && mc.getNetworkHandler() != null && FreezeLookPlace.get()) {
-			PlayerMoveC2SPacket.LookAndOnGround r = new PlayerMoveC2SPacket.LookAndOnGround(mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround(), mc.player.horizontalCollision);
+		if (mc.player != null && mc.getConnection() != null && FreezeLookPlace.get()) {
+			ServerboundMovePlayerPacket.Rot r = new ServerboundMovePlayerPacket.Rot(mc.player.getYRot(), mc.player.getXRot(), mc.player.onGround(), mc.player.horizontalCollision);
 			rotate = true;
-			mc.getNetworkHandler().sendPacket(r);
+			mc.getConnection().send(r);
 			rotate = false;
 		}
 	}
 
 	@EventHandler
 	private void onMovePacket(PacketEvent.Send event) {
-		if (event.packet instanceof PlayerMoveC2SPacket playerMove) {
+		if (event.packet instanceof ServerboundMovePlayerPacket playerMove) {
 			if (Packet.get()) {
 				setFreezeLook(event, playerMove);
 			}
@@ -112,13 +112,13 @@ public class Freeze extends Module {
 	@EventHandler
 	private void onTick(TickEvent.Pre event) {
 		if (mc.player != null) {
-			mc.player.setVelocity(0, 0, 0);
-			mc.player.setPos(position.x, position.y, position.z);
+			mc.player.setDeltaMovement(0, 0, 0);
+			mc.player.setPosRaw(position.x, position.y, position.z);
 		}
 	}
 	@EventHandler
 	private void onPlayerMove(PlayerMoveEvent event) {
-		event.movement = new Vec3d(0, 0, 0);
+		event.movement = new Vec3(0, 0, 0);
 	}
 	@EventHandler
 	private void remove(EntityRemovedEvent event)

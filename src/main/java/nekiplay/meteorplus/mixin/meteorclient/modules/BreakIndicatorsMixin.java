@@ -17,11 +17,11 @@ import meteordevelopment.meteorclient.utils.render.NametagUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.BlockBreakingInfo;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.server.level.BlockDestructionProgress;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -69,10 +69,10 @@ public class BreakIndicatorsMixin extends Module  {
 	@EventHandler
 	private void on2DRender(Render2DEvent event) {
 
-		Map<Integer, BlockBreakingInfo> blocks = ((WorldRendererAccessor) mc.worldRenderer).meteor$getBlockBreakingInfos();
+		Map<Integer, BlockDestructionProgress> blocks = ((WorldRendererAccessor) mc.levelRenderer).meteor$getBlockBreakingInfos();
 
-		float ownBreakingStage = ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getBreakingProgress();
-		BlockPos ownBreakingPos = ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getCurrentBreakingBlockPos();
+		float ownBreakingStage = ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getBreakingProgress();
+		BlockPos ownBreakingPos = ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getCurrentBreakingBlockPos();
 
 
 		if (ownBreakingPos != null && ownBreakingStage > 0) {
@@ -80,11 +80,11 @@ public class BreakIndicatorsMixin extends Module  {
 			double shrinkFactor = 1d - ownBreakingStage;
 
 
-			BlockState state = mc.world.getBlockState(ownBreakingPos);
-			VoxelShape shape = state.getOutlineShape(mc.world, ownBreakingPos);
+			BlockState state = mc.level.getBlockState(ownBreakingPos);
+			VoxelShape shape = state.getShape(mc.level, ownBreakingPos);
 			if (shape == null || shape.isEmpty()) return;
 
-			Box orig = shape.getBoundingBox();
+			AABB orig = shape.bounds();
 
 			renderBlock(event, ownBreakingPos, shrinkFactor, orig);
 
@@ -92,14 +92,14 @@ public class BreakIndicatorsMixin extends Module  {
 
 		blocks.values().forEach(info -> {
 			BlockPos pos = info.getPos();
-			int stage = info.getStage();
+			int stage = info.getProgress();
 			if (pos.equals(ownBreakingPos)) return;
 
-			BlockState state = mc.world.getBlockState(pos);
-			VoxelShape shape = state.getOutlineShape(mc.world, pos);
+			BlockState state = mc.level.getBlockState(pos);
+			VoxelShape shape = state.getShape(mc.level, pos);
 			if (shape == null || shape.isEmpty()) return;
 
-			Box orig = shape.getBoundingBox();
+			AABB orig = shape.bounds();
 
 			double shrinkFactor = (9 - (stage + 1)) / 9d;
 			double progress = 1d - shrinkFactor;
@@ -113,7 +113,7 @@ public class BreakIndicatorsMixin extends Module  {
 	}
 
 	@Unique
-	private void renderBlock(Render2DEvent event, BlockPos pos, double shrinkFactor, Box orig) {
+	private void renderBlock(Render2DEvent event, BlockPos pos, double shrinkFactor, AABB orig) {
 		Vector3d vector3d = new Vector3d(pos.getX() + orig.getCenter().x, pos.getY() + orig.getCenter().y, pos.getZ() + orig.getCenter().z);
 		if (percentageRender.get()) {
 			if (NametagUtils.to2D(vector3d, 1, true)) {
@@ -143,10 +143,10 @@ public class BreakIndicatorsMixin extends Module  {
 	private void renderPacket(Render2DEvent event, List<PacketMine.MyBlock> blocks) {
 		for (PacketMine.MyBlock block : blocks) {
 			if (block.mining && block.progress() != Double.POSITIVE_INFINITY) {
-				VoxelShape shape = block.blockState.getOutlineShape(mc.world, block.blockPos);
+				VoxelShape shape = block.blockState.getShape(mc.level, block.blockPos);
 				if (shape == null || shape.isEmpty()) return;
 
-				Box orig = shape.getBoundingBox();
+				AABB orig = shape.bounds();
 
 				double progressNormalised = Math.min(1, block.progress());
 				double shrinkFactor = 1d - progressNormalised;

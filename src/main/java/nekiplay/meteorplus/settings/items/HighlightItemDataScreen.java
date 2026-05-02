@@ -5,7 +5,7 @@ import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.Nullable;
 
 public class HighlightItemDataScreen extends WindowScreen {

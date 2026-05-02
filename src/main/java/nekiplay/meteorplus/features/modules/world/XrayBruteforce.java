@@ -21,8 +21,8 @@ import meteordevelopment.meteorclient.utils.world.Dimension;
 import meteordevelopment.meteorclient.utils.world.TickRate;
 import nekiplay.meteorplus.MeteorPlusAddon;
 import nekiplay.meteorplus.utils.GenerationBlock;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.chunk.ChunkAccess;
 
 import meteordevelopment.meteorclient.events.entity.player.BreakBlockEvent;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
@@ -36,15 +36,15 @@ import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import nekiplay.meteorplus.utils.xraybruteforce.XBlock;
 import nekiplay.meteorplus.utils.xraybruteforce.XChunk;
 import nekiplay.meteorplus.utils.xraybruteforce.XGroup;
@@ -536,15 +536,15 @@ public class XrayBruteforce extends Module {
 	private final Long2ObjectMap<XChunk> chunks = new Long2ObjectOpenHashMap<>();
 
 	public XBlock getBlock(int x, int y, int z) {
-		XChunk chunk = chunks.get(ChunkPos.toLong(x >> 4, z >> 4));
+		XChunk chunk = chunks.get(ChunkPos.asLong(x >> 4, z >> 4));
 		return chunk == null ? null : chunk.get(x, y, z);
 	}
 
 	private boolean setColors(RenderOre ore)
 	{
 		if (ore != null && ore.block != null && ore.linecolor == null && ore.sidecolor == null && ore.tracercolor == null && ore.shapeMode == null && ore.sBlock == null) {
-			assert mc.world != null;
-			BlockState state = mc.world.getBlockState(ore.blockPos);
+			assert mc.level != null;
+			BlockState state = mc.level.getBlockState(ore.blockPos);
 			if (ore.block == Blocks.AIR) {
 				ore.block = state.getBlock();
 			}
@@ -671,7 +671,7 @@ public class XrayBruteforce extends Module {
 	private void updateRenderedOres() {
 		if (ores.size() > 0) {
 			for (RenderOre pos : ores.toArray(new RenderOre[0])) {
-				BlockState state = mc.world.getBlockState(pos.blockPos);
+				BlockState state = mc.level.getBlockState(pos.blockPos);
 				if (state.getBlock() == pos.block) {
 					pos.sBlock.update();
 				}
@@ -718,12 +718,12 @@ public class XrayBruteforce extends Module {
     private int renderedBlocks = 0;
     private void renderOreBlock(Render3DEvent event, RenderOre ore)
     {
-        if (ore.block != null && mc.world != null && ore.tracercolor != null && ore.sidecolor != null && ore.linecolor != null) {
-			BlockState state = mc.world.getBlockState(ore.blockPos);
-            VoxelShape shape = state.getOutlineShape(mc.world, ore.blockPos);
+        if (ore.block != null && mc.level != null && ore.tracercolor != null && ore.sidecolor != null && ore.linecolor != null) {
+			BlockState state = mc.level.getBlockState(ore.blockPos);
+            VoxelShape shape = state.getShape(mc.level, ore.blockPos);
 			ESPBlockData blockdata = getBlockData(ore.block);
 			if (shape.isEmpty()) return;
-            for (Box b : shape.getBoundingBoxes()) {
+            for (AABB b : shape.toAabbs()) {
                 event.renderer.box(ore.blockPos.getX() + b.minX, ore.blockPos.getY() + b.minY, ore.blockPos.getZ() + b.minZ, ore.blockPos.getX() + b.maxX, ore.blockPos.getY() + b.maxY, ore.blockPos.getZ() + b.maxZ, ore.sidecolor, ore.linecolor, blockdata.shapeMode, 0);
             }
 			if (blockdata.tracer) {
@@ -754,13 +754,13 @@ public class XrayBruteforce extends Module {
         }
 		if (currentScanBlock != null) {
 			BlockPos bp = currentScanBlock;
-			assert mc.world != null;
-			BlockState state = mc.world.getBlockState(bp);
-			VoxelShape shape = state.getOutlineShape(mc.world, bp);
+			assert mc.level != null;
+			BlockState state = mc.level.getBlockState(bp);
+			VoxelShape shape = state.getShape(mc.level, bp);
 
 			if (shape.isEmpty()) return;
 			if (outline.get()) {
-				for (Box b : shape.getBoundingBoxes()) {
+				for (AABB b : shape.toAabbs()) {
 					event.renderer.box(bp.getX() + b.minX, bp.getY() + b.minY, bp.getZ() + b.minZ, bp.getX() + b.maxX, bp.getY() + b.maxY, bp.getZ() + b.maxZ, new SettingColor(255, 255, 255, 255), outlineColor.get(), ShapeMode.Lines, 0);
 				}
 			}
@@ -774,7 +774,7 @@ public class XrayBruteforce extends Module {
 	private void onRenderOres(Render3DEvent event) {
 		renderOres(event);
 	}
-	private void addCaves(Chunk chunk) {
+	private void addCaves(ChunkAccess chunk) {
 		if (scanPriority.get() == ScanPriority.Caves) {
 			ArrayList<Block> caf = new ArrayList<Block>();
 			caf.add(Blocks.AIR);
@@ -801,18 +801,18 @@ public class XrayBruteforce extends Module {
 		}
 	}
 	private void addExposedBlocks() {
-		if (mc.world != null) {
-			Iterable<Chunk> chunks = Utils.chunks();
-			for (Chunk chunk : chunks) {
+		if (mc.level != null) {
+			Iterable<ChunkAccess> chunks = Utils.chunks();
+			for (ChunkAccess chunk : chunks) {
 				if (expanded.get()) {
 					ESPChunk s = ESPChunk.searchChunk(chunk, whblocks.get());
 					if (s.blocks != null) {
 						for (ESPBlock sBlock : s.blocks.values()) {
 							BlockPos pos = new BlockPos(sBlock.x, sBlock.y, sBlock.z);
-							if (whblocks.get().contains(mc.world.getBlockState(pos).getBlock())) {
+							if (whblocks.get().contains(mc.level.getBlockState(pos).getBlock())) {
 								if (isExposedOre(pos)) {
 									if (auto_dimension.get()) {
-										GenerationBlock generationBlock = GenerationBlock.getGenerationBlock(mc.world.getBlockState(pos).getBlock(), false);
+										GenerationBlock generationBlock = GenerationBlock.getGenerationBlock(mc.level.getBlockState(pos).getBlock(), false);
 										if (generationBlock != null && generationBlock.dimension == PlayerUtils.getDimension()) {
 											addBlock(pos, false);
 											List<BlockPos> post = getBlocks(pos, clusterRange.get(), clusterRange.get());
@@ -852,20 +852,20 @@ public class XrayBruteforce extends Module {
 	}
 
 	private boolean isExposedOre(BlockPos pos) {
-		if (mc.world != null) {
-			BlockState def = mc.world.getBlockState(pos);
+		if (mc.level != null) {
+			BlockState def = mc.level.getBlockState(pos);
 			if (whblocks.get().contains(def.getBlock())) {
-				if (isExposedBlock(mc.world.getBlockState(pos.add(0, 1, 0))))
+				if (isExposedBlock(mc.level.getBlockState(pos.offset(0, 1, 0))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(0, -1, 0))))
+				else if (isExposedBlock(mc.level.getBlockState(pos.offset(0, -1, 0))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(1, 0, 0))))
+				else if (isExposedBlock(mc.level.getBlockState(pos.offset(1, 0, 0))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(-1, 0, 0))))
+				else if (isExposedBlock(mc.level.getBlockState(pos.offset(-1, 0, 0))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(0, 0, 1))))
+				else if (isExposedBlock(mc.level.getBlockState(pos.offset(0, 0, 1))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(-0, 0, -1))))
+				else if (isExposedBlock(mc.level.getBlockState(pos.offset(-0, 0, -1))))
 					return true;
 			}
 		}
@@ -889,15 +889,15 @@ public class XrayBruteforce extends Module {
         if (blockpos == null) {
 			sucess = false;
 		}
-        ClientPlayNetworkHandler conn = mc.getNetworkHandler();
+        ClientPacketListener conn = mc.getConnection();
         if (conn == null) {
 			sucess = false;
 		}
-		if (mc.world == null) {
+		if (mc.level == null) {
 			sucess = false;
 		}
 		else {
-			BlockState state = mc.world.getBlockState(blockpos);
+			BlockState state = mc.level.getBlockState(blockpos);
 			if (state.getBlock() == Blocks.WALL_TORCH || state.getBlock() == Blocks.TORCH || state.getBlock() == Blocks.AIR || state.getBlock() == Blocks.LAVA || state.getBlock() == Blocks.WATER) {
 				sucess = false;
 			}
@@ -909,13 +909,13 @@ public class XrayBruteforce extends Module {
 
 		if (sucess) {
 			currentScanBlock = blockpos;
-			PlayerActionC2SPacket packet_one = getPacket(blockpos, packet_first);
+			ServerboundPlayerActionPacket packet_one = getPacket(blockpos, packet_first);
 			if (packet_one != null) {
-				conn.sendPacket(packet_one);
+				conn.send(packet_one);
 			}
-			PlayerActionC2SPacket packet_tw = getPacket(blockpos, packet_two);
+			ServerboundPlayerActionPacket packet_tw = getPacket(blockpos, packet_two);
 			if (packet_tw != null) {
-				conn.sendPacket(packet_tw);
+				conn.send(packet_tw);
 			}
 			addNeedRescan(blockpos, rescanerDelay.get());
 		}
@@ -928,17 +928,17 @@ public class XrayBruteforce extends Module {
         return sucess;
     }
 
-	private PlayerActionC2SPacket getPacket(BlockPos blockpos, Setting<PacketMode> setting) {
+	private ServerboundPlayerActionPacket getPacket(BlockPos blockpos, Setting<PacketMode> setting) {
 		if (setting.get() == PacketMode.Abort) {
-			PlayerActionC2SPacket abort = new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
+			ServerboundPlayerActionPacket abort = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
 			return abort;
 		}
 		else if (setting.get() == PacketMode.Start) {
-			PlayerActionC2SPacket start = new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
+			ServerboundPlayerActionPacket start = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
 			return start;
 		}
 		else if (setting.get() == PacketMode.Stop) {
-			PlayerActionC2SPacket stop = new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
+			ServerboundPlayerActionPacket stop = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
 			return stop;
 		}
 		return null;
@@ -1006,9 +1006,9 @@ public class XrayBruteforce extends Module {
 
     private void addRandomBlock() {
 		assert mc.player != null;
-		int x = Utils.random(mc.player.getBlockPos().getX() -range.get(), mc.player.getBlockPos().getX() + range.get());
+		int x = Utils.random(mc.player.blockPosition().getX() -range.get(), mc.player.blockPosition().getX() + range.get());
         int y;
-        int z = Utils.random(mc.player.getBlockPos().getZ() -range.get(), mc.player.getBlockPos().getZ() + range.get());
+        int z = Utils.random(mc.player.blockPosition().getZ() -range.get(), mc.player.blockPosition().getZ() + range.get());
 
         if (auto_height.get())
         {
@@ -1029,7 +1029,7 @@ public class XrayBruteforce extends Module {
 					}
 				}
 				else if (b == null) {
-					y = Utils.random(mc.player.getBlockPos().getY() -y_range.get(), mc.player.getBlockPos().getY() + y_range.get());
+					y = Utils.random(mc.player.blockPosition().getY() -y_range.get(), mc.player.blockPosition().getY() + y_range.get());
 					if (!scanned.contains(new BlockPos(x, y, z))) {
 						addBlock(new BlockPos(x, y, z), false);
 					}
@@ -1037,7 +1037,7 @@ public class XrayBruteforce extends Module {
 			}
         }
 		else {
-			y = Utils.random(mc.player.getBlockPos().getY() -y_range.get(), mc.player.getBlockPos().getY() + y_range.get());
+			y = Utils.random(mc.player.blockPosition().getY() -y_range.get(), mc.player.blockPosition().getY() + y_range.get());
 			if (!scanned.contains(new BlockPos(x, y, z))) {
 				if (auto_dimension.get() && PlayerUtils.getDimension() == Dimension.Overworld) {
 					addBlock(new BlockPos(x, y, z), false);
@@ -1063,8 +1063,8 @@ public class XrayBruteforce extends Module {
 			while (iterator.hasNext()) {
 				BlockScanned blockscanned = iterator.next();
 				if (timeSinceLastTick <= 1f) {
-					if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() >= blockscanned.rescanTime && mc.world != null) {
-						BlockState state = mc.world.getBlockState(blockscanned.pos);
+					if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() >= blockscanned.rescanTime && mc.level != null) {
+						BlockState state = mc.level.getBlockState(blockscanned.pos);
 						if (whblocks.get().contains(state.getBlock())) {
 							addRenderBlock(blockscanned.pos);
 							for (BlockPos pos : getBlocks(blockscanned.pos, clusterRange.get(), clusterRange.get())) {
@@ -1150,8 +1150,8 @@ public class XrayBruteforce extends Module {
             if ((startPos.getY() + dy) < -60 || (startPos.getY() + dy) > 360) continue;
             for (int dz = -radius; dz <= radius; dz++) {
                 for (int dx = -radius; dx <= radius; dx++) {
-                    BlockPos blockPos = startPos.add(dx, dy, dz);
-					BlockState state = mc.world.getBlockState(blockPos);
+                    BlockPos blockPos = startPos.offset(dx, dy, dz);
+					BlockState state = mc.level.getBlockState(blockPos);
 					boolean isInRenderDistance = EntityUtils.isInRenderDistance(blockPos);
 					boolean isBlockPosNotInList = !scanned.contains(blockPos);
                     if (isInRenderDistance && isBlockPosNotInList) {

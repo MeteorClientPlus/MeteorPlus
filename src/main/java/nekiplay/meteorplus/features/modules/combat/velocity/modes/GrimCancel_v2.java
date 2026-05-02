@@ -3,14 +3,14 @@ package nekiplay.meteorplus.features.modules.combat.velocity.modes;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import nekiplay.meteorplus.features.modules.combat.velocity.VelocityMode;
 import nekiplay.meteorplus.features.modules.combat.velocity.VelocityModes;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
-import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.network.protocol.game.ClientboundExplodePacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 
 public class GrimCancel_v2 extends VelocityMode {
 	public GrimCancel_v2() {
@@ -37,11 +37,11 @@ public class GrimCancel_v2 extends VelocityMode {
 	public void onReceivePacket(PacketEvent.Receive event) {
 		Packet<?> packet = event.packet;
 
-		if (((packet instanceof EntityVelocityUpdateS2CPacket && ((EntityVelocityUpdateS2CPacket) packet).getEntityId() == mc.player.getId()) || packet instanceof ExplosionS2CPacket) && canCancel) {
+		if (((packet instanceof ClientboundSetEntityMotionPacket && ((ClientboundSetEntityMotionPacket) packet).getId() == mc.player.getId()) || packet instanceof ClientboundExplodePacket) && canCancel) {
 			event.cancel();
 			canCancel = true;
 		}
-		else if (packet instanceof PlayerPositionLookS2CPacket) {
+		else if (packet instanceof ClientboundPlayerPositionPacket) {
 			skip = 3;
 		}
 	}
@@ -50,12 +50,12 @@ public class GrimCancel_v2 extends VelocityMode {
 	public void onSendPacket(PacketEvent.Send event) {
 		Packet<?> packet = event.packet;
 
-		if (packet instanceof PlayerMoveC2SPacket) {
+		if (packet instanceof ServerboundMovePlayerPacket) {
 			skip--;
 			if (canCancel) {
 				if (skip <= 0) {
-					mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround(), mc.player.horizontalCollision));
-					mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, mc.player.getBlockPos(), Direction.UP));
+					mc.getConnection().send(new ServerboundMovePlayerPacket.PosRot(mc.player.getX(), mc.player.getY(), mc.player.getZ(), mc.player.getYRot(), mc.player.getXRot(), mc.player.onGround(), mc.player.horizontalCollision));
+					mc.getConnection().send(new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, mc.player.blockPosition(), Direction.UP));
 				}
 			}
 		}

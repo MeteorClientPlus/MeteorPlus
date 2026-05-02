@@ -5,7 +5,7 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.ElytraFly;
 import nekiplay.meteorplus.features.modules.movement.NoJumpDelay;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyPlus;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,16 +20,16 @@ public class LivingEntityMixin {
 	protected boolean jumping;
 
 	@Shadow
-	private int jumpingCooldown;
+	private int noJumpDelay;
 
-	@Inject(method = "tickMovement", at = @At("HEAD"))
+	@Inject(method = "aiStep", at = @At("HEAD"))
 	private void hookTickMovement(CallbackInfo ci) {
 		Modules modules = Modules.get();
 		if (modules != null) {
 			NoJumpDelay noJumpDelay = modules.get(NoJumpDelay.class);
 			if (noJumpDelay != null) {
 				if (noJumpDelay.isActive()) {
-					jumpingCooldown = 0;
+					noJumpDelay = 0;
 				}
 			}
 		}

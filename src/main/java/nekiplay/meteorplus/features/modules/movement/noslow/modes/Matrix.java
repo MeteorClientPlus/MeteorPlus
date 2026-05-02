@@ -4,7 +4,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowMode;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowModes;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowPlus;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.phys.Vec3;
 
 public class Matrix extends NoSlowMode {
 	public Matrix() {
@@ -20,14 +20,14 @@ public class Matrix extends NoSlowMode {
 	@Override
 	public void onTickEventPre(TickEvent.Pre event) {
 		if (mc.player.isUsingItem()) {
-			if (mc.player.isOnGround()) {
+			if (mc.player.onGround()) {
 				if (ticks % 2 == 0) {
 					float speed = 0.4f;
-					Vec3d vel = mc.player.getVelocity();
-					double x = vel.getX() * speed;
-					double z = vel.getZ() * speed;
+					Vec3 vel = mc.player.getDeltaMovement();
+					double x = vel.x() * speed;
+					double z = vel.z() * speed;
 
-					mc.player.setVelocity(x, vel.getY(), z);
+					mc.player.setDeltaMovement(x, vel.y(), z);
 				}
 			}
 		}

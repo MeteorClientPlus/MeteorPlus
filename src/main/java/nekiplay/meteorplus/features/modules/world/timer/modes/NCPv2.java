@@ -32,7 +32,7 @@ public class NCPv2 extends TimerMode {
 				if (settings.isActive()) {
 					if (settings.onlyInMove.get() && PlayerUtils.isMoving()) {
 						workingTimer++;
-						if (mc.player.isOnGround()) {
+						if (mc.player.onGround()) {
 							timer.setOverride(timerMultiplier);
 						}
 						else {
@@ -41,7 +41,7 @@ public class NCPv2 extends TimerMode {
 					}
 					else if (!settings.onlyInMove.get()) {
 						workingTimer++;
-						if (mc.player.isOnGround()) {
+						if (mc.player.onGround()) {
 							timer.setOverride(timerMultiplier);
 						}
 						else {

@@ -11,10 +11,10 @@ import meteordevelopment.meteorclient.utils.player.EChestMemory;
 import meteordevelopment.meteorclient.utils.tooltip.ContainerTooltipComponent;
 import meteordevelopment.meteorclient.utils.tooltip.TextTooltipComponent;
 import nekiplay.meteorplus.utils.ColorRemover;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,16 +47,16 @@ public class BetterTooltipsMixin extends Module {
 	private final Setting<BetterTooltips.DisplayWhen> displayWhen = (Setting<BetterTooltips.DisplayWhen>)sgGeneral.get("display-when");
 
 
-	@ModifyArgs(method = "appendTooltip", at = @At(value = "INVOKE", target = "Lmeteordevelopment/meteorclient/events/game/ItemStackTooltipEvent;appendStart(Lnet/minecraft/text/Text;)V"))
+	@ModifyArgs(method = "appendTooltip", at = @At(value = "INVOKE", target = "Lmeteordevelopment/meteorclient/events/game/ItemStackTooltipEvent;appendStart(Lnet/minecraft/network/chat/Component;)V"))
 	private void appendTooltipStart(Args args) {
-		Text text = args.get(0);
+		Component text = args.get(0);
 		String str = ColorRemover.GetVerbatim(text.getString());
 		if (str.startsWith("Honey level:")) {
 			Pattern pattern = Pattern.compile("Honey level: (.*)");
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.find()) {
 				String val = matcher.group(1).replaceAll("\\.", "");
-				args.set(0, Text.literal(I18n.translate("modules.meteor-client.better-tooltips.beehive.honey-level", val)));
+				args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.beehive.honey-level", val)));
 			}
 		}
 		else if (str.startsWith("Bees:")) {
@@ -64,14 +64,14 @@ public class BetterTooltipsMixin extends Module {
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.find()) {
 				String val = matcher.group(1).replaceAll("\\.", "");
-				args.set(0, Text.literal(I18n.translate("modules.meteor-client.better-tooltips.beehive.bees", val)));
+				args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.beehive.bees", val)));
 			}
 		}
 	}
 
-	@ModifyArgs(method = "appendTooltip", at = @At(value = "INVOKE", target = "Lmeteordevelopment/meteorclient/events/game/ItemStackTooltipEvent;appendEnd(Lnet/minecraft/text/Text;)V"))
+	@ModifyArgs(method = "appendTooltip", at = @At(value = "INVOKE", target = "Lmeteordevelopment/meteorclient/events/game/ItemStackTooltipEvent;appendEnd(Lnet/minecraft/network/chat/Component;)V"))
 	private void appendTooltipEnd(Args args) {
-		Text text = args.get(0);
+		Component text = args.get(0);
 		String str = ColorRemover.GetVerbatim(text.getString());
 
 		if (str.endsWith("kb")) {
@@ -79,7 +79,7 @@ public class BetterTooltipsMixin extends Module {
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.find()) {
 				String val = matcher.group(1);
-				args.set(0, Text.literal(I18n.translate("modules.meteor-client.better-tooltips.kilobytes", val)));
+				args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.kilobytes", val)));
 			}
 		}
 		else if (str.endsWith("bytes")) {
@@ -87,20 +87,20 @@ public class BetterTooltipsMixin extends Module {
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.find()) {
 				String val = matcher.group(1);
-				args.set(0, Text.literal(I18n.translate("modules.meteor-client.better-tooltips.bytes", val)));
+				args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.bytes", val)));
 			}
 		}
 		else if (str.equals("Error getting bytes.")) {
-			args.set(0, Text.literal(I18n.translate("modules.meteor-client.better-tooltips.error-getting-bytes")));
+			args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.error-getting-bytes")));
 		}
 	}
 
-	@ModifyArgs(method = "appendPreviewTooltipText", at = @At(value = "INVOKE", target = "Lmeteordevelopment/meteorclient/events/game/ItemStackTooltipEvent;appendEnd(Lnet/minecraft/text/Text;)V"))
+	@ModifyArgs(method = "appendPreviewTooltipText", at = @At(value = "INVOKE", target = "Lmeteordevelopment/meteorclient/events/game/ItemStackTooltipEvent;appendEnd(Lnet/minecraft/network/chat/Component;)V"))
 	private void appendPreviewTooltipTextEnd(Args args) {
-		Text text = args.get(0);
+		Component text = args.get(0);
 		String str = ColorRemover.GetVerbatim(text.getString());
 		if (str.endsWith("to preview")) {
-			args.set(0, Text.literal(I18n.translate("modules.meteor-client.better-tooltips.hold-to-preview", keybind)));
+			args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.hold-to-preview", keybind)));
 		}
 	}
 
@@ -109,7 +109,7 @@ public class BetterTooltipsMixin extends Module {
 		if (event.itemStack.getItem() == Items.ENDER_CHEST && previewEChest()) {
 			event.tooltipData = EChestMemory.isKnown()
 				? new ContainerTooltipComponent(EChestMemory.ITEMS.toArray(new ItemStack[27]), ECHEST_COLOR)
-				: new TextTooltipComponent(Text.literal(I18n.translate("modules.meteor-client.better-tooltips.unknown-inventory")));
+				: new TextTooltipComponent(Component.literal(I18n.get("modules.meteor-client.better-tooltips.unknown-inventory")));
 		}
 	}
 

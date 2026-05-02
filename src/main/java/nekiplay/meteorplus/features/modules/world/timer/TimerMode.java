@@ -4,10 +4,10 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public class TimerMode {
-	protected final MinecraftClient mc;
+	protected final Minecraft mc;
 	protected final TimerPlus settings;
 	private final TimerModes type;
 	protected Timer timer;
@@ -15,7 +15,7 @@ public class TimerMode {
 	public TimerMode(TimerModes type) {
 		this.timer = Modules.get().get(Timer.class);;
 		this.settings = Modules.get().get(TimerPlus.class);;
-		this.mc = MinecraftClient.getInstance();
+		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
 

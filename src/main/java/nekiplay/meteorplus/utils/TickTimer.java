@@ -1,6 +1,6 @@
 package nekiplay.meteorplus.utils;
 
-import nekiplay.meteorplus.mixin.minecraft.ClientConnectionAccessor;
+import nekiplay.meteorplus.mixin.minecraft.ConnectionAccessor;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -35,10 +35,10 @@ public class TickTimer {
 	}
 
 	private static int ticks() {
-		var handler = mc.getNetworkHandler();
+		var handler = mc.getConnection();
 		if (handler == null) return -1;
 
-		return ((ClientConnectionAccessor)handler.getConnection()).getTicks();
+		return ((ConnectionAccessor)handler.getConnection()).getTickCount();
 	}
 
 }

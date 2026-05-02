@@ -9,10 +9,10 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.combat.Criticals;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -41,7 +41,7 @@ public class CriticalsMixin extends Module {
 
 	@Inject(method = "onSendPacket", at = @At("HEAD"), cancellable = true)
 	private void onSendPacket(PacketEvent.Send event, CallbackInfo ci) {
-		if (event.packet instanceof IPlayerInteractEntityC2SPacket packet && packet.meteor$getType() == PlayerInteractEntityC2SPacket.InteractType.ATTACK) {
+		if (event.packet instanceof IPlayerInteractEntityC2SPacket packet && packet.meteor$getType() == ServerboundInteractPacket.ActionType.ATTACK) {
 			if (skipCrit()) { ci.cancel(); return; }
 
 			Entity entity = packet.meteor$getEntity();

@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.features.modules.combat.killaura.modes.Matrix;
-import net.minecraft.entity.EntityType;
+import net.minecraft.world.entity.EntityType;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.util.ArrayList;

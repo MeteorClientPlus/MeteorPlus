@@ -10,8 +10,8 @@ import meteordevelopment.orbit.EventHandler;
 import nekiplay.MixinPlugin;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.modes.Cauldrons;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.modes.Portals;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.core.BlockPos;
 
 public class AutoObsidianFarm extends Module {
 	public AutoObsidianFarm() {
@@ -219,7 +219,7 @@ public class AutoObsidianFarm extends Module {
 
 	@EventHandler
 	private void onMovePacket(PacketEvent.Send event) {
-		if (event.packet instanceof PlayerMoveC2SPacket playerMove) {
+		if (event.packet instanceof ServerboundMovePlayerPacket playerMove) {
 			if (currentMode != null) {
 				currentMode.onMovePacket(playerMove);
 			}

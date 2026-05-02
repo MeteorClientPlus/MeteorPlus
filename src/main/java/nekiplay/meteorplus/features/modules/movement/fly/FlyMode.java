@@ -7,16 +7,16 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.CollisionShapeEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public class FlyMode {
-	protected final MinecraftClient mc;
+	protected final Minecraft mc;
 	protected final FlyPlus settings;
 	private final FlyModes type;
 
 	public FlyMode(FlyModes type) {
 		this.settings = Modules.get().get(FlyPlus.class);
-		this.mc = MinecraftClient.getInstance();
+		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
 

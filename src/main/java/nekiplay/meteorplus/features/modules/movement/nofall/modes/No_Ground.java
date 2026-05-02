@@ -4,7 +4,7 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.mixininterface.IPlayerMoveC2SPacket;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallMode;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
-import nekiplay.meteorplus.mixin.minecraft.entity.PlayerMoveC2SPacketAccessor;
+import nekiplay.meteorplus.mixin.minecraft.entity.ServerboundMovePlayerPacketAccessor;
 
 public class No_Ground extends NoFallMode {
 	/*
@@ -17,7 +17,7 @@ public class No_Ground extends NoFallMode {
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
 		if (event.packet instanceof IPlayerMoveC2SPacket move) {
-			PlayerMoveC2SPacketAccessor move2 = (PlayerMoveC2SPacketAccessor) move;
+			ServerboundMovePlayerPacketAccessor move2 = (ServerboundMovePlayerPacketAccessor) move;
 			if (move2.getOnGround()) {
 				move2.setOnGround(false);
 			}

@@ -10,8 +10,8 @@ import meteordevelopment.meteorclient.utils.misc.IChangeable;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Names;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class ItemDataSettingScreen extends WindowScreen {
 	}
 
 	public <T extends ICopyable<T> & ISerializable<T> & IChangeable & IItemData<T>> void initTable() {
-		for (Item Item : Registries.ITEM) {
+		for (Item Item : BuiltInRegistries.ITEM) {
 			T blockData = (T) setting.get().get(Item);
 
 			if (blockData != null && blockData.isChanged()) BLOCKS.add(0, Item);
@@ -63,7 +63,7 @@ public class ItemDataSettingScreen extends WindowScreen {
 
 			T blockData = (T) setting.get().get(block);
 
-			table.add(theme.itemWithLabel(block.asItem().getDefaultStack(), Names.get(block))).expandCellX();
+			table.add(theme.itemWithLabel(block.asItem().getDefaultInstance(), Names.get(block))).expandCellX();
 			table.add(theme.label((blockData != null && blockData.isChanged()) ? "*" : " "));
 
 			WButton edit = table.add(theme.button(GuiRenderer.EDIT)).widget();

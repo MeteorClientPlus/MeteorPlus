@@ -8,12 +8,12 @@ import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallMode;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.world.RaycastContext;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.item.Items;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.ClipContext;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import nekiplay.meteorplus.utils.ElytraUtils;
 
@@ -40,19 +40,19 @@ public class Eclip extends NoFallMode {
 		}
 		else {
 
-			if (mc.player.isOnGround() && groundcheck) {
+			if (mc.player.onGround() && groundcheck) {
 				groundcheck = false;
 				cliped = false;
 				ChatUtils.infoPrefix("No Fall Plus", "Grounded in " + teleports + " teleports");
 				mc.player.fallDistance = 0;
 				teleports = 0;
 			} else if (mc.player.fallDistance > 3) {
-				BlockHitResult result = mc.world.raycast(new RaycastContext(mc.player.getEntityPos(), mc.player.getEntityPos().subtract(0, 10, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player));
+				BlockHitResult result = mc.level.clip(new ClipContext(mc.player.position(), mc.player.position().subtract(0, 10, 0), ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, mc.player));
 				if (result != null && result.getType() == HitResult.Type.BLOCK) {
-					blocks = result.getBlockPos().add(0, 1, 0).getY();
+					blocks = result.getBlockPos().offset(0, 1, 0).getY();
 					cliped = true;
 				} else if (result == null || result.getType() == HitResult.Type.MISS) {
-					blocks = (int) mc.player.getEntityPos().y - 10;
+					blocks = (int) mc.player.position().y - 10;
 					cliped = true;
 				}
 			}
@@ -65,14 +65,14 @@ public class Eclip extends NoFallMode {
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
 		if (!groundcheck) return;
-		if (!(event.packet instanceof PlayerMoveC2SPacket)
+		if (!(event.packet instanceof ServerboundMovePlayerPacket)
 			|| ((IPlayerMoveC2SPacket) event.packet).meteor$getTag() == 1337) return;
 		((PlayerMoveC2SPacketAccessor) event.packet).meteor$setOnGround(true);
 	}
 
 	private void clip() {
 		if (blocks != 0) {
-			ClientPlayerEntity player = mc.player;
+			LocalPlayer player = mc.player;
 			assert player != null;
 			switch (ticks) {
 				case 0: {
@@ -83,11 +83,11 @@ public class Eclip extends NoFallMode {
 				}
 				case 1: {
 					groundcheck = true;
-					mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false, mc.player.horizontalCollision));
+					mc.player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(false, mc.player.horizontalCollision));
 					ticks++;
 				}
 				case 2: {
-					mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false, mc.player.horizontalCollision));
+					mc.player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(false, mc.player.horizontalCollision));
 					ticks++;
 				}
 				case 3: {
@@ -95,8 +95,8 @@ public class Eclip extends NoFallMode {
 					ticks++;
 				}
 				case 4: {
-					player.setPosition(player.getX(), blocks, player.getZ());
-					mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(player.getX(), blocks, player.getZ(), true, mc.player.horizontalCollision));
+					player.setPos(player.getX(), blocks, player.getZ());
+					mc.player.connection.send(new ServerboundMovePlayerPacket.Pos(player.getX(), blocks, player.getZ(), true, mc.player.horizontalCollision));
 					teleports++;
 					ticks++;
 				}

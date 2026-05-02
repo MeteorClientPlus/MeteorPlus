@@ -10,21 +10,21 @@ import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.meteorplus.features.modules.world.timer.TimerPlus;
 import nekiplay.meteorplus.mixinclasses.SpoofMode;
-import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.stat.Stat;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Holder;
+import net.minecraft.stats.Stat;
+import net.minecraft.stats.Stats;
+import net.minecraft.resources.Identifier;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.StringUtils;
 import org.meteordev.starscript.Starscript;
 import org.meteordev.starscript.Script;
@@ -98,14 +98,14 @@ public class ConfigModifier {
 				ss.set("camera", new ValueMap()
 					.set("pos", new ValueMap()
 						.set("_toString", () -> posString(false, true))
-						.set("x", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().x + ConfigModifier.get().x_spoof.get()))
-						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
-						.set("z", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().z + ConfigModifier.get().z_spoof.get()))
+						.set("x", () -> Value.number(mc.gameRenderer.getMainCamera().position().x + ConfigModifier.get().x_spoof.get()))
+						.set("y", () -> Value.number(mc.gameRenderer.getMainCamera().position().y))
+						.set("z", () -> Value.number(mc.gameRenderer.getMainCamera().position().z + ConfigModifier.get().z_spoof.get()))
 					)
 					.set("opposite_dim_pos", new ValueMap()
 						.set("_toString", () -> posString(true, true))
 						.set("x", () -> oppositeX(true))
-						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
+						.set("y", () -> Value.number(mc.gameRenderer.getMainCamera().position().y))
 						.set("z", () -> oppositeZ(true))
 					)
 
@@ -117,12 +117,12 @@ public class ConfigModifier {
 
 				// Player
 				ss.set("player", new ValueMap()
-					.set("_toString", () -> Value.string(mc.getSession().getUsername()))
+					.set("_toString", () -> Value.string(mc.getUser().getName()))
 					.set("health", () -> Value.number(mc.player != null ? mc.player.getHealth() : 0))
 					.set("absorption", () -> Value.number(mc.player != null ? mc.player.getAbsorptionAmount() : 0))
-					.set("hunger", () -> Value.number(mc.player != null ? mc.player.getHungerManager().getFoodLevel() : 0))
+					.set("hunger", () -> Value.number(mc.player != null ? mc.player.getFoodData().getFoodLevel() : 0))
 
-					.set("speed", () -> Value.number(Utils.getPlayerSpeed().horizontalLength()))
+					.set("speed", () -> Value.number(Utils.getPlayerSpeed().horizontalDistance()))
 					.set("speed_all", new ValueMap()
 						.set("_toString", () -> Value.string(mc.player != null ? Utils.getPlayerSpeed().toString() : ""))
 						.set("x", () -> Value.number(mc.player != null ? Utils.getPlayerSpeed().x : 0))
@@ -130,7 +130,7 @@ public class ConfigModifier {
 						.set("z", () -> Value.number(mc.player != null ? Utils.getPlayerSpeed().z : 0))
 					)
 
-					.set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getBreakingProgress() : 0))
+					.set("breaking_progress", () -> Value.number(mc.gameMode != null ? ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getBreakingProgress() : 0))
 					.set("biome", ConfigModifier::biome)
 
 					.set("dimension", () -> Value.string(PlayerUtils.getDimension().name()))
@@ -154,8 +154,8 @@ public class ConfigModifier {
 					.set("pitch", () -> pitch(false))
 					.set("direction", () -> direction(false))
 
-					.set("hand", () -> mc.player != null ? wrap(mc.player.getMainHandStack()) : Value.null_())
-					.set("offhand", () -> mc.player != null ? wrap(mc.player.getOffHandStack()) : Value.null_())
+					.set("hand", () -> mc.player != null ? wrap(mc.player.getMainHandItem()) : Value.null_())
+					.set("offhand", () -> mc.player != null ? wrap(mc.player.getOffhandItem()) : Value.null_())
 					.set("hand_or_offhand", ConfigModifier::handOrOffhand)
 					.set("get_item", ConfigModifier::getItem)
 					.set("count_items", ConfigModifier::countItems)
@@ -177,13 +177,13 @@ public class ConfigModifier {
 					.set("pos", new ValueMap()
 						.set("_toString", () -> posString(false, true))
 						.set("x", () -> Value.number(0))
-						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
+						.set("y", () -> Value.number(mc.gameRenderer.getMainCamera().position().y))
 						.set("z", () -> Value.number(0))
 					)
 					.set("opposite_dim_pos", new ValueMap()
 						.set("_toString", () -> posString(true, true))
 						.set("x", () -> Value.number(0))
-						.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
+						.set("y", () -> Value.number(mc.gameRenderer.getMainCamera().position().y))
 						.set("z", () -> Value.number(0))
 					)
 
@@ -195,12 +195,12 @@ public class ConfigModifier {
 
 				// Player
 				ss.set("player", new ValueMap()
-					.set("_toString", () -> Value.string(mc.getSession().getUsername()))
+					.set("_toString", () -> Value.string(mc.getUser().getName()))
 					.set("health", () -> Value.number(mc.player != null ? mc.player.getHealth() : 0))
 					.set("absorption", () -> Value.number(mc.player != null ? mc.player.getAbsorptionAmount() : 0))
-					.set("hunger", () -> Value.number(mc.player != null ? mc.player.getHungerManager().getFoodLevel() : 0))
+					.set("hunger", () -> Value.number(mc.player != null ? mc.player.getFoodData().getFoodLevel() : 0))
 
-					.set("speed", () -> Value.number(Utils.getPlayerSpeed().horizontalLength()))
+					.set("speed", () -> Value.number(Utils.getPlayerSpeed().horizontalDistance()))
 					.set("speed_all", new ValueMap()
 						.set("_toString", () -> Value.string(mc.player != null ? Utils.getPlayerSpeed().toString() : ""))
 						.set("x", () -> Value.number(0))
@@ -208,7 +208,7 @@ public class ConfigModifier {
 						.set("z", () -> Value.number(0))
 					)
 
-					.set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getBreakingProgress() : 0))
+					.set("breaking_progress", () -> Value.number(mc.gameMode != null ? ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getBreakingProgress() : 0))
 					.set("biome", ConfigModifier::biome)
 
 					.set("dimension", () -> Value.string(PlayerUtils.getDimension().name()))
@@ -232,8 +232,8 @@ public class ConfigModifier {
 					.set("pitch", () -> pitch(false))
 					.set("direction", () -> direction(false))
 
-					.set("hand", () -> mc.player != null ? wrap(mc.player.getMainHandStack()) : Value.null_())
-					.set("offhand", () -> mc.player != null ? wrap(mc.player.getOffHandStack()) : Value.null_())
+					.set("hand", () -> mc.player != null ? wrap(mc.player.getMainHandItem()) : Value.null_())
+					.set("offhand", () -> mc.player != null ? wrap(mc.player.getOffhandItem()) : Value.null_())
 					.set("hand_or_offhand", ConfigModifier::handOrOffhand)
 					.set("get_item", ConfigModifier::getItem)
 					.set("count_items", ConfigModifier::countItems)
@@ -255,14 +255,14 @@ public class ConfigModifier {
 			ss.set("camera", new ValueMap()
 				.set("pos", new ValueMap()
 					.set("_toString", () -> posString(false, true))
-					.set("x", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().x))
-					.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
-					.set("z", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().z))
+					.set("x", () -> Value.number(mc.gameRenderer.getMainCamera().position().x))
+					.set("y", () -> Value.number(mc.gameRenderer.getMainCamera().position().y))
+					.set("z", () -> Value.number(mc.gameRenderer.getMainCamera().position().z))
 				)
 				.set("opposite_dim_pos", new ValueMap()
 					.set("_toString", () -> posString(true, true))
 					.set("x", () -> oppositeX(true))
-					.set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
+					.set("y", () -> Value.number(mc.gameRenderer.getMainCamera().position().y))
 					.set("z", () -> oppositeZ(true))
 				)
 
@@ -273,12 +273,12 @@ public class ConfigModifier {
 
 			// Player
 			ss.set("player", new ValueMap()
-				.set("_toString", () -> Value.string(mc.getSession().getUsername()))
+				.set("_toString", () -> Value.string(mc.getUser().getName()))
 				.set("health", () -> Value.number(mc.player != null ? mc.player.getHealth() : 0))
 				.set("absorption", () -> Value.number(mc.player != null ? mc.player.getAbsorptionAmount() : 0))
-				.set("hunger", () -> Value.number(mc.player != null ? mc.player.getHungerManager().getFoodLevel() : 0))
+				.set("hunger", () -> Value.number(mc.player != null ? mc.player.getFoodData().getFoodLevel() : 0))
 
-				.set("speed", () -> Value.number(Utils.getPlayerSpeed().horizontalLength()))
+				.set("speed", () -> Value.number(Utils.getPlayerSpeed().horizontalDistance()))
 				.set("speed_all", new ValueMap()
 					.set("_toString", () -> Value.string(mc.player != null ? Utils.getPlayerSpeed().toString() : ""))
 					.set("x", () -> Value.number(mc.player != null ? Utils.getPlayerSpeed().x : 0))
@@ -286,7 +286,7 @@ public class ConfigModifier {
 					.set("z", () -> Value.number(mc.player != null ? Utils.getPlayerSpeed().z : 0))
 				)
 
-				.set("breaking_progress", () -> Value.number(mc.interactionManager != null ? ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).meteor$getBreakingProgress() : 0))
+				.set("breaking_progress", () -> Value.number(mc.gameMode != null ? ((ClientPlayerInteractionManagerAccessor) mc.gameMode).meteor$getBreakingProgress() : 0))
 				.set("biome", ConfigModifier::biome)
 
 				.set("dimension", () -> Value.string(PlayerUtils.getDimension().name()))
@@ -310,8 +310,8 @@ public class ConfigModifier {
 				.set("pitch", () -> pitch(false))
 				.set("direction", () -> direction(false))
 
-				.set("hand", () -> mc.player != null ? wrap(mc.player.getMainHandStack()) : Value.null_())
-				.set("offhand", () -> mc.player != null ? wrap(mc.player.getOffHandStack()) : Value.null_())
+				.set("hand", () -> mc.player != null ? wrap(mc.player.getMainHandItem()) : Value.null_())
+				.set("offhand", () -> mc.player != null ? wrap(mc.player.getOffhandItem()) : Value.null_())
 				.set("hand_or_offhand", ConfigModifier::handOrOffhand)
 				.set("get_item", ConfigModifier::getItem)
 				.set("count_items", ConfigModifier::countItems)
@@ -333,10 +333,10 @@ public class ConfigModifier {
 	private Value oppositeX(boolean camera) {
 		double x = 0;
 		if (positionProtection.get()) {
-			x = camera ? mc.gameRenderer.getCamera().getCameraPos().x + ConfigModifier.get().x_spoof.get() : (mc.player != null ? mc.player.getX() + ConfigModifier.get().x_spoof.get() : 0);
+			x = camera ? mc.gameRenderer.getMainCamera().position().x + ConfigModifier.get().x_spoof.get() : (mc.player != null ? mc.player.getX() + ConfigModifier.get().x_spoof.get() : 0);
 		}
 		else {
-			x = camera ? mc.gameRenderer.getCamera().getCameraPos().x : (mc.player != null ? mc.player.getX() : 0);
+			x = camera ? mc.gameRenderer.getMainCamera().position().x : (mc.player != null ? mc.player.getX() : 0);
 		}
 		Dimension dimension = PlayerUtils.getDimension();
 
@@ -349,10 +349,10 @@ public class ConfigModifier {
 	private Value oppositeZ(boolean camera) {
 		double z = 0;
 		if (positionProtection.get()) {
-			z = camera ? mc.gameRenderer.getCamera().getCameraPos().z + ConfigModifier.get().z_spoof.get() : (mc.player != null ? mc.player.getZ() + ConfigModifier.get().z_spoof.get() : 0);
+			z = camera ? mc.gameRenderer.getMainCamera().position().z + ConfigModifier.get().z_spoof.get() : (mc.player != null ? mc.player.getZ() + ConfigModifier.get().z_spoof.get() : 0);
 		}
 		else {
-			z = camera ? mc.gameRenderer.getCamera().getCameraPos().z : (mc.player != null ? mc.player.getZ() : 0);
+			z = camera ? mc.gameRenderer.getMainCamera().position().z : (mc.player != null ? mc.player.getZ() : 0);
 		}
 		Dimension dimension = PlayerUtils.getDimension();
 
@@ -364,8 +364,8 @@ public class ConfigModifier {
 
 	private static Value yaw(boolean camera) {
 		float yaw;
-		if (camera) yaw = mc.gameRenderer.getCamera().getYaw();
-		else yaw = mc.player != null ? mc.player.getYaw() : 0;
+		if (camera) yaw = mc.gameRenderer.getMainCamera().yRot();
+		else yaw = mc.player != null ? mc.player.getYRot() : 0;
 		yaw %= 360;
 
 		if (yaw < 0) yaw += 360;
@@ -376,8 +376,8 @@ public class ConfigModifier {
 
 	private static Value pitch(boolean camera) {
 		float pitch;
-		if (camera) pitch = mc.gameRenderer.getCamera().getPitch();
-		else pitch = mc.player != null ? mc.player.getPitch() : 0;
+		if (camera) pitch = mc.gameRenderer.getMainCamera().xRot();
+		else pitch = mc.player != null ? mc.player.getXRot() : 0;
 		pitch %= 360;
 
 		if (pitch < 0) pitch += 360;
@@ -388,17 +388,17 @@ public class ConfigModifier {
 
 	private static Value direction(boolean camera) {
 		float yaw;
-		if (camera) yaw = mc.gameRenderer.getCamera().getYaw();
-		else yaw = mc.player != null ? mc.player.getYaw() : 0;
+		if (camera) yaw = mc.gameRenderer.getMainCamera().yRot();
+		else yaw = mc.player != null ? mc.player.getYRot() : 0;
 
 		return wrap(HorizontalDirection.get(yaw));
 	}
-	private static final BlockPos.Mutable BP = new BlockPos.Mutable();
+	private static final BlockPos.MutableBlockPos BP = new BlockPos.MutableBlockPos();
 	private static Value biome() {
-		if (mc.player == null || mc.world == null) return Value.string("");
+		if (mc.player == null || mc.level == null) return Value.string("");
 
 		BP.set(mc.player.getX(), mc.player.getY(), mc.player.getZ());
-		Identifier id = mc.world.getRegistryManager().getOptional(RegistryKeys.BIOME).get().getId(mc.world.getBiome(BP).value());
+		Identifier id = mc.level.registryAccess().lookup(Registries.BIOME).get().getKey(mc.level.getBiome(BP).value());
 		if (id == null) return Value.string("Unknown");
 
 		return Value.string(Arrays.stream(id.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" ")));
@@ -407,22 +407,22 @@ public class ConfigModifier {
 	private static Value handOrOffhand() {
 		if (mc.player == null) return Value.null_();
 
-		ItemStack itemStack = mc.player.getMainHandStack();
-		if (itemStack.isEmpty()) itemStack = mc.player.getOffHandStack();
+		ItemStack itemStack = mc.player.getMainHandItem();
+		if (itemStack.isEmpty()) itemStack = mc.player.getOffhandItem();
 
 		return itemStack != null ? wrap(itemStack) : Value.null_();
 	}
 
 	private static Value ping() {
-		if (mc.getNetworkHandler() == null || mc.player == null) return Value.number(0);
+		if (mc.getConnection() == null || mc.player == null) return Value.number(0);
 
-		PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
+		PlayerInfo playerListEntry = mc.getConnection().getPlayerInfo(mc.player.getUUID());
 		return Value.number(playerListEntry != null ? playerListEntry.getLatency() : 0);
 	}
 	private Value posString(boolean opposite, boolean camera) {
-		Vec3d pos;
-		if (camera) pos = mc.gameRenderer.getCamera().getCameraPos();
-		else pos = mc.player != null ? mc.player.getEntityPos() : Vec3d.ZERO;
+		Vec3 pos;
+		if (camera) pos = mc.gameRenderer.getMainCamera().position();
+		else pos = mc.player != null ? mc.player.position() : Vec3.ZERO;
 
 		double x = pos.x;
 		double z = pos.z;
@@ -461,7 +461,7 @@ public class ConfigModifier {
 		if (argCount != 1) ss.error("player.get_item() requires 1 argument, got %d.", argCount);
 
 		int i = (int) ss.popNumber("First argument to player.get_item() needs to be a number.");
-		return mc.player != null ? wrap(mc.player.getInventory().getStack(i)) : Value.null_();
+		return mc.player != null ? wrap(mc.player.getInventory().getItem(i)) : Value.null_();
 	}
 
 	private static Value countItems(Starscript ss, int argCount) {
@@ -471,12 +471,12 @@ public class ConfigModifier {
 		Identifier id = Identifier.tryParse(idRaw);
 		if (id == null) return Value.number(0);
 
-		Item item = Registries.ITEM.get(id);
+		Item item = BuiltInRegistries.ITEM.getValue(id);
 		if (item == Items.AIR || mc.player == null) return Value.number(0);
 
 		int count = 0;
-		for (int i = 0; i < mc.player.getInventory().size(); i++) {
-			ItemStack itemStack = mc.player.getInventory().getStack(i);
+		for (int i = 0; i < mc.player.getInventory().getContainerSize(); i++) {
+			ItemStack itemStack = mc.player.getInventory().getItem(i);
 			if (itemStack.getItem() == item) count += itemStack.getCount();
 		}
 
@@ -489,10 +489,10 @@ public class ConfigModifier {
 
 		Identifier name = popIdentifier(ss, "First argument to player.has_potion_effect() needs to a string.");
 
-		Optional<RegistryEntry.Reference<StatusEffect>> effect = Registries.STATUS_EFFECT.getEntry(name);
+		Optional<Holder.Reference<MobEffect>> effect = BuiltInRegistries.MOB_EFFECT.get(name);
 		if (effect.isEmpty()) return Value.null_();
 
-		StatusEffectInstance effectInstance = mc.player.getStatusEffect(effect.get());
+		MobEffectInstance effectInstance = mc.player.getEffect(effect.get());
 		return Value.bool(effectInstance != null);
 	}
 
@@ -502,10 +502,10 @@ public class ConfigModifier {
 
 		Identifier name = popIdentifier(ss, "First argument to player.get_potion_effect() needs to a string.");
 
-		Optional<RegistryEntry.Reference<StatusEffect>> effect = Registries.STATUS_EFFECT.getEntry(name);
+		Optional<Holder.Reference<MobEffect>> effect = BuiltInRegistries.MOB_EFFECT.get(name);
 		if (effect.isEmpty()) return Value.null_();
 
-		StatusEffectInstance effectInstance = mc.player.getStatusEffect(effect.get());
+		MobEffectInstance effectInstance = mc.player.getEffect(effect.get());
 		if (effectInstance == null) return Value.null_();
 
 		return wrap(effectInstance);
@@ -516,8 +516,8 @@ public class ConfigModifier {
 		if (mc.player == null) return Value.number(0);
 
 		long time = System.currentTimeMillis();
-		if ((time - lastRequestedStatsTime) / 1000.0 >= 1 && mc.getNetworkHandler() != null) {
-			mc.getNetworkHandler().sendPacket(new ClientStatusC2SPacket(ClientStatusC2SPacket.Mode.REQUEST_STATS));
+		if ((time - lastRequestedStatsTime) / 1000.0 >= 1 && mc.getConnection() != null) {
+			mc.getConnection().send(new ServerboundClientCommandPacket(ServerboundClientCommandPacket.Action.REQUEST_STATS));
 			lastRequestedStatsTime = time;
 		}
 
@@ -525,21 +525,21 @@ public class ConfigModifier {
 		Identifier name = popIdentifier(ss, (argCount > 1 ? "Second" : "First") + " argument to player.get_stat() needs to be a string.");
 
 		Stat<?> stat = switch (type) {
-			case "mined" -> Stats.MINED.getOrCreateStat(Registries.BLOCK.get(name));
-			case "crafted" -> Stats.CRAFTED.getOrCreateStat(Registries.ITEM.get(name));
-			case "used" -> Stats.USED.getOrCreateStat(Registries.ITEM.get(name));
-			case "broken" -> Stats.BROKEN.getOrCreateStat(Registries.ITEM.get(name));
-			case "picked_up" -> Stats.PICKED_UP.getOrCreateStat(Registries.ITEM.get(name));
-			case "dropped" -> Stats.DROPPED.getOrCreateStat(Registries.ITEM.get(name));
-			case "killed" -> Stats.KILLED.getOrCreateStat(Registries.ENTITY_TYPE.get(name));
-			case "killed_by" -> Stats.KILLED_BY.getOrCreateStat(Registries.ENTITY_TYPE.get(name));
+			case "mined" -> Stats.BLOCK_MINED.get(BuiltInRegistries.BLOCK.getValue(name));
+			case "crafted" -> Stats.ITEM_CRAFTED.get(BuiltInRegistries.ITEM.getValue(name));
+			case "used" -> Stats.ITEM_USED.get(BuiltInRegistries.ITEM.getValue(name));
+			case "broken" -> Stats.ITEM_BROKEN.get(BuiltInRegistries.ITEM.getValue(name));
+			case "picked_up" -> Stats.ITEM_PICKED_UP.get(BuiltInRegistries.ITEM.getValue(name));
+			case "dropped" -> Stats.ITEM_DROPPED.get(BuiltInRegistries.ITEM.getValue(name));
+			case "killed" -> Stats.ENTITY_KILLED.get(BuiltInRegistries.ENTITY_TYPE.getValue(name));
+			case "killed_by" -> Stats.ENTITY_KILLED_BY.get(BuiltInRegistries.ENTITY_TYPE.getValue(name));
 			case "custom" -> {
-				name = Registries.CUSTOM_STAT.get(name);
-				yield name != null ? Stats.CUSTOM.getOrCreateStat(name) : null;
+				name = BuiltInRegistries.CUSTOM_STAT.getValue(name);
+				yield name != null ? Stats.CUSTOM.get(name) : null;
 			}
 			default -> null;
 		};
 
-		return Value.number(stat != null ? mc.player.getStatHandler().getStat(stat) : 0);
+		return Value.number(stat != null ? mc.player.getStats().getValue(stat) : 0);
 	}
 }

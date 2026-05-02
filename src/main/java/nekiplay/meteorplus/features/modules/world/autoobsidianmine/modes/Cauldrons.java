@@ -14,16 +14,19 @@ import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianF
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarmModes;
 import nekiplay.meteorplus.utils.RaycastUtils;
 import net.minecraft.block.*;
-import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.RaycastContext;
+import net.minecraft.world.item.Items;
+import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.ClipContext;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,12 +37,12 @@ public class Cauldrons extends AutoObsidianFarmMode {
 		super(AutoObsidianFarmModes.Cauldrons);
 	}
 
-	private final List<BlockPos.Mutable> blocks = new ArrayList<>();
+	private final List<BlockPos.MutableBlockPos> blocks = new ArrayList<>();
 	private boolean firstBlock;
 	private int noBlockTimer;
-	private final BlockPos.Mutable lastBlockPos = new BlockPos.Mutable();
+	private final BlockPos.MutableBlockPos lastBlockPos = new BlockPos.MutableBlockPos();
 	private int timer;
-	private final Pool<BlockPos.Mutable> blockPosPool = new Pool<>(BlockPos.Mutable::new);
+	private final Pool<BlockPos.MutableBlockPos> blockPosPool = new Pool<>(BlockPos.MutableBlockPos::new);
 	@Override
 	public void onActivate() {
 		firstBlock = true;
@@ -59,7 +62,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 			return;
 		}
 		if (event.state.getBlock() == Blocks.CAULDRON || event.state.getBlock() == Blocks.LAVA_CAULDRON || event.state.getBlock() == Blocks.WATER_CAULDRON) {
-			event.shape = VoxelShapes.fullCube();
+			event.shape = Shapes.block();
 		}
 	}
 	private int placed = 0;
@@ -81,7 +84,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 
 	@Override
 	public void onTickEventPost(TickEvent.Post event) {
-		if (mc.player == null || mc.world == null || mc.interactionManager == null) { return; }
+		if (mc.player == null || mc.level == null || mc.gameMode == null) { return; }
 		if ((mc.player.isUsingItem() || (Modules.get().get(AutoEat.class).isActive() && Modules.get().get(AutoEat.class).eating)) && settings.pauseOnEat.get()) {
 			return;
 		}
@@ -89,7 +92,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 			return;
 		}
 		BlockPos placing = settings.lavaPlaceLocation.get();
-		if (mc.player.squaredDistanceTo(placing.toCenterPos()) >= settings.range.get() + settings.range.get() + 1) {
+		if (mc.player.distanceToSqr(placing.getCenter()) >= settings.range.get() + settings.range.get() + 1) {
 			return;
 		}
 		BlockIterator.register(settings.range.get(), settings.range.get(), (blockPos, blockState) -> {
@@ -124,7 +127,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 				if (timer > 0) return;
 			}
 
-			BlockState state = mc.world.getBlockState(placing);
+			BlockState state = mc.level.getBlockState(placing);
 
 			if (state.getBlock() == Blocks.OBSIDIAN) {
 				if (BlockUtils.canBreak(placing)) {
@@ -135,23 +138,23 @@ public class Cauldrons extends AutoObsidianFarmMode {
 			} else {
 				FindItemResult bucket = InvUtils.findInHotbar(Items.BUCKET);
 				FindItemResult lavaBucket = InvUtils.findInHotbar(Items.LAVA_BUCKET);
-				if (lavaBucket.found() && mc.player.getEntityPos().distanceTo(placing.toCenterPos()) <= settings.range.get() + 1) {
+				if (lavaBucket.found() && mc.player.position().distanceTo(placing.getCenter()) <= settings.range.get() + 1) {
 					if (state.getBlock() != Blocks.LAVA) {
 						if (lavaPlaceTimer >= settings.lavaPlaceDelay.get()) {
 							double yaw = Rotations.getYaw(placing);
 							double pitch = Rotations.getPitch(placing);
-							Vec3d pos = mc.player.getEyePos();
-							HitResult result = RaycastUtils.bucketRaycast(pos, (float) pitch, (float) yaw, RaycastContext.FluidHandling.NONE);
+							Vec3 pos = mc.player.getEyePosition();
+							HitResult result = RaycastUtils.bucketRaycast(pos, (float) pitch, (float) yaw, ClipContext.Fluid.NONE);
 							if (result.getType() == HitResult.Type.BLOCK) {
 								BlockHitResult blockHitResult = (BlockHitResult) result;
 								BlockPos blockPos = blockHitResult.getBlockPos();
-								Direction direction = blockHitResult.getSide();
-								BlockPos blockPos2 = blockPos.offset(direction);
+								Direction direction = blockHitResult.getDirection();
+								BlockPos blockPos2 = blockPos.relative(direction);
 
 								if (blockPos2.equals(placing)) {
 									Rotations.rotate(yaw, pitch, 10, true, () -> {
 										InvUtils.swap(lavaBucket.slot(), true);
-										mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+										mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND);
 										placed++;
 										InvUtils.swapBack();
 										lavaPlaceTimer = 0;
@@ -166,13 +169,13 @@ public class Cauldrons extends AutoObsidianFarmMode {
 				}
 				else if (bucket.found()) {
 					for (BlockPos block : blocks) {
-						BlockState state2 = mc.world.getBlockState(block);
-						if (state2.getBlock() == Blocks.LAVA_CAULDRON && mc.player.getEntityPos().distanceTo(block.toCenterPos()) <= settings.range.get() + 1) {
+						BlockState state2 = mc.level.getBlockState(block);
+						if (state2.getBlock() == Blocks.LAVA_CAULDRON && mc.player.position().distanceTo(block.getCenter()) <= settings.range.get() + 1) {
 							if (collectTimer >= settings.collectDelay.get()) {
 								mc.player.getInventory().setSelectedSlot(bucket.slot());
-								mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(bucket.slot()));
+								mc.player.connection.send(new ServerboundSetCarriedItemPacket(bucket.slot()));
 								rotate(block, () -> {
-									Vec3d hitPos = Vec3d.ofCenter(block);
+									Vec3 hitPos = Vec3.atCenterOf(block);
 									Direction side = Direction.DOWN;
 									//BlockPos neighbour;
 									//if (side == null) {
@@ -185,12 +188,12 @@ public class Cauldrons extends AutoObsidianFarmMode {
 									BlockHitResult bhr = new BlockHitResult(hitPos, Direction.UP, block, false);
 									boolean isSneaking = false;
 									if (settings.bypassSneak.get()) {
-										mc.player.setSneaking(false);
+										mc.player.setShiftKeyDown(false);
 										isSneaking = true;
 									}
-									BlockUtils.interact(bhr, Hand.MAIN_HAND, true);
+									BlockUtils.interact(bhr, InteractionHand.MAIN_HAND, true);
 									if (settings.bypassSneak.get() && isSneaking) {
-										mc.player.setSneaking(true);
+										mc.player.setShiftKeyDown(true);
 									}
 									collectTimer = 0;
 								});
@@ -201,7 +204,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 						}
 					}
 					firstBlock = false;
-					for (BlockPos.Mutable blockPos : blocks) blockPosPool.free(blockPos);
+					for (BlockPos.MutableBlockPos blockPos : blocks) blockPosPool.free(blockPos);
 					blocks.clear();
 				}
 			}

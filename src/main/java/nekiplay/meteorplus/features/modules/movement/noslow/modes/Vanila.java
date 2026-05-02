@@ -11,7 +11,7 @@ public class Vanila extends NoSlowMode {
 
 	@Override
 	public void onUse(PlayerUseMultiplierEvent event) {
-		if (mc.player.isSneaking()) {
+		if (mc.player.isShiftKeyDown()) {
 			event.setForward(settings.sneakForward.get().floatValue());
 			event.setSideways(settings.sneakSideways.get().floatValue());
 		}

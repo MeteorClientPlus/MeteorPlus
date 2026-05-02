@@ -1,8 +1,8 @@
 package nekiplay.meteorplus.utils;
 
 import meteordevelopment.meteorclient.utils.world.Dimension;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class GenerationBlock {
 	public int min_height;

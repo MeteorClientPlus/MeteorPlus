@@ -19,10 +19,13 @@ import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.utils.RaycastUtils;
 import net.minecraft.block.*;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -87,8 +90,8 @@ public class FreecamMixin {
 
 	@Unique
 	private BlockPos tryGetValidPos(BlockPos pos) {
-        assert mc.world != null;
-        BlockState state = mc.world.getBlockState(pos);
+        assert mc.level != null;
+        BlockState state = mc.level.getBlockState(pos);
 		Block block = state.getBlock();
 		if (block == Blocks.FERN ||
 			block == Blocks.SHORT_GRASS ||
@@ -174,16 +177,16 @@ public class FreecamMixin {
 			return pos;
 		}
 		else {
-			return pos.up();
+			return pos.above();
 		}
 	}
 
 	@Unique @Nullable
 	private BlockPos rayCastClicked() {
 		BlockPos blockPos = null;
-		Vec3d rotationVector = RaycastUtils.getRotationVector((float) freecam.getPitch(mc.getRenderTickCounter().getTickProgress(true)), (float) freecam.getYaw(mc.getRenderTickCounter().getTickProgress(true)));
-		Vec3d pos = new Vec3d(freecam.pos.x, freecam.pos.y, freecam.pos.z);
-		HitResult result = RaycastUtils.raycast(pos, rotationVector, 64 * 4, mc.getRenderTickCounter().getTickProgress(true), true);
+		Vec3 rotationVector = RaycastUtils.getRotationVector((float) freecam.getPitch(mc.getDeltaTracker().getGameTimeDeltaPartialTick(true)), (float) freecam.getYaw(mc.getDeltaTracker().getGameTimeDeltaPartialTick(true)));
+		Vec3 pos = new Vec3(freecam.pos.x, freecam.pos.y, freecam.pos.z);
+		HitResult result = RaycastUtils.raycast(pos, rotationVector, 64 * 4, mc.getDeltaTracker().getGameTimeDeltaPartialTick(true), true);
 		if (result.getType() == HitResult.Type.BLOCK) {
 			BlockHitResult blockHitResult = (BlockHitResult) result;
 			blockPos = blockHitResult.getBlockPos();
@@ -193,16 +196,16 @@ public class FreecamMixin {
 
 	@Unique
 	private void Work(Cancellable event) {
-		if (baritoneMoveBlinkKey.get().isPressed() && mc.currentScreen == null) {
+		if (baritoneMoveBlinkKey.get().isPressed() && mc.screen == null) {
 			BlockPos clicked = rayCastClicked();
 
 			if (blinkBaritoneControl.get()) {
 
 				if (clicked == null) return;
 
-				if (mc.world == null) return;
+				if (mc.level == null) return;
 
-				BlockState state = mc.world.getBlockState(clicked);
+				BlockState state = mc.level.getBlockState(clicked);
 
 				if (state.isAir()) return;
 				isBlinkMoving = true;
@@ -213,13 +216,13 @@ public class FreecamMixin {
 				event.cancel();
 			}
 		}
-		if (baritoneMoveKey.get().isPressed() && mc.currentScreen == null) {
+		if (baritoneMoveKey.get().isPressed() && mc.screen == null) {
 			BlockPos clicked = rayCastClicked();
 			if (clicked == null) return;
 
-			if (mc.world == null) return;
+			if (mc.level == null) return;
 
-			BlockState state = mc.world.getBlockState(clicked);
+			BlockState state = mc.level.getBlockState(clicked);
 
 			if (state.isAir()) return;
 
@@ -234,7 +237,7 @@ public class FreecamMixin {
 			event.cancel();
 		}
 
-		if (baritoneStopKey.get().isPressed() && mc.currentScreen == null) {
+		if (baritoneStopKey.get().isPressed() && mc.screen == null) {
 			BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().forceCancel();
 			if (blink != null) {
 				if (blink.isActive()) {
@@ -250,14 +253,14 @@ public class FreecamMixin {
 	@EventHandler
 	private void onKeyEvent(KeyEvent event)
 	{
-		if (mc.world != null && event.action == KeyAction.Press) {
+		if (mc.level != null && event.action == KeyAction.Press) {
 			Work(event);
 		}
 	}
 	@Unique
 	@EventHandler
 	private void onMouseClickEvent(MouseClickEvent event) {
-		if (mc.world != null && event.action == KeyAction.Press) {
+		if (mc.level != null && event.action == KeyAction.Press) {
 			Work(event);
 		}
 	}
@@ -265,7 +268,7 @@ public class FreecamMixin {
 	@Unique
 	@EventHandler
 	private void onTickEvent(TickEvent.Pre event) {
-		if (mc.world != null && blinkBaritoneControl.get() && blink != null) {
+		if (mc.level != null && blinkBaritoneControl.get() && blink != null) {
 			if (isBlinkMoving && (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() ) ) {
 				if (!blink.isActive()) {
 					blink.toggle();

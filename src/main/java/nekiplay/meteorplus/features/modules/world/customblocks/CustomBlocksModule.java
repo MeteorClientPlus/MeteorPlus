@@ -15,11 +15,14 @@ import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.MeteorPlusAddon;
 import net.minecraft.block.*;
-import net.minecraft.item.Item;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.WorldChunk;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -44,7 +47,7 @@ public class CustomBlocksModule extends Module {
 		createDefault();
 		load();
 
-		for (Chunk chunk : Utils.chunks()) {
+		for (ChunkAccess chunk : Utils.chunks()) {
 			updateChunkData(chunk);
 		}
 	}
@@ -56,13 +59,13 @@ public class CustomBlocksModule extends Module {
 		.build()
 	);
 
-	private void updateChunkData(Chunk chunk) {
+	private void updateChunkData(ChunkAccess chunk) {
 		String dimension = PlayerUtils.getDimension().name();
-		for (int x = chunk.getPos().getStartX(); x <= chunk.getPos().getEndX(); x++) {
-			for (int z = chunk.getPos().getStartZ(); z <= chunk.getPos().getEndZ(); z++) {
-				int height = chunk.getHeightmap(Heightmap.Type.WORLD_SURFACE).get(x - chunk.getPos().getStartX(), z - chunk.getPos().getStartZ());
+		for (int x = chunk.getPos().getMinBlockX(); x <= chunk.getPos().getMaxBlockX(); x++) {
+			for (int z = chunk.getPos().getMinBlockZ(); z <= chunk.getPos().getMaxBlockZ(); z++) {
+				int height = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE).getFirstAvailable(x - chunk.getPos().getMinBlockX(), z - chunk.getPos().getMinBlockZ());
 
-				for (int y = mc.world.getBottomY(); y < height; y++) {
+				for (int y = mc.level.getMinY(); y < height; y++) {
 
 					BlockPos pos = new BlockPos(x, y, z);
 
@@ -84,7 +87,7 @@ public class CustomBlocksModule extends Module {
 
 	@EventHandler
 	private void onChunkData(ChunkDataEvent event) {
-		WorldChunk chunk = event.chunk();
+		LevelChunk chunk = event.chunk();
 		updateChunkData(chunk);
 	}
 
@@ -99,9 +102,9 @@ public class CustomBlocksModule extends Module {
 	}
 
 	private void setBlock(BlockPos pos, CustomBlockData data) {
-		BlockState block = Block.getStateFromRawId(data.block_id);
+		BlockState block = Block.stateById(data.block_id);
 
-		mc.world.setBlockState(pos, block);
+		mc.level.setBlockAndUpdate(pos, block);
 	}
 
 	@EventHandler

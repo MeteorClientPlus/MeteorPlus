@@ -6,10 +6,10 @@ import meteordevelopment.meteorclient.utils.misc.IChangeable;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.IGetter;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
+import net.minecraft.world.item.Item;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +40,10 @@ public class ItemDataSetting<T extends ICopyable<T> & ISerializable<T> & IChange
 	}
 
 	@Override
-	protected NbtCompound save(NbtCompound tag) {
-		NbtCompound valueTag = new NbtCompound();
+	protected CompoundTag save(CompoundTag tag) {
+		CompoundTag valueTag = new CompoundTag();
 		for (Item block : get().keySet()) {
-			valueTag.put(Registries.ITEM.getId(block).toString(), get().get(block).toTag());
+			valueTag.put(BuiltInRegistries.ITEM.getKey(block).toString(), get().get(block).toTag());
 		}
 		tag.put("value", valueTag);
 
@@ -51,12 +51,12 @@ public class ItemDataSetting<T extends ICopyable<T> & ISerializable<T> & IChange
 	}
 
 	@Override
-	protected Map<Item, T> load(NbtCompound tag) {
+	protected Map<Item, T> load(CompoundTag tag) {
 		get().clear();
 
-		NbtCompound valueTag = tag.getCompound("value").get();
-		for (String key : valueTag.getKeys()) {
-			get().put(Registries.ITEM.get(Identifier.of(key)), defaultData.get().copy().fromTag(valueTag.getCompound(key).get()));
+		CompoundTag valueTag = tag.getCompound("value").get();
+		for (String key : valueTag.keySet()) {
+			get().put(BuiltInRegistries.ITEM.getValue(Identifier.parse(key)), defaultData.get().copy().fromTag(valueTag.getCompound(key).get()));
 		}
 
 		return get();

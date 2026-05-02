@@ -10,8 +10,8 @@ import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import nekiplay.meteorplus.MeteorPlusAddon;
 import nekiplay.meteorplus.settings.items.HighlightItemData;
 import nekiplay.meteorplus.settings.items.ItemDataSetting;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 import java.util.Map;
