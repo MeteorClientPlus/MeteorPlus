@@ -1,4 +1,3 @@
-// TODO(Ravel): Failed to fully resolve file: null cannot be cast to non-null type com.intellij.psi.PsiJavaCodeReferenceElement
 package nekiplay.meteorplus.utils;
 
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -73,14 +72,14 @@ public class BlockHelper {
 		BlockPos ppos = mc.player.blockPosition();
 		for (Direction direction : Direction.values()) {
 			if (direction == Direction.UP || direction == Direction.DOWN) continue;
-			BlockPos pos = ppos.offset(direction);
+			BlockPos pos = ppos.offset(direction.getUnitVec3i());
 			if (pos.equals(bp)) return true;
 		}
 		return false;
 	}
 
 	public static boolean outOfRange(BlockPos cityBlock) {
-		return MathHelper.sqrt((float) mc.player.squaredDistanceTo(cityBlock.getX(), cityBlock.getY(), cityBlock.getZ())) > 4;
+		return Mth.sqrt((float) mc.player.distanceToSqr(cityBlock.getX(), cityBlock.getY(), cityBlock.getZ())) > 4;
 	}
 
 	public static BlockPos opposite(BlockPos pos, Dimension dimension)

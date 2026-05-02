@@ -1,5 +1,4 @@
-  // TODO(Ravel): Does not have a concrete package name
-    // TODO(Ravel): Does not have a concrete package name{
+{
 	"required": true,
 	"package": "nekiplay.meteorplus.mixin",
 	"compatibilityLevel": "JAVA_17",

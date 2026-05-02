@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.utils.world.TickRate;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarmMode;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarmModes;
 import nekiplay.meteorplus.utils.RaycastUtils;
-import net.minecraft.block.*;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.item.Items;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 import net.minecraft.world.InteractionHand;

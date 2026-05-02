@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.block.*;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
