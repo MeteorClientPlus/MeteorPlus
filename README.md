@@ -30,7 +30,7 @@
 | **Spider+**            | **Spider for Anti-Cheats**                    | **Matrix, Vulcan**            |
 | **Jesus+**             | **Jesus for Anti-Cheats**                     | **Matrix, Vulcan**            |
 | **No Slow+**           | **No Slow for Anti-Cheats**                   | **Matrix, Vulcan, Grim, NCP** |
-| **Fast Climb+** 	     | **Fast Climb for Anti-Cheats**                | **Spartan**                   |
+| **Fast Climb+** 	      | **Fast Climb for Anti-Cheats**                | **Spartan**                   |
 | **Gui Move+**          | **Gui Move for Anti-Cheats**                  | **Matrix, NCP**               |
 | **Timer+**             | **Timer for Anti-Cheats**                     | **NCP, Intave, Vulcan**       |
 | **Safe mine**          | **Prevents player from lava**                 | **Matrix**                    |
@@ -46,10 +46,10 @@
 | **Teams**     | **Does not beat teammates on BedWars and other modes** |                      |
 
 ## Integrations
-| Module              					| Description                                       |
-|---------------------------------------|---------------------------------------------------|
-| **Chest Tracker (Unofficial Port)**   | **Colors support, background disabler, y offset** |
-| **Xaero's MiniMap** 					| **Support baritone control on context**           |
+| Module              					           | Description                                       |
+|-------------------------------------|---------------------------------------------------|
+| **Chest Tracker (Unofficial Port)** | **Colors support, background disabler, y offset** |
+| **Xaero's MiniMap** 					           | **Support baritone control on context**           |
 
 ## Commands
 | Command        | Description                                       | Bypasses anti cheats                    |
