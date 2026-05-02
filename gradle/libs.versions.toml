@@ -1,35 +1,33 @@
 [versions]
-mod-version = "1.21.11_1.0.9.5"
+mod-version = "26.1.2_1.0.9.5"
 
 # Fabric (https://fabricmc.net/develop)
-minecraft = "1.21.11"
+jdk = "25"
+minecraft = "26.1.2"
 fabric-loader = "0.19.2"
-fabric-api = "0.141.3+1.21.11"
+fabric-api = "0.147.0+26.1.2"
 
 # Plugins
 # Loom (https://github.com/FabricMC/fabric-loom)
 loom = "1.16-SNAPSHOT"
 
 # Meteor (https://github.com/MeteorDevelopment/meteor-client)
-meteor = "1.21.11-SNAPSHOT"
-# Starscript (https://github.com/MeteorDevelopment/starscript)
-starscript = "0.2.5"
-# Orbit (https://github.com/MeteorDevelopment/orbit)
-orbit = "0.2.4"
+meteor = "26.1.2-SNAPSHOT"
+baritone = "26.1-SNAPSHOT"
 
 # Xaero's Mods
 # Xaero's World Map (https://modrinth.com/mod/xaeros-world-map/versions)
-xwm = "1.40.2_Fabric_1.21.11"
+xwm = "fabric-26.1.2-1.40.14"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
-xmm = "25.3.2_Fabric_1.21.11"
+xmm = "fabric-26.1.2-25.3.11"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
-whereisit = "2.7.4+1.21.11"
-# YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/1.21.11/gradle.properties)
-yacl = "3.8.1+1.21.11-fabric"
+whereisit = "2.7.4+26.1"
+# YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/26.1/gradle.properties)
+yacl = "3.9.0+26.1-fabric"
 
-# MaLiLib (https://www.curseforge.com/minecraft/mc-mods/malilib)
-malilib = "7130809"
+# MaLiLib (https://modrinth.com/mod/malilib/versions)
+malilib = "0.28.3"
 
 [libraries]
 # Fabric base
@@ -41,8 +39,7 @@ fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fab
 
 # Meteor Client
 meteor-client = { module = "meteordevelopment:meteor-client", version.ref = "meteor" }
-starscript = { module = "org.meteordev:starscript", version.ref = "starscript" }
-orbit = { module = "meteordevelopment:orbit", version.ref = "orbit" }
+baritone = { module = "meteordevelopment:baritone", version.ref = "baritone" }
 
 # Xaero's Mods
 xwm = { module = "maven.modrinth:xaeros-world-map", version.ref = "xwm" }
@@ -54,7 +51,7 @@ whereisit = { module = "maven.modrinth:where-is-it-port", version.ref = "whereis
 yacl = { module = "dev.isxander.yacl:yet-another-config-lib-fabric", version.ref = "yacl" }
 
 # MaLiLib
-malilib = { module = "curse.maven:malilib-303119", version.ref = "malilib" }
+malilib = { module = "maven.modrinth:malilib", version.ref = "malilib" }
 
 [plugins]
-fabric-loom = { id = "fabric-loom", version.ref = "loom" }
+fabric-loom = { id = "net.fabricmc.fabric-loom", version.ref = "loom" }

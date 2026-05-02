@@ -41,7 +41,7 @@
 		}
   },
   "depends": {
-    "java": ">=21",
-    "minecraft": ">=${mc_version}"
+    "java": ">=${jdk_version}",
+    "minecraft": ">=${minecraft_version}"
   }
 }
