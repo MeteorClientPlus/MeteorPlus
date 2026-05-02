@@ -8,7 +8,6 @@
 		"meteorclient.modules.BetterTooltipsMixin",
 		"meteorclient.modules.BlockESPMixin",
 		"meteorclient.modules.BreakIndicatorsMixin",
-		"meteorclient.modules.CriticalsMixin",
 		"meteorclient.modules.ESPMixin",
 		"meteorclient.modules.FreecamMixin",
 		"meteorclient.modules.ItemHighlightMixin",
