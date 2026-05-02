@@ -2,7 +2,6 @@ package nekiplay.meteorplus.features.modules.render.holograms;
 
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.Dimension;
-import nekiplay.meteorplus.features.modules.world.customblocks.PosData;
 import net.minecraft.core.BlockPos;
 
 import java.util.ArrayList;
@@ -26,6 +25,7 @@ public class HologramDataListed {
 	public HologramDataListed() {
 
 	}
+
 	public HologramDataListed(double x, double y, double z, String text, String dimension, Color color, double max_render_distance) {
 		this.x = x;
 		this.y = y;

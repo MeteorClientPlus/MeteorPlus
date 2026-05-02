@@ -1,8 +1,7 @@
 package nekiplay.meteorplus.utils;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 

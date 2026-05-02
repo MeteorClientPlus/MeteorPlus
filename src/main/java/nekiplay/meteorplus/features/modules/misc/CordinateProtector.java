@@ -7,11 +7,11 @@ import nekiplay.main.events.hud.DebugDrawTextEvent;
 import nekiplay.meteorplus.mixinclasses.SpoofMode;
 import nekiplay.meteorplus.settings.ConfigModifier;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.core.SectionPos;
 
 import java.util.List;
 import java.util.Locale;

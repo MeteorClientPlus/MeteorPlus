@@ -2,11 +2,11 @@ package nekiplay.meteorplus.features.modules.movement.jesus.modes;
 
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.Vec3;
 import nekiplay.meteorplus.features.modules.movement.jesus.JesusMode;
 import nekiplay.meteorplus.features.modules.movement.jesus.JesusModes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 
 public class MatrixZoom extends JesusMode {
 	public MatrixZoom() {

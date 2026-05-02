@@ -7,7 +7,6 @@ import nekiplay.meteorplus.features.modules.world.timer.TimerMode;
 import nekiplay.meteorplus.features.modules.world.timer.TimerModes;
 
 import static nekiplay.meteorplus.features.modules.world.timer.TimerPlus.*;
-import static nekiplay.meteorplus.features.modules.world.timer.TimerPlus.timerMultiplierOnRecharge;
 
 public class NCPv2 extends TimerMode {
 	public NCPv2() {
@@ -27,39 +26,32 @@ public class NCPv2 extends TimerMode {
 				rechargeTimer = rechargeDelay;
 				workingTimer = 0;
 				timer.setOverride(Timer.OFF);
-			}
-			else {
+			} else {
 				if (settings.isActive()) {
 					if (settings.onlyInMove.get() && PlayerUtils.isMoving()) {
 						workingTimer++;
 						if (mc.player.onGround()) {
 							timer.setOverride(timerMultiplier);
-						}
-						else {
+						} else {
 							timer.setOverride(timerMultiplierInAir);
 						}
-					}
-					else if (!settings.onlyInMove.get()) {
+					} else if (!settings.onlyInMove.get()) {
 						workingTimer++;
 						if (mc.player.onGround()) {
 							timer.setOverride(timerMultiplier);
-						}
-						else {
+						} else {
 							timer.setOverride(timerMultiplierInAir);
 						}
-					}
-					else {
+					} else {
 						timer.setOverride(timerMultiplierOnRecharge);
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			rechargeTimer--;
 			if (settings.isActive()) {
 				timer.setOverride(timerMultiplierOnRecharge);
-			}
-			else {
+			} else {
 				timer.setOverride(Timer.OFF);
 			}
 		}

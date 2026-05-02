@@ -16,17 +16,13 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static nekiplay.meteorplus.MeteorPlusAddon.HUD_TITLE;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_MIDDLE;
 
 @Mixin(value = MiddleClickExtra.class, remap = false)
 public class MiddleClickExtraMixin extends Module {
 	public MiddleClickExtraMixin() {
-        super(Categories.Player, "middle-click-extra", "Perform various actions when you middle click.");
+		super(Categories.Player, "middle-click-extra", "Perform various actions when you middle click.");
 	}
 
 	@Final
@@ -42,7 +38,7 @@ public class MiddleClickExtraMixin extends Module {
 		.build()
 	);
 
-    @Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
 	private void onMouseClick(MouseClickEvent event, CallbackInfo ci) {
 		if (event.action == KeyAction.Press && event.button() == 2 && mc.screen == null) {
 			if (event.action != KeyAction.Press || event.button() != GLFW_MOUSE_BUTTON_MIDDLE) return;

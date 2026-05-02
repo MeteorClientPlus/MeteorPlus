@@ -1,12 +1,11 @@
 package nekiplay.main.items;
 
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.Identifier;
 
 import java.util.function.Function;
 
@@ -21,6 +20,7 @@ public class ModItems {
 			factory.apply(settings.setId(key))
 		);
 	}
+
 	public static Item METEOR_PLUS_LOGO_ITEM = null;
 	public static Item METEOR_PLUS_LOGO_MODS_ITEM = null;
 

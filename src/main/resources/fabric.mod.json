@@ -1,47 +1,47 @@
 {
-  "schemaVersion": 1,
-  "id": "meteorplus",
-  "version": "${version}",
-  "name": "Meteor+",
-  "description": "An addon for Meteor client that adds many blatant features.",
-  "authors": [
-    "Neki_play"
-  ],
-  "contact": {
-    "homepage": "https://github.com/MeteorClientPlus/MeteorPlus",
-    "issues": "https://github.com/MeteorClientPlus/MeteorPlus/issues",
-    "sources": "https://github.com/MeteorClientPlus/MeteorPlus/MeteorPlus",
-    "discord": "https://www.guilded.gg/i/27dAlJKk"
-  },
-  "license": "GPL-3.0",
-  "icon": "assets/meteorplus/icon.png",
-  "environment": "*",
-  "entrypoints": {
+	"schemaVersion": 1,
+	"id": "meteorplus",
+	"version": "${version}",
+	"name": "Meteor+",
+	"description": "An addon for Meteor client that adds many blatant features.",
+	"authors": [
+		"Neki_play"
+	],
+	"contact": {
+		"homepage": "https://github.com/MeteorClientPlus/MeteorPlus",
+		"issues": "https://github.com/MeteorClientPlus/MeteorPlus/issues",
+		"sources": "https://github.com/MeteorClientPlus/MeteorPlus/MeteorPlus",
+		"discord": "https://www.guilded.gg/i/27dAlJKk"
+	},
+	"license": "GPL-3.0",
+	"icon": "assets/meteorplus/icon.png",
+	"environment": "*",
+	"entrypoints": {
 		"main": [
 			"nekiplay.Main"
 		],
-    "meteor": [
-      "nekiplay.meteorplus.MeteorPlusAddon"
-    ]
-  },
-  "mixins": [
-    "meteorplus.mixins.json",
-    "meteorplus-xaeroworldmap.mixins.json",
-    "meteorplus-whereisit.mixins.json"
-  ],
-  "accessWidener": "meteorplus.accesswidener",
-  "custom": {
-    "meteor-client:color": "0,181,73",
-    "github:sha": "${gh_hash}",
+		"meteor": [
+			"nekiplay.meteorplus.MeteorPlusAddon"
+		]
+	},
+	"mixins": [
+		"meteorplus.mixins.json",
+		"meteorplus-xaeroworldmap.mixins.json",
+		"meteorplus-whereisit.mixins.json"
+	],
+	"accessWidener": "meteorplus.accesswidener",
+	"custom": {
+		"meteor-client:color": "0,181,73",
+		"github:sha": "${gh_hash}",
 		"modmenu": {
 			"links": {
 				"modmenu.website": "https://meteorclientplus.github.io",
 				"modmenu.discord": "https://discord.gg/Y3ardRfJXr"
 			}
 		}
-  },
-  "depends": {
-    "java": ">=${jdk_version}",
-    "minecraft": ">=${minecraft_version}"
-  }
+	},
+	"depends": {
+		"java": ">=${jdk_version}",
+		"minecraft": ">=${minecraft_version}"
+	}
 }

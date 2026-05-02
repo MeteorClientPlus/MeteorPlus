@@ -53,8 +53,6 @@ public class ElytraFlyMode {
 	}
 
 
-
-
 	public String getHudString() {
 		return type.name();
 	}

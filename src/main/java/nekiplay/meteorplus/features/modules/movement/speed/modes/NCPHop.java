@@ -31,8 +31,7 @@ public class NCPHop extends SpeedMode {
 		if (PlayerUtils.isMoving() && mc.player.onGround()) {
 			mc.player.jumpFromGround();
 			mc.player.getAbilities().setFlyingSpeed(0.0223f);
-		}
-		else {
+		} else {
 			timer.setOverride(1);
 		}
 	}

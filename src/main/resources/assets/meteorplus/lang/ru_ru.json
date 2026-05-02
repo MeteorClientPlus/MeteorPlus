@@ -3,24 +3,18 @@
 	"gui.world_map.baritone_path_here": "Baritone путь тут",
 	"gui.world_map.baritone_elytra_here": "Baritone элитра тут",
 	"gui.world_map.look_at_waypoint": "Смотреть на метку",
-
 	"item.meteorplus.logo": "Meteor+ логотип",
 	"item.meteorplus.logo_mods": "Meteor+ Integrations логотип",
 	"item.meteorplus.star": "Звезда",
 	"item.meteorplus.diamond": "Алмаз",
 	"item.meteorplus.money": "Деньги",
-
 	"modules.meteor-client.better-tooltips.beehive.honey-level": "§7Уровень мёда: §e%d§7.",
 	"modules.meteor-client.better-tooltips.beehive.bees": "§7Пчел: §e%d§7.",
-
 	"modules.meteor-client.better-tooltips.kilobytes": "§7%s кб",
 	"modules.meteor-client.better-tooltips.bytes": "§7%s байт",
 	"modules.meteor-client.better-tooltips.error-getting-bytes": "§cОшибка при получении байтов.",
-
 	"modules.meteor-client.better-tooltips.unknown-inventory": "§4Неизвестный инвентарь",
-
 	"modules.meteor-client.better-tooltips.hold-to-preview": "Удерживайте §e%s§r для предпросмотра",
-
 	"modules.meteor-client.inventory-tweaks.dump": "Сложить",
 	"modules.meteor-client.inventory-tweaks.steal": "Взять"
 }

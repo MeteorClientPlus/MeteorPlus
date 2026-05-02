@@ -14,5 +14,7 @@ public class ScaffoldMode {
 		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
-	public void onUse(PlayerUseMultiplierEvent event) { }
+
+	public void onUse(PlayerUseMultiplierEvent event) {
+	}
 }

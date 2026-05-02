@@ -14,12 +14,12 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.world.phys.Vec3;
-import nekiplay.meteorplus.MeteorPlusAddon;
 
 public class Freeze extends Module {
 	public Freeze() {
 		super(Categories.Movement, "Freeze", "Freezes your position for server.");
 	}
+
 	private final SettingGroup FSettings = settings.getDefaultGroup();
 
 	private final Setting<Boolean> FreezeLook = FSettings.add(new BoolSetting.Builder()
@@ -58,7 +58,7 @@ public class Freeze extends Module {
 
 	@Override()
 	public void onActivate() {
-		if (mc.player != null){
+		if (mc.player != null) {
 			yaw = mc.player.getYRot();
 			pitch = mc.player.getXRot();
 			position = mc.player.position();
@@ -67,12 +67,10 @@ public class Freeze extends Module {
 
 	private boolean rotate = false;
 
-	private void setFreezeLook(PacketEvent.Send event, ServerboundMovePlayerPacket playerMove)
-	{
+	private void setFreezeLook(PacketEvent.Send event, ServerboundMovePlayerPacket playerMove) {
 		if (playerMove.hasRotation() && FreezeLook.get() && FreezeLookSilent.get() && !rotate) {
 			event.setCancelled(true);
-		}
-		else if (mc.player != null && playerMove.hasRotation() && FreezeLook.get() && !FreezeLookSilent.get()) {
+		} else if (mc.player != null && playerMove.hasRotation() && FreezeLook.get() && !FreezeLookSilent.get()) {
 			event.setCancelled(true);
 			mc.player.setYRot(yaw);
 			mc.player.setXRot(pitch);
@@ -85,8 +83,7 @@ public class Freeze extends Module {
 	}
 
 	@EventHandler
-	private void InteractBlockEvent(InteractBlockEvent event)
-	{
+	private void InteractBlockEvent(InteractBlockEvent event) {
 		if (mc.player != null && mc.getConnection() != null && FreezeLookPlace.get()) {
 			ServerboundMovePlayerPacket.Rot r = new ServerboundMovePlayerPacket.Rot(mc.player.getYRot(), mc.player.getXRot(), mc.player.onGround(), mc.player.horizontalCollision);
 			rotate = true;
@@ -116,15 +113,15 @@ public class Freeze extends Module {
 			mc.player.setPosRaw(position.x, position.y, position.z);
 		}
 	}
+
 	@EventHandler
 	private void onPlayerMove(PlayerMoveEvent event) {
 		event.movement = new Vec3(0, 0, 0);
 	}
+
 	@EventHandler
-	private void remove(EntityRemovedEvent event)
-	{
-		if (event.entity == mc.player)
-		{
+	private void remove(EntityRemovedEvent event) {
+		if (event.entity == mc.player) {
 			if (isActive()) {
 				toggle();
 			}

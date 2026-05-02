@@ -18,6 +18,7 @@ public class TimerPlus extends Module {
 		autoSubscribe = false;
 		MeteorClient.EVENT_BUS.subscribe(this);
 	}
+
 	public static int workingDelay = 27;
 	public static int workingTimer = 0;
 	public static int rechargeTimer = 0; // Reset timer
@@ -57,7 +58,7 @@ public class TimerPlus extends Module {
 		.description("Recharge timer delay.")
 		.defaultValue(352)
 		.visible(() -> mode.get() == TimerModes.Custom || mode.get() == TimerModes.Custom_v2)
-		.onChanged((a) ->  {
+		.onChanged((a) -> {
 			rechargeDelay = a;
 			rechargeTimer = 0;
 		})
@@ -187,10 +188,12 @@ public class TimerPlus extends Module {
 	private void onPostTick(TickEvent.Post event) {
 		currentMode.onTickEventPost(event);
 	}
+
 	@EventHandler
 	public void onSendPacket(PacketEvent.Send event) {
 		currentMode.onSendPacket(event);
 	}
+
 	@EventHandler
 	public void onSentPacket(PacketEvent.Sent event) {
 		currentMode.onSentPacket(event);
@@ -206,11 +209,12 @@ public class TimerPlus extends Module {
 
 		return String.format("%.1f", percentage);
 	}
-	public static double find_percent(double start,double end,double val){
-		end = end- start;
+
+	public static double find_percent(double start, double end, double val) {
+		end = end - start;
 		val = val - start;
 		start = 0;
-		return((1-(val/end))*100);
+		return ((1 - (val / end)) * 100);
 	}
 }
 

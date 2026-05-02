@@ -8,14 +8,14 @@ import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallMode;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.item.Items;
-import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.level.ClipContext;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import nekiplay.meteorplus.utils.ElytraUtils;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 
 import static meteordevelopment.meteorclient.utils.player.ChatUtils.error;
 
@@ -31,14 +31,14 @@ public class Eclip extends NoFallMode {
 	private boolean groundcheck = false;
 	private int timer = 0;
 	private int teleports = 0;
+
 	@Override
 	public void onTickEventPre(TickEvent.Pre event) {
 		FindItemResult elytra = InvUtils.find(Items.ELYTRA);
 		if (!elytra.found()) {
 			error("Elytra not found");
 			settings.toggle();
-		}
-		else {
+		} else {
 
 			if (mc.player.onGround() && groundcheck) {
 				groundcheck = false;

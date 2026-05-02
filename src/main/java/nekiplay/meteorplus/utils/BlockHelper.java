@@ -1,19 +1,15 @@
 package nekiplay.meteorplus.utils;
 
-import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.world.Dimension;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -82,17 +78,14 @@ public class BlockHelper {
 		return Mth.sqrt((float) mc.player.distanceToSqr(cityBlock.getX(), cityBlock.getY(), cityBlock.getZ())) > 4;
 	}
 
-	public static BlockPos opposite(BlockPos pos, Dimension dimension)
-	{
+	public static BlockPos opposite(BlockPos pos, Dimension dimension) {
 		int x = pos.getX();
 		int z = pos.getZ();
 
-		if (dimension == Dimension.Overworld)
-		{
+		if (dimension == Dimension.Overworld) {
 			x /= 8;
 			z /= 8;
-		}
-		else if (dimension == Dimension.Nether) {
+		} else if (dimension == Dimension.Nether) {
 			x *= 8;
 			z *= 8;
 		}

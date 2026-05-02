@@ -10,8 +10,8 @@ import meteordevelopment.orbit.EventHandler;
 import nekiplay.MixinPlugin;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.modes.Cauldrons;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.modes.Portals;
-import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 
 public class AutoObsidianFarm extends Module {
 	public AutoObsidianFarm() {
@@ -165,12 +165,11 @@ public class AutoObsidianFarm extends Module {
 			case Portal_Homes, Portals_Vanila -> {
 				if (MixinPlugin.isBaritonePresent) {
 					currentMode = new Portals();
-				}
-				else {
+				} else {
 					error("This mode need Baritone API (Fabric)");
 				}
 			}
-			case Cauldrons ->  {
+			case Cauldrons -> {
 				currentMode = new Cauldrons();
 			}
 		}
@@ -197,12 +196,14 @@ public class AutoObsidianFarm extends Module {
 			currentMode.onDeactivate();
 		}
 	}
+
 	@EventHandler
 	private void onPreTickPost(TickEvent.Post event) {
 		if (currentMode != null) {
 			currentMode.onTickEventPost(event);
 		}
 	}
+
 	@EventHandler
 	private void onPreTick(TickEvent.Pre event) {
 		if (currentMode != null) {

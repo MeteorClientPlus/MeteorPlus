@@ -4,8 +4,8 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
-import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallMode;
+import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -15,6 +15,7 @@ public class MatrixNew extends NoFallMode {
 	public MatrixNew() {
 		super(NoFallModes.Matrix_New);
 	}
+
 	private Timer timer;
 
 	@Override
@@ -26,8 +27,8 @@ public class MatrixNew extends NoFallMode {
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
 		if (event.packet instanceof ServerboundMovePlayerPacket) {
-			ServerboundMovePlayerPacket packet = (ServerboundMovePlayerPacket)event.packet;
-			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor)packet;
+			ServerboundMovePlayerPacket packet = (ServerboundMovePlayerPacket) event.packet;
+			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor) packet;
 			timer = Modules.get().get(Timer.class);
 
 			if (!mc.player.onGround()) {
@@ -38,8 +39,7 @@ public class MatrixNew extends NoFallMode {
 				}
 				if (mc.player.fallDistance > 3.5) {
 					timer.setOverride(0.3);
-				}
-				else {
+				} else {
 					timer.setOverride(Timer.OFF);
 				}
 			}

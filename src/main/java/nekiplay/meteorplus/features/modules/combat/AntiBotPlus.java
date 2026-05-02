@@ -4,18 +4,20 @@ import meteordevelopment.meteorclient.events.entity.EntityAddedEvent;
 import meteordevelopment.meteorclient.events.entity.EntityRemovedEvent;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
-import meteordevelopment.meteorclient.settings.*;
+import meteordevelopment.meteorclient.settings.BoolSetting;
+import meteordevelopment.meteorclient.settings.EnumSetting;
+import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.MeteorPlusAddon;
+import nekiplay.meteorplus.utils.ColorRemover;
 import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
+import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
-import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
-import nekiplay.meteorplus.utils.ColorRemover;
 
 import java.util.*;
 
@@ -123,7 +125,7 @@ public class AntiBotPlus extends Module {
 	private ArrayList<Integer> swings = new ArrayList<Integer>();
 	private ArrayList<Integer> grounds = new ArrayList<Integer>();
 	private ArrayList<Integer> airs = new ArrayList<Integer>();
-	private Map<Integer, Integer> invalidGrounds  = new HashMap<>();
+	private Map<Integer, Integer> invalidGrounds = new HashMap<>();
 
 	@Override
 	public void onDeactivate() {
@@ -201,13 +203,11 @@ public class AntiBotPlus extends Module {
 							if (targetname.equals(networkName)) {
 								return false;
 							}
-						}
-						else if (tabMode.get() == TabMode.Contains_LowerCase) {
+						} else if (tabMode.get() == TabMode.Contains_LowerCase) {
 							if (targetname.toLowerCase().contains(networkName.toLowerCase())) {
 								return false;
 							}
-						}
-						else {
+						} else {
 							if (targetname.contains(networkName)) {
 								return false;
 							}
@@ -268,8 +268,7 @@ public class AntiBotPlus extends Module {
 					}
 				}
 			}
-		}
-		else if (event.packet instanceof ClientboundAnimatePacket packet) {
+		} else if (event.packet instanceof ClientboundAnimatePacket packet) {
 			if (mc.level != null) {
 				Entity entity = mc.level.getEntity(packet.getId());
 				if (entity != null) {

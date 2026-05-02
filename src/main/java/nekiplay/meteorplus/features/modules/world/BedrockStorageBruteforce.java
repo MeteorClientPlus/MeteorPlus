@@ -16,15 +16,14 @@ import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.core.Direction;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.time.LocalDateTime;
@@ -76,17 +75,19 @@ public class BedrockStorageBruteforce extends Module {
 	);
 	Thread clickerThread = null;
 	private boolean scan = true;
+
 	private void stop() {
-		if (clickerThread != null && clickerThread.isAlive())
-		{
+		if (clickerThread != null && clickerThread.isAlive()) {
 
 		}
 		scan = false;
 	}
+
 	@Override
 	public void onDeactivate() {
 		stop();
 	}
+
 	private boolean isAllowScan(BlockPos pos) {
 		if (mc.level != null) {
 			if (!scanned.contains(pos)) {
@@ -97,14 +98,15 @@ public class BedrockStorageBruteforce extends Module {
 		}
 		return false;
 	}
+
 	Dimension dim;
+
 	@Override
 	public void onActivate() {
 		dim = PlayerUtils.getDimension();
 		scan = true;
 		clickerThread = new Thread(() -> {
-			while (scan)
-			{
+			while (scan) {
 				assert mc.player != null;
 				BlockPos playerPos = mc.player.blockPosition();
 				int ranger = range.get();
@@ -131,8 +133,10 @@ public class BedrockStorageBruteforce extends Module {
 		clickerThread.start();
 		millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 	}
+
 	BlockPos last = null;
 	long millis = 0;
+
 	@EventHandler
 	private void onRender(Render3DEvent event) {
 		if (last != null) {
@@ -148,11 +152,13 @@ public class BedrockStorageBruteforce extends Module {
 			event.renderer.line(RenderUtils.center.x, RenderUtils.center.y, RenderUtils.center.z, bp.getX(), bp.getY(), bp.getZ(), color);
 		}
 	}
+
 	@EventHandler
 	private void onGameLeft(GameLeftEvent event) {
 		scanned.clear();
 		stop();
 	}
+
 	@EventHandler
 	private void onTickPre(TickEvent.Pre event) {
 		if (PlayerUtils.getDimension() != dim) {

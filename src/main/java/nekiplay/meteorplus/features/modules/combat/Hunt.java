@@ -13,16 +13,16 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -57,7 +57,8 @@ public class Hunt extends Module {
 
 	private boolean entityCheck(Entity entity) {
 		if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) return false;
-		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDeadOrDying()) || !entity.isAlive()) return false;
+		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDeadOrDying()) || !entity.isAlive())
+			return false;
 		if (!entities.get().contains(entity.getType())) return false;
 		if (entity instanceof OwnableEntity tameable
 			&& tameable.getOwner().getUUID() != null
@@ -84,11 +85,11 @@ public class Hunt extends Module {
 				Block blockBelow = world.getBlockState(posBelow).getBlock();
 
 				return (blockBelow != Blocks.AIR && blockBelow != Blocks.WATER && blockBelow != Blocks.LAVA);
-			}
-			else return entity.onGround();
+			} else return entity.onGround();
 		}
 		return true;
 	}
+
 	private final ArrayList<Entity> targets = new ArrayList<>();
 
 	@Override

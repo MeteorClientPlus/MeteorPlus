@@ -1,7 +1,6 @@
 package nekiplay.meteorplus.features.modules.world.timer.modes;
 
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import nekiplay.meteorplus.features.modules.world.timer.TimerMode;
@@ -27,29 +26,24 @@ public class NCP extends TimerMode {
 				rechargeTimer = rechargeDelay;
 				workingTimer = 0;
 				timer.setOverride(Timer.OFF);
-			}
-			else {
+			} else {
 				if (settings.isActive()) {
 					if (settings.onlyInMove.get() && PlayerUtils.isMoving()) {
 						workingTimer++;
 						timer.setOverride(timerMultiplier);
-					}
-					else if (!settings.onlyInMove.get()) {
+					} else if (!settings.onlyInMove.get()) {
 						workingTimer++;
 						timer.setOverride(timerMultiplier);
-					}
-					else {
+					} else {
 						timer.setOverride(timerMultiplierOnRecharge);
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			rechargeTimer--;
 			if (settings.isActive()) {
 				timer.setOverride(timerMultiplierOnRecharge);
-			}
-			else {
+			} else {
 				timer.setOverride(Timer.OFF);
 			}
 		}

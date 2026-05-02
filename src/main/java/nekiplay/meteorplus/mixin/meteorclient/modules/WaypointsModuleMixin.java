@@ -1,15 +1,12 @@
 package nekiplay.meteorplus.mixin.meteorclient.modules;
 
-import baritone.api.BaritoneAPI;
-import baritone.api.IBaritone;
-import com.sun.source.tree.Tree;
-import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import baritone.api.pathing.goals.GoalGetToBlock;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
+import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.settings.*;
@@ -19,22 +16,17 @@ import meteordevelopment.meteorclient.systems.modules.render.WaypointsModule;
 import meteordevelopment.meteorclient.systems.waypoints.Waypoint;
 import meteordevelopment.meteorclient.systems.waypoints.Waypoints;
 import meteordevelopment.meteorclient.utils.Utils;
-import nekiplay.meteorplus.utils.NumeralUtils;
 import nekiplay.meteorplus.mixinclasses.EditWaypointScreen;
 import nekiplay.meteorplus.mixinclasses.WIcon;
 import nekiplay.meteorplus.mixinclasses.WaypointsModuleModes;
-import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
-import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static meteordevelopment.meteorclient.utils.render.color.Color.GRAY;
 import static nekiplay.meteorplus.MeteorPlusAddon.HUD_TITLE;
 
@@ -53,7 +45,7 @@ public class WaypointsModuleMixin extends Module {
 	private final Setting<Boolean> showDistance = meteorPlusTab.add(new BoolSetting.Builder()
 		.name("show-distance")
 		.description("Show distance in this gui.")
-		.onChanged((a) ->  {
+		.onChanged((a) -> {
 			GuiTheme t = themeRef.get();
 			WTable tab = tableRef.get();
 			if (t != null && tab != null) {
@@ -68,7 +60,7 @@ public class WaypointsModuleMixin extends Module {
 	private final Setting<Boolean> showCompactDistance = meteorPlusTab.add(new BoolSetting.Builder()
 		.name("show-compact-distance")
 		.description("Show compact distance in this gui.")
-		.onChanged((a) ->  {
+		.onChanged((a) -> {
 			GuiTheme t = themeRef.get();
 			WTable tab = tableRef.get();
 			if (t != null && tab != null) {
@@ -85,7 +77,7 @@ public class WaypointsModuleMixin extends Module {
 		.name("sort-mode")
 		.description("Sorting waypoints mode.")
 		.defaultValue(WaypointsModuleModes.SortMode.Distance)
-		.onChanged((a) ->  {
+		.onChanged((a) -> {
 			GuiTheme t = themeRef.get();
 			WTable tab = tableRef.get();
 			if (t != null && tab != null) {
@@ -100,13 +92,13 @@ public class WaypointsModuleMixin extends Module {
 		.name("search")
 		.description("Search waypoint by text")
 		.defaultValue("")
-			.onChanged((a) ->  {
-				GuiTheme t = themeRef.get();
-				WTable tab = tableRef.get();
-				if (t != null && tab != null) {
-					initTable(t, tab);
-				}
-			})
+		.onChanged((a) -> {
+			GuiTheme t = themeRef.get();
+			WTable tab = tableRef.get();
+			if (t != null && tab != null) {
+				initTable(t, tab);
+			}
+		})
 		.build()
 	);
 

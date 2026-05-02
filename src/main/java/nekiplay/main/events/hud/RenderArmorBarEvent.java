@@ -1,4 +1,5 @@
 package nekiplay.main.events.hud;
+
 import nekiplay.main.events.Cancellable;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.player.Player;
@@ -11,6 +12,7 @@ public class RenderArmorBarEvent extends Cancellable {
 	private int j;
 	private int k;
 	private int x;
+
 	public static RenderArmorBarEvent get(GuiGraphicsExtractor context, Player player, int i, int j, int k, int x) {
 		INSTANCE.context = context;
 		INSTANCE.player = player;

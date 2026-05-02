@@ -6,17 +6,17 @@ import meteordevelopment.meteorclient.utils.misc.IChangeable;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.IGetter;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.world.item.Item;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
 public class ItemDataSetting<T extends ICopyable<T> & ISerializable<T> & IChangeable & IItemData<T>> extends Setting<Map<Item, T>> {
- 	public final IGetter<T> defaultData;
+	public final IGetter<T> defaultData;
 
 	public ItemDataSetting(String name, String description, Map<Item, T> defaultValue, Consumer<Map<Item, T>> onChanged, Consumer<Setting<Map<Item, T>>> onModuleActivated, IGetter<T> defaultData, IVisible visible) {
 		super(name, description, defaultValue, onChanged, onModuleActivated, visible);

@@ -14,12 +14,10 @@ public class Vanila extends NoSlowMode {
 		if (mc.player.isShiftKeyDown()) {
 			event.setForward(settings.sneakForward.get().floatValue());
 			event.setSideways(settings.sneakSideways.get().floatValue());
-		}
-		else if (mc.player.isUsingItem()) {
+		} else if (mc.player.isUsingItem()) {
 			event.setForward(settings.usingForward.get().floatValue());
 			event.setSideways(settings.usingSideways.get().floatValue());
-		}
-		else {
+		} else {
 			event.setForward(settings.otherForward.get().floatValue());
 			event.setSideways(settings.otherSideways.get().floatValue());
 		}

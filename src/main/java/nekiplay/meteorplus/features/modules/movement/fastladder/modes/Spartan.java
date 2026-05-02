@@ -3,15 +3,14 @@ package nekiplay.meteorplus.features.modules.movement.fastladder.modes;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
+import nekiplay.meteorplus.features.modules.movement.fastladder.FastLadderMode;
+import nekiplay.meteorplus.features.modules.movement.fastladder.FastLadderModes;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import nekiplay.meteorplus.features.modules.movement.fastladder.FastLadderMode;
-import nekiplay.meteorplus.features.modules.movement.fastladder.FastLadderModes;
 
 public class Spartan extends FastLadderMode {
 	public Spartan() {

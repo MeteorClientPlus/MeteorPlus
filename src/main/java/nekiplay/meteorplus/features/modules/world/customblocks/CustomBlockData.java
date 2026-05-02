@@ -11,6 +11,7 @@ public class CustomBlockData {
 
 	public String world;
 	public String dimension;
+
 	public CustomBlockData(BlockPos pos, int block_id) {
 		this.positions.add(new PosData(pos));
 		this.block_id = block_id;

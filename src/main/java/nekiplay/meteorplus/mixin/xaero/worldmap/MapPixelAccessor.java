@@ -8,5 +8,5 @@ import xaero.map.region.MapPixel;
 @Mixin(MapPixel.class)
 public interface MapPixelAccessor {
 	@Accessor("state")
-    BlockState getBlockState();
+	BlockState getBlockState();
 }

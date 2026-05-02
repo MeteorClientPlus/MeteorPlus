@@ -11,6 +11,7 @@ public class PerlinNoice {
 		float noice = perlin.Noise(5, 5) + perlin.Noise((25 - 25) * Phi, (25 + 25) * Phi) * -1;
 		return (int) (noice * multiply);
 	}
+
 	public static int PerlinNoice(double multiply) {
 		Perlin2D perlin = new Perlin2D(new Random().nextInt());
 		float Phi = 0.70710678118f;

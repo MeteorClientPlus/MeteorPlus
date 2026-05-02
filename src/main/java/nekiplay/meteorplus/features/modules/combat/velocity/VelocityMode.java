@@ -11,18 +11,30 @@ public class VelocityMode {
 	private final VelocityModes type;
 
 	public VelocityMode(VelocityModes type) {
-		this.settings = Modules.get().get(VelocityPlus.class);;
+		this.settings = Modules.get().get(VelocityPlus.class);
+		;
 		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
 
-	public void onSendPacket(PacketEvent.Send event) {}
-	public void onSentPacket(PacketEvent.Sent event) {}
-	public void onReceivePacket(PacketEvent.Receive event) {}
+	public void onSendPacket(PacketEvent.Send event) {
+	}
 
-	public void onTickEventPre(TickEvent.Pre event) {}
-	public void onTickEventPost(TickEvent.Post event) {}
+	public void onSentPacket(PacketEvent.Sent event) {
+	}
 
-	public void onActivate() {}
-	public void onDeactivate() {}
+	public void onReceivePacket(PacketEvent.Receive event) {
+	}
+
+	public void onTickEventPre(TickEvent.Pre event) {
+	}
+
+	public void onTickEventPost(TickEvent.Post event) {
+	}
+
+	public void onActivate() {
+	}
+
+	public void onDeactivate() {
+	}
 }

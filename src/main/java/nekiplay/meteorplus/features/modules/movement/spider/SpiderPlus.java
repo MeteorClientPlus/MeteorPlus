@@ -18,6 +18,7 @@ public class SpiderPlus extends Module {
 		super(Categories.Movement, "spider+", "Bypass spider");
 		onSpiderModeChanged(spiderMode.get());
 	}
+
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
 
@@ -60,10 +61,12 @@ public class SpiderPlus extends Module {
 	private void onPostTick(TickEvent.Post event) {
 		currentMode.onTickEventPost(event);
 	}
+
 	@EventHandler
 	public void onSendPacket(PacketEvent.Send event) {
 		currentMode.onSendPacket(event);
 	}
+
 	@EventHandler
 	public void onSentPacket(PacketEvent.Sent event) {
 		currentMode.onSentPacket(event);
@@ -72,9 +75,15 @@ public class SpiderPlus extends Module {
 
 	private void onSpiderModeChanged(SpiderModes mode) {
 		switch (mode) {
-			case Matrix:   currentMode = new Matrix(); break;
-			case Vulcan:   currentMode = new Vulcan(); break;
-			case Elytra_clip:   currentMode = new Eclip(); break;
+			case Matrix:
+				currentMode = new Matrix();
+				break;
+			case Vulcan:
+				currentMode = new Vulcan();
+				break;
+			case Elytra_clip:
+				currentMode = new Eclip();
+				break;
 		}
 	}
 }

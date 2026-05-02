@@ -7,10 +7,12 @@ public class RandomUtils {
 		if (max <= min) return max;
 		else return ThreadLocalRandom.current().nextFloat(min, max);
 	}
+
 	public static int nextInt(int min, int max) {
 		if (max <= min) return max;
 		else return ThreadLocalRandom.current().nextInt(min, max);
 	}
+
 	public static double nextDouble(double min, double max) {
 		if (max <= min) return max;
 		else return ThreadLocalRandom.current().nextDouble(min, max);

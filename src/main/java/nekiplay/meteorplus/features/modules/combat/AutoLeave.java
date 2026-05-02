@@ -1,5 +1,6 @@
 package nekiplay.meteorplus.features.modules.combat;
 
+import meteordevelopment.meteorclient.events.entity.EntityAddedEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -8,17 +9,18 @@ import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.network.protocol.common.ClientboundDisconnectPacket;
-import net.minecraft.network.chat.Component;
-import meteordevelopment.meteorclient.events.entity.EntityAddedEvent;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.ClientboundDisconnectPacket;
+import net.minecraft.world.entity.player.Player;
+
 import java.util.Objects;
 
 public class AutoLeave extends Module {
 	public AutoLeave() {
 		super(Categories.Combat, "auto-leave", "Automatically logs out from the server when someone enters your render distance.");
 	}
+
 	private final SettingGroup ALSettings = settings.getDefaultGroup();
 	private final Setting<Boolean> visualRangeIgnoreFriends = ALSettings.add(new BoolSetting.Builder()
 		.name("ignore-friends")
@@ -62,12 +64,11 @@ public class AutoLeave extends Module {
 					mc.level.disconnect(Component.nullToEmpty(""));
 					mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal(String.format("[§dAuto Leaeve§r] player %s was detected", event.entity.getName()))));
 				}
-			if (AutoDisable.get()) this.toggle();
-			}
-		}
-		else if (event.entity.isAlwaysTicking()){
-				mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal(String.format("[§dAuto Leaeve§r] player %s was detected", event.entity.getName()))));
 				if (AutoDisable.get()) this.toggle();
+			}
+		} else if (event.entity.isAlwaysTicking()) {
+			mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal(String.format("[§dAuto Leaeve§r] player %s was detected", event.entity.getName()))));
+			if (AutoDisable.get()) this.toggle();
 		}
 	}
 }

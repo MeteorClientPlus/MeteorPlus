@@ -1,4 +1,5 @@
 package nekiplay.main.events.hud;
+
 import nekiplay.main.events.Cancellable;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +17,7 @@ public class RenderHealthBarEvent extends Cancellable {
 	private int health;
 	private int absorption;
 	private boolean blinking;
+
 	public static RenderHealthBarEvent get(GuiGraphicsExtractor context, Player player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking) {
 		INSTANCE.context = context;
 		INSTANCE.player = player;

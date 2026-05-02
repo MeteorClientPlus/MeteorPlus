@@ -3,8 +3,8 @@ package nekiplay.meteorplus.features.modules.movement.nofall.modes;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
-import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallMode;
+import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import nekiplay.meteorplus.utils.MovementUtils;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 
@@ -28,20 +28,20 @@ public class Vulcan extends NoFallMode {
 
 	@Override
 	public void onTickEventPre(TickEvent.Pre event) {
-		if(!vulCanNoFall && mc.player.fallDistance > 3.25) {
+		if (!vulCanNoFall && mc.player.fallDistance > 3.25) {
 			vulCanNoFall = true;
 		}
-		if(vulCanNoFall && mc.player.onGround() && vulCantNoFall) {
+		if (vulCanNoFall && mc.player.onGround() && vulCantNoFall) {
 			vulCantNoFall = false;
 		}
-		if(vulCantNoFall) return;
-		if(nextSpoof) {
+		if (vulCantNoFall) return;
+		if (nextSpoof) {
 			mc.player.getDeltaMovement().add(0, -0.1, 0);
 			mc.player.fallDistance = -0.1f;
 			MovementUtils.strafe(0.3f);
 			nextSpoof = false;
 		}
-		if(mc.player.fallDistance > 3.5625f) {
+		if (mc.player.fallDistance > 3.5625f) {
 			mc.player.fallDistance = 0.0f;
 			doSpoof = true;
 			nextSpoof = true;

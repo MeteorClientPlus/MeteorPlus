@@ -15,11 +15,13 @@ public class ESPItemDataScreen extends WindowScreen {
 
 	public ESPItemDataScreen(GuiTheme theme, ESPItemData blockData, Item block, ItemDataSetting<ESPItemData> setting) {
 		this(theme, blockData, setting, () -> setting.get().put(block, blockData));
-    }
-    public ESPItemDataScreen(GuiTheme theme, ESPItemData blockData, GenericSetting<ESPItemData> setting) {
-        this(theme, blockData, setting, null);
-    }
-    private ESPItemDataScreen(GuiTheme theme, ESPItemData blockData, Setting<?> setting, @Nullable Runnable firstChangeConsumer) {
+	}
+
+	public ESPItemDataScreen(GuiTheme theme, ESPItemData blockData, GenericSetting<ESPItemData> setting) {
+		this(theme, blockData, setting, null);
+	}
+
+	private ESPItemDataScreen(GuiTheme theme, ESPItemData blockData, Setting<?> setting, @Nullable Runnable firstChangeConsumer) {
 		super(theme, "Configure Items");
 
 		this.blockData = blockData;

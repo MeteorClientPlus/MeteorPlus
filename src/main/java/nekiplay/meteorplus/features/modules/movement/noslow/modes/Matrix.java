@@ -3,13 +3,13 @@ package nekiplay.meteorplus.features.modules.movement.noslow.modes;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowMode;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowModes;
-import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowPlus;
 import net.minecraft.world.phys.Vec3;
 
 public class Matrix extends NoSlowMode {
 	public Matrix() {
 		super(NoSlowModes.Matrix);
 	}
+
 	private int ticks = 0;
 
 	@Override

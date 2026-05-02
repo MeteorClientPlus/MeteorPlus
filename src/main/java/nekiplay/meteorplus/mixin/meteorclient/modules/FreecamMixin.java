@@ -15,24 +15,20 @@ import meteordevelopment.meteorclient.systems.modules.movement.Blink;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
-import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.utils.RaycastUtils;
-import net.minecraft.world.level.block.*;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static meteordevelopment.meteorclient.utils.misc.input.Input.isPressed;
 import static nekiplay.meteorplus.MeteorPlusAddon.HUD_TITLE;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT;
@@ -90,8 +86,8 @@ public class FreecamMixin {
 
 	@Unique
 	private BlockPos tryGetValidPos(BlockPos pos) {
-        assert mc.level != null;
-        BlockState state = mc.level.getBlockState(pos);
+		assert mc.level != null;
+		BlockState state = mc.level.getBlockState(pos);
 		Block block = state.getBlock();
 		if (block == Blocks.FERN ||
 			block == Blocks.SHORT_GRASS ||
@@ -175,13 +171,13 @@ public class FreecamMixin {
 
 		) {
 			return pos;
-		}
-		else {
+		} else {
 			return pos.above();
 		}
 	}
 
-	@Unique @Nullable
+	@Unique
+	@Nullable
 	private BlockPos rayCastClicked() {
 		BlockPos blockPos = null;
 		Vec3 rotationVector = RaycastUtils.getRotationVector((float) freecam.getPitch(mc.getDeltaTracker().getGameTimeDeltaPartialTick(true)), (float) freecam.getYaw(mc.getDeltaTracker().getGameTimeDeltaPartialTick(true)));
@@ -251,12 +247,12 @@ public class FreecamMixin {
 
 	@Unique
 	@EventHandler
-	private void onKeyEvent(KeyInputEvent event)
-	{
+	private void onKeyEvent(KeyInputEvent event) {
 		if (mc.level != null && event.action == KeyAction.Press) {
 			Work(event);
 		}
 	}
+
 	@Unique
 	@EventHandler
 	private void onMouseClickEvent(MouseClickEvent event) {
@@ -269,12 +265,12 @@ public class FreecamMixin {
 	@EventHandler
 	private void onTickEvent(TickEvent.Pre event) {
 		if (mc.level != null && blinkBaritoneControl.get() && blink != null) {
-			if (isBlinkMoving && (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() ) ) {
+			if (isBlinkMoving && (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing())) {
 				if (!blink.isActive()) {
 					blink.toggle();
 				}
 			}
-			if (isBlinkMoving && (!BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || !BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() ) ) {
+			if (isBlinkMoving && (!BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || !BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing())) {
 				if (blink.isActive()) {
 					blink.toggle();
 					isBlinkMoving = false;

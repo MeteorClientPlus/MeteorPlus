@@ -14,15 +14,13 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.item.Item;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -35,6 +33,7 @@ public class CustomBlocksModule extends Module {
 	public CustomBlocksModule() {
 		super(Categories.World, "Custom Blocks", "Place custom blocks in world, extension for Holograms");
 	}
+
 	public Gson gson = new Gson();
 	public HashMap<PosData, CustomBlockData> allBlocks = new HashMap<PosData, CustomBlockData>();
 

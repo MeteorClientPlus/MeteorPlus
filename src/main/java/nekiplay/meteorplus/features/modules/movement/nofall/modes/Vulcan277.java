@@ -2,8 +2,8 @@ package nekiplay.meteorplus.features.modules.movement.nofall.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
-import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallMode;
+import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 
 public class Vulcan277 extends NoFallMode {
@@ -15,8 +15,8 @@ public class Vulcan277 extends NoFallMode {
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
 		if (event.packet instanceof ServerboundMovePlayerPacket) {
-			ServerboundMovePlayerPacket packet = (ServerboundMovePlayerPacket)event.packet;
-			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor)packet;
+			ServerboundMovePlayerPacket packet = (ServerboundMovePlayerPacket) event.packet;
+			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor) packet;
 
 			if (mc.player.fallDistance > 7.0) {
 				accessor.meteor$setOnGround(true);

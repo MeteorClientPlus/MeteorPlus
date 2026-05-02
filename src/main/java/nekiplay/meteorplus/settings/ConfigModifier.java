@@ -11,25 +11,25 @@ import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.meteorplus.features.modules.world.timer.TimerPlus;
 import nekiplay.meteorplus.mixinclasses.SpoofMode;
 import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
+import net.minecraft.resources.Identifier;
+import net.minecraft.stats.Stat;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.core.Holder;
-import net.minecraft.stats.Stat;
-import net.minecraft.stats.Stats;
-import net.minecraft.resources.Identifier;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.StringUtils;
 import org.meteordev.starscript.Starscript;
-import org.meteordev.starscript.Script;
 import org.meteordev.starscript.value.Value;
 import org.meteordev.starscript.value.ValueMap;
+
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,7 +90,6 @@ public class ConfigModifier {
 
 	private void changedProtection() {
 		Starscript ss = MeteorStarscript.ss;
-
 
 
 		if (positionProtection.get()) {
@@ -171,8 +170,7 @@ public class ConfigModifier {
 
 					.set("get_stat", ConfigModifier::getStat)
 				);
-			}
-			else {
+			} else {
 				ss.set("camera", new ValueMap()
 					.set("pos", new ValueMap()
 						.set("_toString", () -> posString(false, true))
@@ -250,8 +248,7 @@ public class ConfigModifier {
 					.set("get_stat", ConfigModifier::getStat)
 				);
 			}
-		}
-		else {
+		} else {
 			ss.set("camera", new ValueMap()
 				.set("pos", new ValueMap()
 					.set("_toString", () -> posString(false, true))
@@ -334,8 +331,7 @@ public class ConfigModifier {
 		double x = 0;
 		if (positionProtection.get()) {
 			x = camera ? mc.gameRenderer.getMainCamera().position().x + ConfigModifier.get().x_spoof.get() : (mc.player != null ? mc.player.getX() + ConfigModifier.get().x_spoof.get() : 0);
-		}
-		else {
+		} else {
 			x = camera ? mc.gameRenderer.getMainCamera().position().x : (mc.player != null ? mc.player.getX() : 0);
 		}
 		Dimension dimension = PlayerUtils.getDimension();
@@ -350,8 +346,7 @@ public class ConfigModifier {
 		double z = 0;
 		if (positionProtection.get()) {
 			z = camera ? mc.gameRenderer.getMainCamera().position().z + ConfigModifier.get().z_spoof.get() : (mc.player != null ? mc.player.getZ() + ConfigModifier.get().z_spoof.get() : 0);
-		}
-		else {
+		} else {
 			z = camera ? mc.gameRenderer.getMainCamera().position().z : (mc.player != null ? mc.player.getZ() : 0);
 		}
 		Dimension dimension = PlayerUtils.getDimension();
@@ -393,7 +388,9 @@ public class ConfigModifier {
 
 		return wrap(HorizontalDirection.get(yaw));
 	}
+
 	private static final BlockPos.MutableBlockPos BP = new BlockPos.MutableBlockPos();
+
 	private static Value biome() {
 		if (mc.player == null || mc.level == null) return Value.string("");
 
@@ -419,6 +416,7 @@ public class ConfigModifier {
 		PlayerInfo playerListEntry = mc.getConnection().getPlayerInfo(mc.player.getUUID());
 		return Value.number(playerListEntry != null ? playerListEntry.getLatency() : 0);
 	}
+
 	private Value posString(boolean opposite, boolean camera) {
 		Vec3 pos;
 		if (camera) pos = mc.gameRenderer.getMainCamera().position();
@@ -433,8 +431,7 @@ public class ConfigModifier {
 			if (dimension == Dimension.Overworld) {
 				x /= 8;
 				z /= 8;
-			}
-			else if (dimension == Dimension.Nether) {
+			} else if (dimension == Dimension.Nether) {
 				x *= 8;
 				z *= 8;
 			}
@@ -447,12 +444,10 @@ public class ConfigModifier {
 		if (positionProtection.get()) {
 			if (spoofMode.get() == SpoofMode.Fake) {
 				return Value.string(String.format("X: %.0f Y: %.0f Z: %.0f", x + ConfigModifier.get().x_spoof.get(), y, z + ConfigModifier.get().z_spoof.get()));
-			}
-			else {
+			} else {
 				return Value.string(String.format("X: 0 Y: %.0f Z: 0", y));
 			}
-		}
-		else {
+		} else {
 			return Value.string(String.format("X: %.0f Y: %.0f Z: %.0f", x, y, z));
 		}
 	}
@@ -510,7 +505,9 @@ public class ConfigModifier {
 
 		return wrap(effectInstance);
 	}
+
 	private static long lastRequestedStatsTime = 0;
+
 	private static Value getStat(Starscript ss, int argCount) {
 		if (argCount < 1) ss.error("player.get_stat() requires 1 argument, got %d.", argCount);
 		if (mc.player == null) return Value.number(0);

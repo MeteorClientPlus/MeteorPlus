@@ -2,10 +2,10 @@ package nekiplay.meteorplus.mixin.meteorclient.modules;
 
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.ESP;
+import nekiplay.meteorplus.features.modules.combat.AntiBotPlus;
 import nekiplay.meteorplus.features.modules.combat.Teams;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import nekiplay.meteorplus.features.modules.combat.AntiBotPlus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

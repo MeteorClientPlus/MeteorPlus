@@ -4,20 +4,23 @@ import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyMode;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyModes;
-import net.minecraft.world.entity.Pose;
 
 public class Control extends ElytraFlyMode {
 	public Control() {
 		super(ElytraFlyModes.Control);
 	}
+
 	private boolean moving;
 	private float yaw;
 	private float pitch;
 	private float p;
 	private double velocity;
+
 	@Override
 	public void onPlayerMove(PlayerMoveEvent event) {
-		if (!mc.player.isFallFlying()) {return;}
+		if (!mc.player.isFallFlying()) {
+			return;
+		}
 
 		updateControlMovement();
 		pitch = 0;

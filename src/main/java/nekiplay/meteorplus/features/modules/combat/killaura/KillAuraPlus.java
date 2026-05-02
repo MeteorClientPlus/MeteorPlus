@@ -12,7 +12,6 @@ import nekiplay.meteorplus.features.modules.combat.killaura.modes.Matrix;
 import net.minecraft.world.entity.EntityType;
 import org.spongepowered.asm.mixin.Unique;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 public class KillAuraPlus extends Module {
@@ -128,7 +127,6 @@ public class KillAuraPlus extends Module {
 	);
 
 
-
 	private KillAuraPlusMode currentMode;
 
 	private void onModeChanged(KillAuraPlusModes mode) {
@@ -136,14 +134,17 @@ public class KillAuraPlus extends Module {
 			case Matrix -> currentMode = new Matrix();
 		}
 	}
+
 	@EventHandler
 	private void onTickPre(TickEvent.Pre event) {
 		currentMode.onTickPre(event);
 	}
+
 	@EventHandler
 	private void onTickPost(TickEvent.Post event) {
 		currentMode.onTickPost(event);
 	}
+
 	@EventHandler
 	private void onSendPacket(PacketEvent.Send event) {
 		currentMode.onSendPacket(event);

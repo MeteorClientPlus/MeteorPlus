@@ -1,10 +1,10 @@
 package nekiplay.meteorplus.mixin.minecraft;
 
 import meteordevelopment.meteorclient.MeteorClient;
+import nekiplay.main.events.ClickWindowEvent;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerInput;
-import nekiplay.main.events.ClickWindowEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

@@ -13,18 +13,29 @@ public class TimerMode {
 	protected Timer timer;
 
 	public TimerMode(TimerModes type) {
-		this.timer = Modules.get().get(Timer.class);;
-		this.settings = Modules.get().get(TimerPlus.class);;
+		this.timer = Modules.get().get(Timer.class);
+		;
+		this.settings = Modules.get().get(TimerPlus.class);
+		;
 		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
 
-	public void onSendPacket(PacketEvent.Send event) {}
-	public void onSentPacket(PacketEvent.Sent event) {}
+	public void onSendPacket(PacketEvent.Send event) {
+	}
 
-	public void onTickEventPre(TickEvent.Pre event) {}
-	public void onTickEventPost(TickEvent.Post event) {}
+	public void onSentPacket(PacketEvent.Sent event) {
+	}
 
-	public void onActivate() {}
-	public void onDeactivate() {}
+	public void onTickEventPre(TickEvent.Pre event) {
+	}
+
+	public void onTickEventPost(TickEvent.Post event) {
+	}
+
+	public void onActivate() {
+	}
+
+	public void onDeactivate() {
+	}
 }

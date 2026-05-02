@@ -2,11 +2,9 @@ package nekiplay.meteorplus.features.modules.movement.speed.modes.vulcan;
 
 import meteordevelopment.meteorclient.events.entity.player.JumpVelocityMultiplierEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedMode;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedModes;
 import nekiplay.meteorplus.utils.MovementUtils;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.phys.Vec3;
 

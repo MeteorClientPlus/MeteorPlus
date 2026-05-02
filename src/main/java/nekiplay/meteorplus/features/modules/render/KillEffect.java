@@ -1,6 +1,5 @@
 package nekiplay.meteorplus.features.modules.render;
 
-import meteordevelopment.meteorclient.events.entity.player.AttackEntityEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.EnumSetting;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -8,12 +7,11 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.features.modules.movement.fly.FlyModes;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.core.particles.ParticleTypes;
 
 import java.util.ArrayList;
 
@@ -21,6 +19,7 @@ public class KillEffect extends Module {
 	public KillEffect() {
 		super(Categories.Render, "kill-effect", "Render kill effect");
 	}
+
 	public final ArrayList<Entity> entityList = new ArrayList<>();
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
 

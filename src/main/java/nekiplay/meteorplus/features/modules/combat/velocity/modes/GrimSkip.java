@@ -4,10 +4,10 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import nekiplay.meteorplus.features.modules.combat.velocity.VelocityMode;
 import nekiplay.meteorplus.features.modules.combat.velocity.VelocityModes;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundDamageEventPacket;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.protocol.game.ClientboundExplodePacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 
 public class GrimSkip extends VelocityMode {
 	public GrimSkip() {

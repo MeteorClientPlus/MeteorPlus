@@ -13,7 +13,8 @@ public class ClickWindowEvent extends Cancellable {
 	public static ClickWindowEvent get(int windowId, int slotId, int mouseButtonClicked, ContainerInput mode) {
 		INSTANCE.setCancelled(false);
 		INSTANCE.windowId = windowId;
-		INSTANCE.mouseButtonClicked = mouseButtonClicked;;
+		INSTANCE.mouseButtonClicked = mouseButtonClicked;
+		;
 		INSTANCE.slotId = slotId;
 		INSTANCE.mode = mode;
 		return INSTANCE;

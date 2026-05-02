@@ -1,22 +1,21 @@
 package nekiplay.meteorplus.features.modules.movement.spider.modes;
 
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.item.Items;
-import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderMode;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderModes;
-import nekiplay.meteorplus.features.modules.movement.spider.SpiderPlus;
 import nekiplay.meteorplus.utils.ElytraUtils;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.item.Items;
 
 public class Eclip extends SpiderMode {
 	public Eclip() {
 		super(SpiderModes.Elytra_clip);
 	}
+
 	private int ticks = 0;
 	private int slot = -1;
 	private double blocks = 0;
@@ -39,17 +38,18 @@ public class Eclip extends SpiderMode {
 			ticks = 0;
 		}
 	}
+
 	private boolean work() {
 		LocalPlayer player = mc.player;
 		assert player != null;
 		FindItemResult elytra = InvUtils.find(Items.ELYTRA);
 		if (elytra.found()) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
+
 	private void clip() {
 		if (blocks != 0) {
 			LocalPlayer player = mc.player;

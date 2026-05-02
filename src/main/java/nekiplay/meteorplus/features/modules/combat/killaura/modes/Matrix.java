@@ -12,24 +12,19 @@ import nekiplay.meteorplus.features.modules.combat.killaura.KillAuraPlusModes;
 import nekiplay.meteorplus.utils.GameSensitivityUtils;
 import nekiplay.meteorplus.utils.math.StopWatch;
 import net.minecraft.client.model.geom.builders.UVPair;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
-import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.zombie.ZombifiedPiglin;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3d;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus.allowCrit;
 import static nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus.needCrit;
@@ -40,7 +35,9 @@ public class Matrix extends KillAuraPlusMode {
 	public Matrix() {
 		super(KillAuraPlusModes.Matrix);
 	}
+
 	private final ArrayList<Entity> targets = new ArrayList<>();
+
 	@Override
 	public void onTickPre(TickEvent.Pre event) {
 		if (target == null || !entityCheck(target)) {
@@ -59,15 +56,13 @@ public class Matrix extends KillAuraPlusMode {
 			}
 			if (settings.onlyCrits.get() && !allowCrit() && needCrit(target)) {
 
-			}
-			else if (delayCheck() && result != null && result.getType() == net.minecraft.world.phys.HitResult.Type.ENTITY) {
+			} else if (delayCheck() && result != null && result.getType() == net.minecraft.world.phys.HitResult.Type.ENTITY) {
 				attack(target);
 				ticks = 2;
 			}
 
 
-
-            if (settings.rotationType.get() == Type.Fast) {
+			if (settings.rotationType.get() == Type.Fast) {
 				if (ticks > 0) {
 					updateRotation(true, 180, 90);
 					Rotations.rotate(rotateVector.u(), rotateVector.v());
@@ -81,8 +76,7 @@ public class Matrix extends KillAuraPlusMode {
 					Rotations.rotate(rotateVector.u(), rotateVector.v());
 				}
 			}
-		}
-		else {
+		} else {
 			reset();
 		}
 	}
@@ -97,9 +91,10 @@ public class Matrix extends KillAuraPlusMode {
 		mc.player.swing(InteractionHand.MAIN_HAND);
 	}
 
- 	private boolean entityCheck(Entity entity) {
+	private boolean entityCheck(Entity entity) {
 		if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) return false;
-		if ((entity instanceof LivingEntity livingEntity && livingEntity.isDeadOrDying()) || !entity.isAlive()) return false;
+		if ((entity instanceof LivingEntity livingEntity && livingEntity.isDeadOrDying()) || !entity.isAlive())
+			return false;
 
 		AABB hitbox = entity.getBoundingBox();
 		if (!PlayerUtils.isWithin(
@@ -142,7 +137,6 @@ public class Matrix extends KillAuraPlusMode {
 		Smooth,
 		Fast
 	}
-
 
 
 	private void updateRotation(boolean attack, float rotationYawSpeed, float rotationPitchSpeed) {
@@ -188,7 +182,7 @@ public class Matrix extends KillAuraPlusMode {
 				lastYaw = clampedYaw;
 				lastPitch = clampedPitch;
 				//if (options.getValueByName("Коррекция движения").get()) {
-					//mc.player.rotationYawOffset = yaw;
+				//mc.player.rotationYawOffset = yaw;
 				//}
 			}
 			case Fast -> {

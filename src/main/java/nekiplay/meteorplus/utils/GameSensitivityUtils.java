@@ -1,7 +1,5 @@
 package nekiplay.meteorplus.utils;
 
-import net.minecraft.client.Minecraft;
-
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class GameSensitivityUtils {

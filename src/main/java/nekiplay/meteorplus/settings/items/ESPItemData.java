@@ -2,14 +2,13 @@ package nekiplay.meteorplus.settings.items;
 
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.settings.GenericSetting;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
+import meteordevelopment.meteorclient.settings.GenericSetting;
 import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
-import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import net.minecraft.world.item.Item;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Item;
 
 public class ESPItemData implements IGeneric<ESPItemData>, IChangeable, IItemData<ESPItemData> {
 	public ShapeMode shapeMode;

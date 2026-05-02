@@ -11,7 +11,9 @@ public class NCP extends JesusMode {
 	public NCP() {
 		super(JesusModes.NCP);
 	}
+
 	float newSpeed = 0;
+
 	@Override
 	public void onPlayerMoveEvent(PlayerMoveEvent event) {
 		mc.player.setSprinting(false);
@@ -69,6 +71,7 @@ public class NCP extends JesusMode {
 		((IVec3) mc.player.getDeltaMovement()).meteor$set(velX, 0, velZ);
 		mc.player.setShiftKeyDown(true);
 	}
+
 	@Override
 	public void onDeactivate() {
 		newSpeed = 0.6f;
@@ -86,12 +89,12 @@ public class NCP extends JesusMode {
 		float forward = mc.player.zza;
 		float yaw = mc.player.getYRot();
 		if (forward == 0) {
-			((IVec3) mc.player.getDeltaMovement()).meteor$set(0,  mc.player.getDeltaMovement().y, 0);
+			((IVec3) mc.player.getDeltaMovement()).meteor$set(0, mc.player.getDeltaMovement().y, 0);
 		} else {
 			double x = forward * motion * Math.cos(Math.toRadians(yaw + 90.0f)) * motion * Math.sin(Math.toRadians(yaw + 90.0f));
 			double z = forward * motion * Math.sin(Math.toRadians(yaw + 90.0f)) * motion * Math.cos(Math.toRadians(yaw + 90.0f));
 
-			((IVec3) mc.player.getDeltaMovement()).meteor$set(x,  mc.player.getDeltaMovement().y, z);
+			((IVec3) mc.player.getDeltaMovement()).meteor$set(x, mc.player.getDeltaMovement().y, z);
 		}
 	}
 }

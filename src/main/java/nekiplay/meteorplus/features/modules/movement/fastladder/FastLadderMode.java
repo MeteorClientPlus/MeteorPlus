@@ -16,12 +16,21 @@ public class FastLadderMode {
 		this.type = type;
 	}
 
-	public void onSendPacket(PacketEvent.Send event) {}
-	public void onSentPacket(PacketEvent.Sent event) {}
+	public void onSendPacket(PacketEvent.Send event) {
+	}
 
-	public void onTickEventPre(TickEvent.Pre event) {}
-	public void onTickEventPost(TickEvent.Post event) {}
+	public void onSentPacket(PacketEvent.Sent event) {
+	}
 
-	public void onActivate() {}
-	public void onDeactivate() {}
+	public void onTickEventPre(TickEvent.Pre event) {
+	}
+
+	public void onTickEventPost(TickEvent.Post event) {
+	}
+
+	public void onActivate() {
+	}
+
+	public void onDeactivate() {
+	}
 }

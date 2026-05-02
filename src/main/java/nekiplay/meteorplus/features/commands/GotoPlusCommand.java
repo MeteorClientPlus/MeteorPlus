@@ -8,20 +8,17 @@ import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.client.multiplayer.ClientSuggestionProvider;
-import net.minecraft.network.chat.Component;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class GotoPlusCommand extends Command {
 	public GotoPlusCommand() {
@@ -38,7 +35,6 @@ public class GotoPlusCommand extends Command {
 				crosses.clear();
 
 
-
 				BlockIterator.register(64, mc.level.getHeight() / 2, (blockPos, blockState) -> {
 					switch (BlockUtils.isValidMobSpawn(blockPos, mc.level.getBlockState(blockPos), 0)) {
 						case Never:
@@ -46,7 +42,7 @@ public class GotoPlusCommand extends Command {
 						case Potential, Always:
 							crosses.add(crossPool.get().set(blockPos));
 							break;
-                    }
+					}
 
 				});
 
@@ -56,21 +52,22 @@ public class GotoPlusCommand extends Command {
 					for (Cross cross : crosses) {
 						BlockState ground = mc.level.getBlockState(new BlockPos(cross.x, cross.y - 1, cross.z));
 						Block ground_block = ground.getBlock();
-                        if (!(ground_block instanceof LeavesBlock) && ground_block != Blocks.CHORUS_FLOWER) {
+						if (!(ground_block instanceof LeavesBlock) && ground_block != Blocks.CHORUS_FLOWER) {
 							double dist = mc.player.distanceToSqr(new Vec3(cross.x, cross.y, cross.z));
 							if (dist < dst) {
 								dst = dist;
 								near = new BlockPos(cross.x, cross.y, cross.z);
 							}
 						}
-                    }
-					for (Cross cross : crosses) { crossPool.free(cross); }
+					}
+					for (Cross cross : crosses) {
+						crossPool.free(cross);
+					}
 					crosses.clear();
 
 					if (near != null) {
 						BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("goto " + near.getX() + " " + near.getY() + " " + near.getZ());
-					}
-					else {
+					} else {
 						ChatUtils.sendMsg(Component.nullToEmpty("Not founded near light"));
 					}
 				});

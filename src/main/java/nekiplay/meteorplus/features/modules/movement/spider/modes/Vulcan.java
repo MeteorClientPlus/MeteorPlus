@@ -4,13 +4,13 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderMode;
-import net.minecraft.world.level.block.SlabBlock;
+import nekiplay.meteorplus.features.modules.movement.spider.SpiderModes;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.phys.Vec3;
-import nekiplay.meteorplus.features.modules.movement.spider.SpiderModes;
 
 public class Vulcan extends SpiderMode {
 	public Vulcan() {
@@ -115,8 +115,7 @@ public class Vulcan extends SpiderMode {
 		return temp;
 	}
 
-	private enum TypeStarted
-	{
+	private enum TypeStarted {
 		Block,
 		Slab,
 		Air,
@@ -172,8 +171,7 @@ public class Vulcan extends SpiderMode {
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			modify = false;
 			tick = 0;
 		}

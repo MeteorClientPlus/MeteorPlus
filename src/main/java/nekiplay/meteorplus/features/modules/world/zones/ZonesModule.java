@@ -31,6 +31,7 @@ public class ZonesModule extends Module {
 	public ZonesModule() {
 		super(Categories.World, "Zones", "Create custom zones for blocking baritone settings in zone");
 	}
+
 	public Gson gson = new Gson();
 	public List<ZoneData> allZones = new ArrayList<ZoneData>();
 	public List<ZoneData> inWorldZones = new ArrayList<ZoneData>();
@@ -57,6 +58,7 @@ public class ZonesModule extends Module {
 		event.renderer.box(
 			box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ, sides, lines, shapeMode, 0);
 	}
+
 	@EventHandler
 	private void onRender(Render3DEvent event) {
 		for (ZoneData zoneData : inWorldZones) {

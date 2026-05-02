@@ -15,10 +15,10 @@ import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarmMode;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarmModes;
 import nekiplay.meteorplus.utils.BlockHelper;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -113,7 +113,9 @@ public class Portals extends AutoObsidianFarmMode {
 		if (commandDelay <= settings.delayCommand.get()) {
 			commandDelay++;
 		}
-		if (mc.player == null || mc.level == null) { return; }
+		if (mc.player == null || mc.level == null) {
+			return;
+		}
 		if ((mc.player.isUsingItem() || (Modules.get().get(AutoEat.class).isActive() && Modules.get().get(AutoEat.class).eating)) && settings.pauseOnEat.get()) {
 			return;
 		}
@@ -135,8 +137,7 @@ public class Portals extends AutoObsidianFarmMode {
 					}
 				}
 			}
-		}
-		else if (settings.workingMode.get() == AutoObsidianFarmModes.Portals_Vanila) {
+		} else if (settings.workingMode.get() == AutoObsidianFarmModes.Portals_Vanila) {
 			if (PlayerUtils.getDimension() == Dimension.Overworld) {
 
 				BlockPos to = settings.twoPortalPosition.get();
@@ -147,12 +148,10 @@ public class Portals extends AutoObsidianFarmMode {
 					Block down = mc.level.getBlockState(mc.player.blockPosition().offset(0, -1, 0)).getBlock();
 					if (obsidians.isEmpty()) {
 						isMine = false;
-					}
-					else if (down == Blocks.OBSIDIAN) {
+					} else if (down == Blocks.OBSIDIAN) {
 						isMine = true;
 					}
-				}
-				else {
+				} else {
 					isMine = false;
 				}
 
@@ -162,16 +161,14 @@ public class Portals extends AutoObsidianFarmMode {
 						BaritoneAPI.getSettings().allowBreak.value = false;
 					}
 					if (!BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() && !BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing()) {
-						to =  settings.mainPortalPosition.get();
+						to = settings.mainPortalPosition.get();
 						BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("goto " + to.getX() + " " + to.getY() + " " + to.getZ());
 					}
-				}
-				else if (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().getPath().isPresent()) {
+				} else if (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().getPath().isPresent()) {
 					BaritoneAPI.getSettings().allowBreak.value = true;
 					BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("stop");
 				}
-			}
-			else if (PlayerUtils.getDimension() == Dimension.Nether) {
+			} else if (PlayerUtils.getDimension() == Dimension.Nether) {
 				isMine = false;
 				if (settings.noBaritoneBreaking.get()) {
 					BaritoneAPI.getSettings().allowBreak.value = false;

@@ -4,8 +4,6 @@ import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import net.minecraft.core.BlockPos;
 
-import java.util.ArrayList;
-
 public class HologramData {
 	public double x;
 	public double y;
@@ -18,6 +16,7 @@ public class HologramData {
 	public HologramData() {
 
 	}
+
 	public HologramData(double x, double y, double z, String text, String dimension, Color color, double max_render_distance) {
 		this.x = x;
 		this.y = y;

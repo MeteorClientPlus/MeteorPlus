@@ -1,9 +1,9 @@
 package nekiplay.main.events;
 
-import net.minecraft.world.level.block.entity.SignText;
-import net.minecraft.client.renderer.MultiBufferSource;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.SignText;
 
 public class RenderSignTextEvent {
 	private static final RenderSignTextEvent INSTANCE = new RenderSignTextEvent();

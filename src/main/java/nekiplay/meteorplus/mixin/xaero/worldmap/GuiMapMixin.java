@@ -1,9 +1,9 @@
 package nekiplay.meteorplus.mixin.xaero.worldmap;
 
 import baritone.api.BaritoneAPI;
-import baritone.api.IBaritone;
 import baritone.api.pathing.goals.GoalBlock;
 import meteordevelopment.meteorclient.systems.modules.Modules;
+import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.MixinPlugin;
@@ -22,8 +22,10 @@ import xaero.map.MapProcessor;
 import xaero.map.gui.GuiMap;
 import xaero.map.gui.dropdown.rightclick.RightClickOption;
 import xaero.map.misc.Misc;
-import xaero.map.region.*;
-import meteordevelopment.meteorclient.utils.misc.Names;
+import xaero.map.region.MapBlock;
+import xaero.map.region.MapRegion;
+import xaero.map.region.MapTile;
+import xaero.map.region.MapTileChunk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 @Mixin(GuiMap.class)
 public abstract class GuiMapMixin {
 	@Unique
-	private final GuiMap guiMap = (GuiMap)(Object) this;
+	private final GuiMap guiMap = (GuiMap) (Object) this;
 	@Shadow(remap = false)
 	private double scale;
 	@Shadow(remap = false)
@@ -48,6 +50,7 @@ public abstract class GuiMapMixin {
 	private double cameraX = 0.0;
 	@Shadow(remap = false)
 	private double cameraZ = 0.0;
+
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void onInit(CallbackInfo info) {
 		cameraX = ((float) mc.player.getX());

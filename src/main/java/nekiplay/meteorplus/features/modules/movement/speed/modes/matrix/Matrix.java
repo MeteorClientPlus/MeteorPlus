@@ -32,8 +32,7 @@ public class Matrix extends SpeedMode {
 				mc.player.getAbilities().setFlyingSpeed(0.02098f);
 				timer.setOverride(1.055f);
 			}
-		}
-		else {
+		} else {
 			timer.setOverride(1);
 		}
 	}

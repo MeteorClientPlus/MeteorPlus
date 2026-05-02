@@ -3,7 +3,10 @@ package nekiplay.meteorplus.features.modules.render;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
-import meteordevelopment.meteorclient.settings.*;
+import meteordevelopment.meteorclient.settings.GenericSetting;
+import meteordevelopment.meteorclient.settings.ItemListSetting;
+import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
@@ -11,14 +14,13 @@ import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.settings.items.ESPItemData;
 import nekiplay.meteorplus.settings.items.ItemDataSetting;
-import nekiplay.meteorplus.MeteorPlusAddon;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.util.Mth;
 
 import java.util.List;
 import java.util.Map;
@@ -60,6 +62,7 @@ public class ItemFrameEsp extends Module {
 		.defaultData(defaultBlockConfig)
 		.build()
 	);
+
 	@EventHandler
 	private void onRender2D(Render3DEvent event) {
 		if (mc.level == null) return;
@@ -68,7 +71,7 @@ public class ItemFrameEsp extends Module {
 			double yl = entity.getY();
 			double zl = entity.getZ();
 			if (entity instanceof ItemFrame) {
-				ItemFrame itemFrame = (ItemFrame)entity;
+				ItemFrame itemFrame = (ItemFrame) entity;
 				ItemStack held = itemFrame.getItem();
 				if (whitelist.get().contains(held.getItem())) {
 					ESPItemData espItemData = blockConfigs.get().get(held.getItem());
@@ -83,8 +86,7 @@ public class ItemFrameEsp extends Module {
 
 						AABB box = entity.getBoundingBox();
 						event.renderer.box(x + box.minX, y + box.minY, z + box.minZ, x + box.maxX, y + box.maxY, z + box.maxZ, espItemData.sideColor, espItemData.lineColor, espItemData.shapeMode, 0);
-					}
-					else {
+					} else {
 						if (defaultBlockConfig.get().tracer) {
 							event.renderer.line(RenderUtils.center.x, RenderUtils.center.y, RenderUtils.center.z, xl, yl, zl, defaultBlockConfig.get().tracerColor);
 						}

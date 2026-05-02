@@ -5,8 +5,8 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.utils.RotationUtils;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
@@ -49,7 +49,7 @@ public class ShadyRotation {
 
 		float pitch = (float) -Math.atan2(dist, diffY);
 		float yaw = (float) Math.atan2(diffZ, diffX);
-		pitch = (float) wrapAngleTo180((pitch * 180F / Math.PI + 90)*-1);
+		pitch = (float) wrapAngleTo180((pitch * 180F / Math.PI + 90) * -1);
 		yaw = (float) wrapAngleTo180((yaw * 180 / Math.PI) - 90);
 
 		return new Rotation(pitch, yaw);
@@ -63,7 +63,7 @@ public class ShadyRotation {
 
 		float pitch = (float) -Math.atan2(dist, diffY);
 		float yaw = (float) Math.atan2(diffZ, diffX);
-		pitch = (float) wrapAngleTo180((pitch * 180F / Math.PI + 90)*-1);
+		pitch = (float) wrapAngleTo180((pitch * 180F / Math.PI + 90) * -1);
 		yaw = (float) wrapAngleTo180((yaw * 180 / Math.PI) - 90);
 
 		return new Rotation(pitch, yaw);
@@ -77,14 +77,15 @@ public class ShadyRotation {
 
 		float pitch = (float) -Math.atan2(dist, diffY);
 		float yaw = (float) Math.atan2(diffZ, diffX);
-		pitch = (float) wrapAngleTo180((pitch * 180F / Math.PI + 90)*-1);
+		pitch = (float) wrapAngleTo180((pitch * 180F / Math.PI + 90) * -1);
 		yaw = (float) wrapAngleTo180((yaw * 180 / Math.PI) - 90);
 
 		return new Rotation(pitch, yaw);
 	}
+
 	public static void smoothLook(Rotation rotation, int ticks, boolean client, Runnable callback) {
 		ShadyRotation.client = client;
-		if(ticks == 0) {
+		if (ticks == 0) {
 			look(rotation, client);
 			callback.run();
 			return;
@@ -101,7 +102,7 @@ public class ShadyRotation {
 
 	public static void smoothLook(RotationUtils.Rotation rotation, int ticks, boolean client, Runnable callback) {
 		ShadyRotation.client = client;
-		if(ticks == 0) {
+		if (ticks == 0) {
 			look(new Rotation(rotation.getPitch(), rotation.getYaw()), client);
 			callback.run();
 			return;
@@ -143,22 +144,19 @@ public class ShadyRotation {
 	}
 
 	private void rotatorWorker() {
-		if(mc.player == null) return;
-		if(tickCounter < ticks) {
+		if (mc.player == null) return;
+		if (tickCounter < ticks) {
 			running = true;
 			if (client) {
 				mc.player.setXRot(mc.player.getXRot() + pitchDifference / ticks);
 				mc.player.setYRot(mc.player.getYRot() + yawDifference / ticks);
-			}
-			else {
+			} else {
 				Rotations.setCamRotation(Rotations.serverYaw + yawDifference / ticks, Rotations.serverPitch + pitchDifference / ticks);
 				//Rotations.serverYaw = (Rotations.serverYaw + yawDifference / ticks);
 				//Rotations.serverPitch = (Rotations.serverPitch + pitchDifference / ticks);
 			}
 			tickCounter++;
-		}
-		else
-		{
+		} else {
 			running = false;
 		}
 	}

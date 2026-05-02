@@ -1,14 +1,11 @@
 package nekiplay.meteorplus.mixin.xaero.worldmap;
 
 import baritone.api.BaritoneAPI;
-import baritone.api.IBaritone;
 import baritone.api.pathing.goals.GoalBlock;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.meteorplus.features.modules.integrations.MapIntegration;
-import nekiplay.meteorplus.utils.RotationUtils;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
@@ -16,8 +13,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xaero.map.common.config.option.WorldMapProfiledConfigOptions;
 import xaero.map.WorldMap;
+import xaero.map.common.config.option.WorldMapProfiledConfigOptions;
 import xaero.map.gui.GuiMap;
 import xaero.map.gui.IRightClickableElement;
 import xaero.map.gui.dropdown.rightclick.RightClickOption;
@@ -43,7 +40,7 @@ public class WaypointRendererMixin {
 						SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
 					}
 				});
-				if ((Boolean)WorldMap.INSTANCE.getConfigs().getClientConfigManager().getEffective(WorldMapProfiledConfigOptions.COORDINATES) && !SupportMods.xaeroMinimap.hidingWaypointCoordinates()) {
+				if ((Boolean) WorldMap.INSTANCE.getConfigs().getClientConfigManager().getEffective(WorldMapProfiledConfigOptions.COORDINATES) && !SupportMods.xaeroMinimap.hidingWaypointCoordinates()) {
 					rightClickOptions.add(new RightClickOption(String.format("X: %d, Y: %s, Z: %d", element.getX(), element.isyIncluded() ? "" + element.getY() : "~", element.getZ()), rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
 							SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
@@ -83,8 +80,8 @@ public class WaypointRendererMixin {
 
 							// Преобразуем вектор направления в углы поворота (yaw и pitch)
 							double distanceXZ = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
-							float yaw = (float)Math.toDegrees(Math.atan2(direction.z, direction.x)) - 90.0F;
-							float pitch = (float)Math.toDegrees(-Math.atan2(direction.y, distanceXZ));
+							float yaw = (float) Math.toDegrees(Math.atan2(direction.z, direction.x)) - 90.0F;
+							float pitch = (float) Math.toDegrees(-Math.atan2(direction.y, distanceXZ));
 
 							// Устанавливаем поворот игрока
 							mc.player.setYRot(yaw);

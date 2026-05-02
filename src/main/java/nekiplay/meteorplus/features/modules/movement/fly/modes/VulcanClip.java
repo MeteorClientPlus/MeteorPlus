@@ -6,8 +6,8 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import nekiplay.meteorplus.features.modules.movement.fly.FlyMode;
 import nekiplay.meteorplus.features.modules.movement.fly.FlyModes;
-import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.world.phys.Vec3;
 
 import static java.lang.Math.cos;
@@ -37,8 +37,7 @@ public class VulcanClip extends FlyMode {
 			canGlide = false;
 			ticks = 0;
 			timer.setOverride(0.1f);
-		}
-		else {
+		} else {
 			waitFlag = false;
 			canGlide = true;
 		}
@@ -51,7 +50,7 @@ public class VulcanClip extends FlyMode {
 			timer.setOverride(1f);
 			Vec3 velocity = mc.player.getDeltaMovement();
 			velocity.add(0, -(ticks % 2 == 0 ? 0.17 : 0.10), 0);
-			if(ticks == 0) {
+			if (ticks == 0) {
 				velocity.add(0, -0.07, 0);
 			}
 			mc.player.setDeltaMovement(velocity);
@@ -63,7 +62,7 @@ public class VulcanClip extends FlyMode {
 	public void onRecivePacket(PacketEvent.Receive event) {
 		super.onRecivePacket(event);
 		if (event.packet instanceof ClientboundPlayerPositionPacket && waitFlag) {
-			ClientboundPlayerPositionPacket packet = (ClientboundPlayerPositionPacket)event.packet;
+			ClientboundPlayerPositionPacket packet = (ClientboundPlayerPositionPacket) event.packet;
 			Vec3 playerPos = mc.player.position();
 			waitFlag = false;
 			mc.player.setPos(packet.change().position().x, packet.change().position().y, packet.change().position().z);

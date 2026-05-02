@@ -27,9 +27,8 @@ public class CriticalsPlus extends Module {
 	public static boolean allowCrit() {
 		if (canCrit()) {
 			return true;
-		}
-		else if (Modules.get().get(Criticals.class).isActive()) {
-            return !skipCrit();
+		} else if (Modules.get().get(Criticals.class).isActive()) {
+			return !skipCrit();
 		}
 		return false;
 	}

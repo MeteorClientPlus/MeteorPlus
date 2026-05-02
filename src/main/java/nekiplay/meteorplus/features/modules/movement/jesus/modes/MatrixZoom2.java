@@ -2,11 +2,11 @@ package nekiplay.meteorplus.features.modules.movement.jesus.modes;
 
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.Vec3;
 import nekiplay.meteorplus.features.modules.movement.jesus.JesusMode;
 import nekiplay.meteorplus.features.modules.movement.jesus.JesusModes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 
 public class MatrixZoom2 extends JesusMode {
 	public MatrixZoom2() {
@@ -47,8 +47,7 @@ public class MatrixZoom2 extends JesusMode {
 		if (mc.level.getBlockState(new BlockPos((int) mc.player.position().x, (int) (mc.player.position().y + range), (int) mc.player.position().z)).getBlock() == Blocks.WATER && !mc.player.horizontalCollision) {
 			if (tick == 0) {
 				((IVec3) mc.player.getDeltaMovement()).meteor$set(velX, 0.030091, velZ);
-			}
-			else if (tick == 1) {
+			} else if (tick == 1) {
 				((IVec3) mc.player.getDeltaMovement()).meteor$set(velX, -0.030091, velZ);
 			}
 		}

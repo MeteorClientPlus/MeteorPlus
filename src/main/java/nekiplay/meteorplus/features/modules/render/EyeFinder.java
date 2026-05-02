@@ -11,15 +11,14 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.core.Direction;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.HashMap;
@@ -29,6 +28,7 @@ public class EyeFinder extends Module {
 	public EyeFinder() {
 		super(Categories.Render, "eye-finder", "Find block player look.");
 	}
+
 	private final HashMap<Entity, HitResult> resultMap = new HashMap<Entity, HitResult>();
 
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();

@@ -3,14 +3,13 @@ package nekiplay.meteorplus.features.modules.movement.spider.modes;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
-import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketMixin;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderMode;
+import nekiplay.meteorplus.features.modules.movement.spider.SpiderModes;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.world.phys.Vec3;
-import nekiplay.meteorplus.features.modules.movement.spider.SpiderModes;
 
 public class Matrix extends SpiderMode {
 	public Matrix() {
@@ -131,8 +130,7 @@ public class Matrix extends SpiderMode {
 					tick = 0;
 				}
 			}
-		}
-		else {
+		} else {
 			modify = false;
 			tick = 0;
 		}

@@ -47,10 +47,12 @@ public class NoFallPlus extends Module {
 	private void onPostTick(TickEvent.Post event) {
 		currentMode.onTickEventPost(event);
 	}
+
 	@EventHandler
 	public void onSendPacket(PacketEvent.Send event) {
 		currentMode.onSendPacket(event);
 	}
+
 	@EventHandler
 	public void onSentPacket(PacketEvent.Sent event) {
 		currentMode.onSentPacket(event);

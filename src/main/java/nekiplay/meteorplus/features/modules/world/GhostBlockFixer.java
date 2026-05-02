@@ -9,13 +9,12 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,6 +24,7 @@ public class GhostBlockFixer extends Module {
 	public GhostBlockFixer() {
 		super(Categories.World, "auto-ghost-block-fixer", "Automatically fix ghost blocks.");
 	}
+
 	private final SettingGroup GBSettings = settings.getDefaultGroup();
 
 	private final Setting<Integer> delay = GBSettings.add(new IntSetting.Builder()
@@ -46,9 +46,9 @@ public class GhostBlockFixer extends Module {
 	);
 
 	private final ArrayDeque<BlockPos> blocks = new ArrayDeque<>();
+
 	@EventHandler
-	public void onBlockBreak(BreakBlockEvent block)
-	{
+	public void onBlockBreak(BreakBlockEvent block) {
 		blocks.add(block.blockPos);
 	}
 
@@ -56,19 +56,21 @@ public class GhostBlockFixer extends Module {
 	public void onActivate() {
 		millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 	}
+
 	@Override
 	public void onDeactivate() {
 		blocks.clear();
 	}
+
 	@EventHandler
-	public void onLeave(GameLeftEvent event)
-	{
+	public void onLeave(GameLeftEvent event) {
 		blocks.clear();
 	}
+
 	private long millis = 0;
+
 	@EventHandler
-	public void onTick(TickEvent.Post event)
-	{
+	public void onTick(TickEvent.Post event) {
 		if (!blocks.isEmpty()) {
 			ClientPacketListener conn = mc.getConnection();
 			LocalPlayer player = mc.player;
@@ -84,8 +86,7 @@ public class GhostBlockFixer extends Module {
 						ServerboundPlayerActionPacket packet = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, block, Direction.UP, 0);
 						conn.send(packet);
 						blocks.remove();
-					}
-					else if (!state.isAir()) {
+					} else if (!state.isAir()) {
 						blocks.remove();
 					}
 				}

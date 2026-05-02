@@ -74,7 +74,8 @@ public class XGroup {
 		remainingBlocks.remove(blocks.get(0));
 		neighbours.remove(blocks.get(0));
 
-		loop: {
+		loop:
+		{
 			while (!blocksToCheck.isEmpty()) {
 				XBlock b = blocksToCheck.poll();
 

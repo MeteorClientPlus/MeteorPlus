@@ -7,17 +7,16 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
 import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.MeteorPlusAddon;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.ShulkerBoxMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ShulkerBoxMenu;
-import net.minecraft.world.inventory.ContainerInput;
 
 import java.util.List;
 
-public class AutoDropPlus extends Module  {
+public class AutoDropPlus extends Module {
 	public AutoDropPlus() {
 		super(Categories.Player, "auto-drop", "Auto drop items in inventory.");
 	}
@@ -103,13 +102,13 @@ public class AutoDropPlus extends Module  {
 				if (tick == 0) {
 					if (removeItems.get() && sync != -1) {
 						mc.gameMode.handleContainerInput(sync, invIndexToSlotId(i), 300, ContainerInput.SWAP, mc.player);
+					} else if (!removeItems.get()) {
+						InvUtils.drop().slot(i);
 					}
-					else if (!removeItems.get()) { InvUtils.drop().slot(i); }
 					if (!workInstant.get()) {
 						tick = delay.get();
 					}
-				}
-				else {
+				} else {
 					tick--;
 				}
 				if (!workInstant.get()) {
@@ -127,8 +126,9 @@ public class AutoDropPlus extends Module  {
 					if (tick == 0) {
 						if (removeItems.get()) {
 							mc.gameMode.handleContainerInput(handler.containerId, getIndexToSlotId(handler, i), 300, ContainerInput.SWAP, mc.player);
+						} else {
+							InvUtils.drop().slotId(i);
 						}
-						else { InvUtils.drop().slotId(i); }
 						if (!workInstant.get()) {
 							tick = delay.get();
 						}
@@ -142,6 +142,7 @@ public class AutoDropPlus extends Module  {
 			}
 		}
 	}
+
 	public static int invIndexToSlotId(int invIndex) {
 		return invIndex < 9 && invIndex != -1 ? 44 - (8 - invIndex) : invIndex;
 	}
@@ -150,8 +151,7 @@ public class AutoDropPlus extends Module  {
 		if (handler instanceof ChestMenu genericContainerScreenHandler) {
 			int count = genericContainerScreenHandler.slots.size();
 			return invIndex < 0 && invIndex != -1 ? count - (-1 - invIndex) : invIndex;
-		}
-		else if (handler instanceof ShulkerBoxMenu genericContainerScreenHandler) {
+		} else if (handler instanceof ShulkerBoxMenu genericContainerScreenHandler) {
 			int count = genericContainerScreenHandler.slots.size();
 			return invIndex < 0 && invIndex != -1 ? count - (-1 - invIndex) : invIndex;
 		}

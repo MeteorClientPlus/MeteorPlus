@@ -1,16 +1,10 @@
 package nekiplay.meteorplus.utils;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.*;
 
 import java.util.function.Predicate;
 
@@ -39,9 +33,10 @@ public class RaycastUtils {
 			}
 		}, 0);
 	}
+
 	public static Vec3 getRotationVector(float pitch, float yaw) {
-		float f = pitch * ((float)Math.PI / 180);
-		float g = -yaw * ((float)Math.PI / 180);
+		float f = pitch * ((float) Math.PI / 180);
+		float g = -yaw * ((float) Math.PI / 180);
 		float h = Mth.cos(g);
 		float i = Mth.sin(g);
 		float j = Mth.cos(f);
@@ -67,7 +62,7 @@ public class RaycastUtils {
 		float l = i * j;
 		float n = h * j;
 		double d = 5.0;
-		Vec3 vec3d2 = vec3d.add((double)l * 5.0, (double)k * 5.0, (double)n * 5.0);
+		Vec3 vec3d2 = vec3d.add((double) l * 5.0, (double) k * 5.0, (double) n * 5.0);
 		return mc.level.clip(new ClipContext(vec3d, vec3d2, ClipContext.Block.OUTLINE, fluidHandling, mc.player));
 	}
 }

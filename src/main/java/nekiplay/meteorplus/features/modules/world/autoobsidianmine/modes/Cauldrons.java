@@ -6,27 +6,29 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.player.AutoEat;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.Pool;
-import meteordevelopment.meteorclient.utils.player.*;
+import meteordevelopment.meteorclient.utils.player.ChatUtils;
+import meteordevelopment.meteorclient.utils.player.FindItemResult;
+import meteordevelopment.meteorclient.utils.player.InvUtils;
+import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.meteorclient.utils.world.TickRate;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarmMode;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarmModes;
 import nekiplay.meteorplus.utils.RaycastUtils;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.item.Items;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.ClipContext;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -43,6 +45,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 	private final BlockPos.MutableBlockPos lastBlockPos = new BlockPos.MutableBlockPos();
 	private int timer;
 	private final Pool<BlockPos.MutableBlockPos> blockPosPool = new Pool<>(BlockPos.MutableBlockPos::new);
+
 	@Override
 	public void onActivate() {
 		firstBlock = true;
@@ -52,6 +55,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 		lavaPlaceTimer = 0;
 		placed = 0;
 	}
+
 	private int collectTimer = 0;
 	private int lavaPlaceTimer = 0;
 	private final Portals.SortMode sortMode = Portals.SortMode.Closest;
@@ -65,14 +69,15 @@ public class Cauldrons extends AutoObsidianFarmMode {
 			event.shape = Shapes.block();
 		}
 	}
+
 	private int placed = 0;
 
 	@Override
 	public void onDeactivate() {
 		if (placed > 0) {
-			ChatUtils.info("Farmed obsidian: " + (placed/64) + " stacks");
+			ChatUtils.info("Farmed obsidian: " + (placed / 64) + " stacks");
 			if (placed >= 64 * 27) {
-				ChatUtils.info("Farmed obsidian: " + (placed/64/27) + " chests");
+				ChatUtils.info("Farmed obsidian: " + (placed / 64 / 27) + " chests");
 			}
 		}
 	}
@@ -84,7 +89,9 @@ public class Cauldrons extends AutoObsidianFarmMode {
 
 	@Override
 	public void onTickEventPost(TickEvent.Post event) {
-		if (mc.player == null || mc.level == null || mc.gameMode == null) { return; }
+		if (mc.player == null || mc.level == null || mc.gameMode == null) {
+			return;
+		}
 		if ((mc.player.isUsingItem() || (Modules.get().get(AutoEat.class).isActive() && Modules.get().get(AutoEat.class).eating)) && settings.pauseOnEat.get()) {
 			return;
 		}
@@ -161,13 +168,11 @@ public class Cauldrons extends AutoObsidianFarmMode {
 									});
 								}
 							}
-						}
-						else {
+						} else {
 							lavaPlaceTimer++;
 						}
 					}
-				}
-				else if (bucket.found()) {
+				} else if (bucket.found()) {
 					for (BlockPos block : blocks) {
 						BlockState state2 = mc.level.getBlockState(block);
 						if (state2.getBlock() == Blocks.LAVA_CAULDRON && mc.player.position().distanceTo(block.getCenter()) <= settings.range.get() + 1) {
@@ -210,6 +215,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 			}
 		});
 	}
+
 	private void rotate(BlockPos target, Runnable action) {
 		Rotations.rotate(Rotations.getYaw(target), Rotations.getPitch(target), action);
 	}

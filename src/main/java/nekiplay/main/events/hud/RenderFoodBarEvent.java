@@ -1,7 +1,7 @@
 package nekiplay.main.events.hud;
+
 import nekiplay.main.events.Cancellable;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.world.entity.player.Player;
 
 public class RenderFoodBarEvent extends Cancellable {
@@ -10,6 +10,7 @@ public class RenderFoodBarEvent extends Cancellable {
 	private Player player;
 	private int top;
 	private int right;
+
 	public static RenderFoodBarEvent get(GuiGraphicsExtractor context, Player player, int top, int right) {
 		INSTANCE.context = context;
 		INSTANCE.player = player;

@@ -3,14 +3,9 @@ package nekiplay.meteorplus.features.modules.combat.velocity.modes;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import nekiplay.meteorplus.features.modules.combat.velocity.VelocityMode;
 import nekiplay.meteorplus.features.modules.combat.velocity.VelocityModes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
-import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
-import net.minecraft.network.protocol.game.ClientboundExplodePacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.*;
 
 public class GrimCancel_v2 extends VelocityMode {
 	public GrimCancel_v2() {
@@ -40,8 +35,7 @@ public class GrimCancel_v2 extends VelocityMode {
 		if (((packet instanceof ClientboundSetEntityMotionPacket motionPacket && motionPacket.id() == mc.player.getId()) || packet instanceof ClientboundExplodePacket) && canCancel) {
 			event.cancel();
 			canCancel = true;
-		}
-		else if (packet instanceof ClientboundPlayerPositionPacket) {
+		} else if (packet instanceof ClientboundPlayerPositionPacket) {
 			skip = 3;
 		}
 	}

@@ -1,9 +1,9 @@
 package nekiplay.meteorplus.mixin.meteorclient.gui;
 
 import meteordevelopment.meteorclient.utils.player.TitleScreenCredits;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;

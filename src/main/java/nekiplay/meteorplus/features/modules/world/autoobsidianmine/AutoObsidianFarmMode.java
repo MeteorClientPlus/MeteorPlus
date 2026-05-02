@@ -12,18 +12,31 @@ public class AutoObsidianFarmMode {
 	private final AutoObsidianFarmModes type;
 
 	public AutoObsidianFarmMode(AutoObsidianFarmModes type) {
-		this.settings = Modules.get().get(AutoObsidianFarm.class);;
+		this.settings = Modules.get().get(AutoObsidianFarm.class);
+		;
 		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
 
-	public void onActivate() {}
-	public void onDeactivate() {}
-	public void onTickEventPre(TickEvent.Pre event) {}
-	public void onTickEventPost(TickEvent.Post event) {}
-	public void onCollisionShape(CollisionShapeEvent event) {}
+	public void onActivate() {
+	}
 
-	public void onMovePacket(ServerboundMovePlayerPacket playerMove) {}
+	public void onDeactivate() {
+	}
 
-	public String getInfoString() { return ""; }
+	public void onTickEventPre(TickEvent.Pre event) {
+	}
+
+	public void onTickEventPost(TickEvent.Post event) {
+	}
+
+	public void onCollisionShape(CollisionShapeEvent event) {
+	}
+
+	public void onMovePacket(ServerboundMovePlayerPacket playerMove) {
+	}
+
+	public String getInfoString() {
+		return "";
+	}
 }

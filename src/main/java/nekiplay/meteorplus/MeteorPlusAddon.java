@@ -2,43 +2,56 @@ package nekiplay.meteorplus;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.addons.GithubRepo;
+import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
+import meteordevelopment.meteorclient.systems.hud.HudGroup;
+import meteordevelopment.meteorclient.systems.modules.Category;
+import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
 import nekiplay.MixinPlugin;
 import nekiplay.main.items.ModItems;
-import nekiplay.meteorplus.features.commands.*;
+import nekiplay.meteorplus.features.commands.ClearInventoryCommand;
+import nekiplay.meteorplus.features.commands.EclipCommand;
+import nekiplay.meteorplus.features.commands.GotoPlusCommand;
+import nekiplay.meteorplus.features.commands.ItemRawIdCommand;
 import nekiplay.meteorplus.features.modules.combat.*;
 import nekiplay.meteorplus.features.modules.combat.velocity.VelocityPlus;
-import nekiplay.meteorplus.features.modules.integrations.WhereIsIt;
-import nekiplay.meteorplus.features.modules.misc.*;
-import nekiplay.meteorplus.features.modules.movement.*;
-import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyPlus;
-import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowPlus;
-import nekiplay.meteorplus.features.modules.player.*;
-import nekiplay.meteorplus.features.modules.render.*;
-import nekiplay.meteorplus.features.modules.render.holograms.*;
-import nekiplay.meteorplus.features.modules.world.*;
-import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarm;
-import nekiplay.meteorplus.features.modules.world.customblocks.CustomBlocksModule;
 import nekiplay.meteorplus.features.modules.integrations.MapIntegration;
-import nekiplay.meteorplus.features.modules.world.timer.TimerPlus;
-import nekiplay.meteorplus.settings.ConfigModifier;
-import net.fabricmc.loader.api.FabricLoader;
-import meteordevelopment.meteorclient.addons.MeteorAddon;
-import meteordevelopment.meteorclient.systems.modules.Category;
-import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.hud.HudGroup;
+import nekiplay.meteorplus.features.modules.integrations.WhereIsIt;
+import nekiplay.meteorplus.features.modules.misc.AutoAccept;
+import nekiplay.meteorplus.features.modules.misc.ChatPrefix;
+import nekiplay.meteorplus.features.modules.misc.CordinateProtector;
+import nekiplay.meteorplus.features.modules.movement.Freeze;
+import nekiplay.meteorplus.features.modules.movement.NoJumpDelay;
+import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyPlus;
 import nekiplay.meteorplus.features.modules.movement.fastladder.FastLadderPlus;
 import nekiplay.meteorplus.features.modules.movement.fly.FlyPlus;
 import nekiplay.meteorplus.features.modules.movement.jesus.JesusPlus;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallPlus;
+import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowPlus;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedPlus;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderPlus;
+import nekiplay.meteorplus.features.modules.player.AutoDropPlus;
+import nekiplay.meteorplus.features.modules.render.EyeFinder;
+import nekiplay.meteorplus.features.modules.render.ItemFrameEsp;
+import nekiplay.meteorplus.features.modules.render.ItemHighlightPlus;
+import nekiplay.meteorplus.features.modules.render.KillEffect;
+import nekiplay.meteorplus.features.modules.render.holograms.HologramModule;
+import nekiplay.meteorplus.features.modules.world.BedrockStorageBruteforce;
+import nekiplay.meteorplus.features.modules.world.GhostBlockFixer;
+import nekiplay.meteorplus.features.modules.world.SafeMine;
+import nekiplay.meteorplus.features.modules.world.XrayBruteforce;
+import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarm;
+import nekiplay.meteorplus.features.modules.world.customblocks.CustomBlocksModule;
+import nekiplay.meteorplus.features.modules.world.timer.TimerPlus;
+import nekiplay.meteorplus.settings.ConfigModifier;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+
 import static nekiplay.MixinPlugin.*;
 
 public class MeteorPlusAddon extends MeteorAddon {
@@ -69,30 +82,25 @@ public class MeteorPlusAddon extends MeteorAddon {
 		if (isXaeroWorldMapresent) {
 			if (!isBaritonePresent) {
 				notFoundBaritoneIntegrations.add("Xaero's World Map");
-			}
-			else {
+			} else {
 				enabledIntegrations.add("Xaero's World Map");
 			}
-		}
-		else {
+		} else {
 			notFoundIntegrations.add("Xaero's World Map");
 		}
 		if (isJourneyMapPresent) {
 			if (!isBaritonePresent) {
 				notFoundBaritoneIntegrations.add("Journey Map");
-			}
-			else {
+			} else {
 				enabledIntegrations.add("Journey Map");
 			}
-		}
-		else {
+		} else {
 			notFoundIntegrations.add("Journey Map");
 		}
 
 		if (!isWhereIsIt) {
 			notFoundIntegrations.add("Where is it");
-		}
-		else {
+		} else {
 			enabledIntegrations.add("Where is it");
 		}
 
@@ -101,8 +109,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 			notFoundBaritoneIntegrations.add("Freecam");
 			notFoundBaritoneIntegrations.add("Waypoints");
 			notFoundBaritoneIntegrations.add("Goto+");
-		}
-		else {
+		} else {
 			enabledIntegrations.add("Hunt");
 			enabledIntegrations.add("Freecam");
 			enabledIntegrations.add("Waypoints");
@@ -179,8 +186,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 		modules.add(new VelocityPlus());
 		if (!MixinPlugin.isMeteorRejects) {
 			modules.add(new NoJumpDelay());
-		}
-		else {
+		} else {
 			LOG.warn(METEOR_LOGPREFIX + " Meteor Rejects detected, removing No Jump Delay");
 		}
 		modules.add(new NoSlowPlus());
@@ -197,7 +203,6 @@ public class MeteorPlusAddon extends MeteorAddon {
 
 		//region Hud
 		LOG.info(METEOR_LOGPREFIX + " Initializing hud...");
-
 
 
 		LOG.info(METEOR_LOGPREFIX + " Loaded hud");
@@ -227,7 +232,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 
 	@Override
 	public GithubRepo getRepo() {
-		return new GithubRepo("MeteorClientPlus", "MeteorPlus",  "1.21.11", null);
+		return new GithubRepo("MeteorClientPlus", "MeteorPlus", "1.21.11", null);
 	}
 
 	@Override

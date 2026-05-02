@@ -1,8 +1,8 @@
 package nekiplay.meteorplus.mixin.meteorclient.modules;
 
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
-import meteordevelopment.meteorclient.mixin.MultiPlayerGameModeAccessor;
 import meteordevelopment.meteorclient.mixin.LevelRendererAccessor;
+import meteordevelopment.meteorclient.mixin.MultiPlayerGameModeAccessor;
 import meteordevelopment.meteorclient.renderer.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.ColorSetting;
@@ -17,19 +17,20 @@ import meteordevelopment.meteorclient.utils.render.NametagUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.server.level.BlockDestructionProgress;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.BlockDestructionProgress;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+
 import java.util.List;
 import java.util.Map;
 
 @Mixin(BreakIndicators.class)
-public class BreakIndicatorsMixin extends Module  {
+public class BreakIndicatorsMixin extends Module {
 
 	@Unique
 	private final SettingGroup sgPercentageRenderPlus = settings.createGroup(MeteorPlusAddon.HUD_TITLE + " Percentage Render");

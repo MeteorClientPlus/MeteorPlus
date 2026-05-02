@@ -15,12 +15,23 @@ public class KillAuraPlusMode {
 		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
-	public void onActivate() { }
-	public void onDeactivate() { }
-	public void onTickPre(TickEvent.Pre event) { }
-	public void onTickPost(TickEvent.Post event) { }
 
-	public void onSendPacket(PacketEvent.Send event) { }
+	public void onActivate() {
+	}
 
-	public String getInfoString() { return ""; }
+	public void onDeactivate() {
+	}
+
+	public void onTickPre(TickEvent.Pre event) {
+	}
+
+	public void onTickPost(TickEvent.Post event) {
+	}
+
+	public void onSendPacket(PacketEvent.Send event) {
+	}
+
+	public String getInfoString() {
+		return "";
+	}
 }

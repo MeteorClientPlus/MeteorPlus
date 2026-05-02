@@ -10,10 +10,10 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.modes.Control;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.modes.Wasp;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.ClipContext;
 
 public class ElytraFlyPlus extends Module {
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();

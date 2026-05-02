@@ -16,7 +16,9 @@ public class Wasp extends ElytraFlyMode {
 
 	@Override
 	public void onPlayerMove(PlayerMoveEvent event) {
-		if (!mc.player.isFallFlying()) {return;}
+		if (!mc.player.isFallFlying()) {
+			return;
+		}
 
 		updateWaspMovement();
 		pitch = mc.player.getXRot();

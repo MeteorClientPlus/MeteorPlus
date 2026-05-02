@@ -4,10 +4,10 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedMode;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedModes;
 import nekiplay.meteorplus.utils.MovementUtils;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 
 public class Matrix6_7_0 extends SpeedMode {
 	public Matrix6_7_0() {
@@ -25,6 +25,7 @@ public class Matrix6_7_0 extends SpeedMode {
 	public void onTickEventPre(TickEvent.Pre event) {
 		work();
 	}
+
 	@Override
 	public void onTickEventPost(TickEvent.Post event) {
 		//work();
@@ -53,8 +54,7 @@ public class Matrix6_7_0 extends SpeedMode {
 		}
 		if (Math.abs(mc.player.getAbilities().getFlyingSpeed()) < 0.1) {
 			mc.player.getAbilities().setFlyingSpeed(0.026f);
-		}
-		else {
+		} else {
 			mc.player.getAbilities().setFlyingSpeed(0.0247f);
 		}
 		if (mc.player.onGround() && PlayerUtils.isMoving()) {

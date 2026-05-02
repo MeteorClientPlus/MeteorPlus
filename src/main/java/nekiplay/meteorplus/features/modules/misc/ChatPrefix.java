@@ -8,16 +8,16 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
 
 public class ChatPrefix extends Module {
 	public ChatPrefix() {
 		super(Categories.Misc, "meteor+-chat-prefix", "prefix for enabling and disabling Meteor+ modules.");
 	}
+
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
 	private final Setting<String> prefix = sgGeneral.add(new StringSetting.Builder()
 		.name("prefix")

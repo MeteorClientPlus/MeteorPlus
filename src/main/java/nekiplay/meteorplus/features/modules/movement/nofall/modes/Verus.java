@@ -15,8 +15,8 @@ public class Verus extends NoFallMode {
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
 		if (event.packet instanceof ServerboundMovePlayerPacket) {
-			ServerboundMovePlayerPacket packet = (ServerboundMovePlayerPacket)event.packet;
-			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor)packet;
+			ServerboundMovePlayerPacket packet = (ServerboundMovePlayerPacket) event.packet;
+			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor) packet;
 
 			if (mc.player.fallDistance > 3.35) {
 				accessor.meteor$setOnGround(true);

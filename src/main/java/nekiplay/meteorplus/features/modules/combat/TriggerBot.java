@@ -1,7 +1,6 @@
 package nekiplay.meteorplus.features.modules.combat;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
-import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
@@ -10,14 +9,14 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -106,7 +105,8 @@ public class TriggerBot extends Module {
 
 	private boolean entityCheck(Entity entity) {
 		if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) return false;
-		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDeadOrDying()) || !entity.isAlive()) return false;
+		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDeadOrDying()) || !entity.isAlive())
+			return false;
 		if (!entities.get().contains(entity.getType())) return false;
 		if (entity instanceof OwnableEntity tameable
 			&& tameable.getOwner().getUUID() != null
@@ -131,8 +131,7 @@ public class TriggerBot extends Module {
 		if (onlyCrits.get() && !CriticalsPlus.allowCrit() && needCrit(mc.crosshairPickEntity)) {
 			if (ignoreOnlyCritsOnLevitation.get() && !Objects.requireNonNull(mc.player).hasEffect(MobEffects.LEVITATION)) {
 				return false;
-			}
-			else if (!ignoreOnlyCritsOnLevitation.get()) {
+			} else if (!ignoreOnlyCritsOnLevitation.get()) {
 				return false;
 			}
 		}

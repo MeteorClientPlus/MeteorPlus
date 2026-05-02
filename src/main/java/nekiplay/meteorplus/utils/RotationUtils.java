@@ -1,11 +1,8 @@
 package nekiplay.meteorplus.utils;
 
-import meteordevelopment.meteorclient.utils.player.Rotations;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 
@@ -15,8 +12,7 @@ import static net.minecraft.util.Mth.wrapDegrees;
 import static org.joml.Math.clamp;
 
 public class RotationUtils {
-	public static Vec3 getEyesPos()
-	{
+	public static Vec3 getEyesPos() {
 		LocalPlayer player = mc.player;
 
 		return new Vec3(player.getX(),
@@ -36,10 +32,11 @@ public class RotationUtils {
 		final Vec3 eyesPos = new Vec3(mc.player.getX(), mc.player.getBoundingBox().minY +
 			mc.player.getEyeHeight(mc.player.getPose()), mc.player.getZ());
 
-		if(predict) {
-			if(mc.player.onGround()) {
+		if (predict) {
+			if (mc.player.onGround()) {
 				eyesPos.add(mc.player.getDeltaMovement().x, 0.0, mc.player.getDeltaMovement().z);
-			}else eyesPos.add(mc.player.getDeltaMovement().x, mc.player.getDeltaMovement().y, mc.player.getDeltaMovement().z);
+			} else
+				eyesPos.add(mc.player.getDeltaMovement().x, mc.player.getDeltaMovement().y, mc.player.getDeltaMovement().z);
 		}
 
 		final double diffX = vec.x - eyesPos.x;
@@ -65,8 +62,7 @@ public class RotationUtils {
 			));
 	}
 
-	public static Rotation getNeededRotations(Vec3 vec)
-	{
+	public static Rotation getNeededRotations(Vec3 vec) {
 		Vec3 eyesPos = getEyesPos();
 
 		double diffX = vec.x - eyesPos.x;
@@ -76,14 +72,13 @@ public class RotationUtils {
 		double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
 		float yaw = (float) toDegrees(atan2(diffZ, diffX)) - 90F;
-		float pitch = (float)-toDegrees(atan2(diffY, diffXZ));
+		float pitch = (float) -toDegrees(atan2(diffY, diffXZ));
 
 		return new Rotation(yaw, pitch);
 	}
 
 
-	public static double getAngleToLookVec(Vec3 vec)
-	{
+	public static double getAngleToLookVec(Vec3 vec) {
 		Rotation needed = getNeededRotations(vec);
 
 		LocalPlayer player = mc.player;
@@ -97,30 +92,25 @@ public class RotationUtils {
 	}
 
 
-	public static final class Rotation
-	{
+	public static final class Rotation {
 		private float yaw;
 		private float pitch;
 
-		public Rotation(float yaw, float pitch)
-		{
+		public Rotation(float yaw, float pitch) {
 			this.yaw = wrapDegrees(yaw);
 			this.pitch = wrapDegrees(pitch);
 		}
 
-		public Rotation(double yaw, double pitch)
-		{
-			this.yaw = wrapDegrees((float)yaw);
-			this.pitch = wrapDegrees((float)pitch);
+		public Rotation(double yaw, double pitch) {
+			this.yaw = wrapDegrees((float) yaw);
+			this.pitch = wrapDegrees((float) pitch);
 		}
 
-		public float getYaw()
-		{
+		public float getYaw() {
 			return yaw;
 		}
 
-		public float getPitch()
-		{
+		public float getPitch() {
 			return pitch;
 		}
 

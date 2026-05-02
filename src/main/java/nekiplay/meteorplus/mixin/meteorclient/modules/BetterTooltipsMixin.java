@@ -12,9 +12,9 @@ import meteordevelopment.meteorclient.utils.tooltip.ContainerTooltipComponent;
 import meteordevelopment.meteorclient.utils.tooltip.TextTooltipComponent;
 import nekiplay.meteorplus.utils.ColorRemover;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,9 +42,9 @@ public class BetterTooltipsMixin extends Module {
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
 	private final SettingGroup sgPreviews = settings.getGroup("Previews");
 
-	public final Setting<Boolean> echest = (Setting<Boolean>)sgPreviews.get("echests");
+	public final Setting<Boolean> echest = (Setting<Boolean>) sgPreviews.get("echests");
 
-	private final Setting<BetterTooltips.DisplayWhen> displayWhen = (Setting<BetterTooltips.DisplayWhen>)sgGeneral.get("display-when");
+	private final Setting<BetterTooltips.DisplayWhen> displayWhen = (Setting<BetterTooltips.DisplayWhen>) sgGeneral.get("display-when");
 
 
 	@ModifyArgs(method = "appendTooltip", at = @At(value = "INVOKE", target = "Lmeteordevelopment/meteorclient/events/game/ItemStackTooltipEvent;appendStart(Lnet/minecraft/network/chat/Component;)V"))
@@ -58,8 +58,7 @@ public class BetterTooltipsMixin extends Module {
 				String val = matcher.group(1).replaceAll("\\.", "");
 				args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.beehive.honey-level", val)));
 			}
-		}
-		else if (str.startsWith("Bees:")) {
+		} else if (str.startsWith("Bees:")) {
 			Pattern pattern = Pattern.compile("Bees: (.*)");
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.find()) {
@@ -81,16 +80,14 @@ public class BetterTooltipsMixin extends Module {
 				String val = matcher.group(1);
 				args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.kilobytes", val)));
 			}
-		}
-		else if (str.endsWith("bytes")) {
+		} else if (str.endsWith("bytes")) {
 			Pattern pattern = Pattern.compile("(.*) bytes");
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.find()) {
 				String val = matcher.group(1);
 				args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.bytes", val)));
 			}
-		}
-		else if (str.equals("Error getting bytes.")) {
+		} else if (str.equals("Error getting bytes.")) {
 			args.set(0, Component.literal(I18n.get("modules.meteor-client.better-tooltips.error-getting-bytes")));
 		}
 	}

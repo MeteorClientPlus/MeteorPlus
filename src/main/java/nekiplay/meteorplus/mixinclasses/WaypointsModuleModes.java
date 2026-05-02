@@ -20,6 +20,7 @@ public class WaypointsModuleModes {
 		public DistanceComparator(Map<String, Waypoint> base) {
 			this.base = base;
 		}
+
 		public int compare(String a, String b) {
 			long distance1 = 0;
 			long distance2 = 0;
@@ -48,6 +49,7 @@ public class WaypointsModuleModes {
 		public NameComparator(Map<String, Waypoint> base) {
 			this.base = base;
 		}
+
 		public int compare(String a, String b) {
 			if (base.containsKey(a) && base.containsKey(b)) {
 
@@ -61,8 +63,7 @@ public class WaypointsModuleModes {
 					}
 				}
 				return 0;
-			}
-			else {
+			} else {
 				return 0;
 			}
 		}

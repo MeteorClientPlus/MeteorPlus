@@ -23,8 +23,7 @@ public class ItemHighlightMixin {
 						HighlightItemData espItemData = itemHighlightPlus.itemsConfigs.get().get(stack.getItem());
 						if (espItemData != null) {
 							cir.setReturnValue(espItemData.Color.getPacked());
-						}
-						else {
+						} else {
 							cir.setReturnValue(itemHighlightPlus.defaultBlockConfig.get().Color.getPacked());
 						}
 					}

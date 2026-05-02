@@ -14,23 +14,19 @@ public class Smooth {
 			} else {
 				speeds = Math.pow(v, 2.0) * maxRotation + (1 - Math.pow(v, 2.0)) * minRotation;
 			}
-		}
-		else if (type == SmoothType.Perlin) {
+		} else if (type == SmoothType.Perlin) {
 			int noice = PerlinNoice.PerlinNoice(maxRotation);
 			if (noice > 0) {
 				speeds = noice;
-			}
-			else {
+			} else {
 				speeds = maxRotation;
 			}
-		}
-		else if (type == SmoothType.PerlinRandom) {
+		} else if (type == SmoothType.PerlinRandom) {
 			double random = RandomUtils.nextDouble(minRotation, maxRotation);
 			int noice = PerlinNoice.PerlinNoice(random);
 			if (noice > 0) {
 				speeds = noice;
-			}
-			else {
+			} else {
 				speeds = random;
 			}
 		}

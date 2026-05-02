@@ -17,6 +17,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 public class RenderingMixin {
 	@Unique
 	private static WhereIsIt whereIsIt;
+
 	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Font;drawInBatch(Lnet/minecraft/network/chat/Component;FFIZLorg/joml/Matrix4fc;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)V"))
 	private static void changeColor(Args args) {
 		if (whereIsIt == null) {
@@ -31,12 +32,11 @@ public class RenderingMixin {
 				args.set(0, Component.nullToEmpty(text3));
 
 				int width = mc.font.width(text3);
-				float x = (float)(-width) / 2.0F;
+				float x = (float) (-width) / 2.0F;
 
 				args.set(1, x);
 				args.set(3, getColor(text2));
-			}
-			else {
+			} else {
 				args.set(3, whereIsIt.text_color.get().getPacked());
 			}
 		}
@@ -50,7 +50,7 @@ public class RenderingMixin {
 
 		if (whereIsIt != null && whereIsIt.isActive()) {
 
-			args.set(1, (double)args.get(1) + whereIsIt.y_offset.get());
+			args.set(1, (double) args.get(1) + whereIsIt.y_offset.get());
 		}
 	}
 

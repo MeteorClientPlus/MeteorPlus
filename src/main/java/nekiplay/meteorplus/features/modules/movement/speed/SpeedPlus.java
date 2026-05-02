@@ -8,7 +8,8 @@ import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.features.modules.movement.speed.modes.*;
+import nekiplay.meteorplus.features.modules.movement.speed.modes.AACHop438;
+import nekiplay.meteorplus.features.modules.movement.speed.modes.NCPHop;
 import nekiplay.meteorplus.features.modules.movement.speed.modes.matrix.Matrix;
 import nekiplay.meteorplus.features.modules.movement.speed.modes.matrix.Matrix6_7_0;
 import nekiplay.meteorplus.features.modules.movement.speed.modes.matrix.MatrixExploit;
@@ -21,6 +22,7 @@ public class SpeedPlus extends Module {
 		super(Categories.Movement, "speed+", "Bypass speed");
 		onSpeedModeChanged(speedMode.get());
 	}
+
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
 
@@ -101,10 +103,12 @@ public class SpeedPlus extends Module {
 	private void onPostTick(TickEvent.Post event) {
 		currentMode.onTickEventPost(event);
 	}
+
 	@EventHandler
 	public void onSendPacket(PacketEvent.Send event) {
 		currentMode.onSendPacket(event);
 	}
+
 	@EventHandler
 	public void onSentPacket(PacketEvent.Sent event) {
 		currentMode.onSentPacket(event);
@@ -116,7 +120,9 @@ public class SpeedPlus extends Module {
 	}
 
 	@EventHandler
-	public void onJump(JumpVelocityMultiplierEvent event) { currentMode.onJump(event); }
+	public void onJump(JumpVelocityMultiplierEvent event) {
+		currentMode.onJump(event);
+	}
 
 
 	private void onSpeedModeChanged(SpeedModes mode) {

@@ -6,11 +6,11 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPBlockData;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import nekiplay.meteorplus.features.modules.world.XrayBruteforce;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -39,7 +39,7 @@ public class XBlock {
 	public static final int BO_RI = 1 << 17;
 	public static final int BO_LE = 1 << 18;
 
-	public static final int[] SIDES = { FO, BA, LE, RI, TO, BO };
+	public static final int[] SIDES = {FO, BA, LE, RI, TO, BO};
 
 	public final int x, y, z;
 	private BlockState state;
@@ -77,8 +77,7 @@ public class XBlock {
 
 			if (firstGroup == null) {
 				firstGroup = neighbour.group;
-			}
-			else {
+			} else {
 				if (firstGroup != neighbour.group) firstGroup.merge(neighbour.group);
 			}
 		}

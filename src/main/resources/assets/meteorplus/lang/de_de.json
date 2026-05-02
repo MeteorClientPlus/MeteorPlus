@@ -3,21 +3,15 @@
 	"gui.world_map.baritone_path_here": "Baritone der weg ist hier",
 	"gui.world_map.baritone_elytra_here": "Baritone elitra ist hier",
 	"gui.world_map.look_at_waypoint": "Siehe den tag",
-
 	"item.meteorplus.logo": "Meteor+ logo",
 	"item.meteorplus.logo_mods": "Meteor+ Integrations logo",
-
 	"modules.meteor-client.better-tooltips.beehive.honey-level": "§7Niveau des honigs: §e%d§7.",
 	"modules.meteor-client.better-tooltips.beehive.bees": "§7Bienen: §e%d§7.",
-
 	"modules.meteor-client.better-tooltips.kilobytes": "§7%s kb",
 	"modules.meteor-client.better-tooltips.bytes": "§7%s byte",
 	"modules.meteor-client.better-tooltips.error-getting-bytes": "§cFehler beim empfang von Bytes.",
-
 	"modules.meteor-client.better-tooltips.unknown-inventory": "§4Unbekanntes inventar",
-
 	"modules.meteor-client.better-tooltips.hold-to-preview": "УFür eine vorschau §e%s§r gedrückt halten",
-
 	"modules.meteor-client.inventory-tweaks.dump": "Falten",
 	"modules.meteor-client.inventory-tweaks.steal": "Nehmen"
 }

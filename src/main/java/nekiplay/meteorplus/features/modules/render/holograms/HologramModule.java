@@ -2,7 +2,6 @@ package nekiplay.meteorplus.features.modules.render.holograms;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -17,12 +16,12 @@ import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import meteordevelopment.orbit.EventHandler;
-import org.meteordev.starscript.Script;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.world.item.Item;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
+import org.meteordev.starscript.Script;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -37,6 +36,7 @@ public class HologramModule extends Module {
 	public HologramModule() {
 		super(Categories.Render, "holograms", "Create own holograms");
 	}
+
 	public Gson gson = new Gson();
 
 	public List<HologramDataListed> allHolograms = new ArrayList<HologramDataListed>();
@@ -140,8 +140,7 @@ public class HologramModule extends Module {
 										allHolograms.add(hologramData);
 										MeteorPlusAddon.LOG.info(MeteorPlusAddon.METEOR_LOGPREFIX + " Success loaded hologram: " + file.getName());
 									}
-								}
-								catch (Exception e) {
+								} catch (Exception e) {
 									MeteorPlusAddon.LOG.error(MeteorPlusAddon.METEOR_LOGPREFIX + " Error in hologram: " + e);
 								}
 							} catch (IOException e) {

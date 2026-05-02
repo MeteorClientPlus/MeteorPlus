@@ -9,17 +9,14 @@ import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
 import meteordevelopment.orbit.EventHandler;
+import nekiplay.meteorplus.utils.ElytraUtils;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.multiplayer.ClientSuggestionProvider;
-import net.minecraft.world.item.Items;
-import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
-import net.minecraft.core.BlockPos;
-import nekiplay.meteorplus.utils.ElytraUtils;
-
-import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class EclipCommand extends Command {
 	public EclipCommand() {
@@ -34,8 +31,7 @@ public class EclipCommand extends Command {
 			if (work()) {
 				blocks = blocks2;
 				MeteorClient.EVENT_BUS.subscribe(this);
-			}
-			else {
+			} else {
 				ticks = 0;
 			}
 			return SINGLE_SUCCESS;
@@ -44,8 +40,7 @@ public class EclipCommand extends Command {
 			if (work()) {
 				blocks = findBlock(true, 15);
 				MeteorClient.EVENT_BUS.subscribe(this);
-			}
-			else {
+			} else {
 				ticks = 0;
 			}
 			return SINGLE_SUCCESS;
@@ -54,14 +49,14 @@ public class EclipCommand extends Command {
 			if (work()) {
 				blocks = findBlock(false, 15);
 				MeteorClient.EVENT_BUS.subscribe(this);
-			}
-			else {
+			} else {
 				ticks = 0;
 			}
 			return SINGLE_SUCCESS;
 		}));
 
 	}
+
 	private boolean work() {
 		LocalPlayer player = mc.player;
 		assert player != null;
@@ -69,12 +64,12 @@ public class EclipCommand extends Command {
 		if (elytra.found()) {
 			ticks = 0;
 			return true;
-		}
-		else {
+		} else {
 			error(Names.get(Items.ELYTRA) + " not found");
 			return false;
 		}
 	}
+
 	private Block getBlock(BlockPos pos) {
 		return mc.level.getBlockState(pos).getBlock();
 	}
@@ -90,8 +85,7 @@ public class EclipCommand extends Command {
 					return i;
 				}
 			}
-		}
-		else {
+		} else {
 			BlockPos pos = mc.player.blockPosition();
 			for (int i = -maximum; i <= 0; i++) {
 				if (getBlock(pos.offset(0, i, 0)) == Blocks.AIR
@@ -152,8 +146,7 @@ public class EclipCommand extends Command {
 					MeteorClient.EVENT_BUS.unsubscribe(this);
 				}
 			}
-		}
-		else {
+		} else {
 			MeteorClient.EVENT_BUS.unsubscribe(this);
 		}
 	}

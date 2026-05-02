@@ -6,6 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(Connection.class)
 public interface ConnectionAccessor {
-    @Accessor("tickCount")
-    int getTickCount();
+	@Accessor("tickCount")
+	int getTickCount();
 }

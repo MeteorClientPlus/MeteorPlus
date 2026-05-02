@@ -15,13 +15,12 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
-import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 
@@ -86,19 +85,15 @@ public class SafeMine extends Module {
 			if (replaceLava.get()) {
 				synchronized (lava) {
 					Iterator<BlockPos> iterator = lava.iterator();
-					if (iterator.hasNext())
-					{
-						if (tick == 0)
-						{
+					if (iterator.hasNext()) {
+						if (tick == 0) {
 							if (mc.player != null) {
 								BlockPos block = iterator.next();
 								BlockUtils.place(block, InteractionHand.OFF_HAND, mc.player.getInventory().getSelectedSlot(), false, 0, false, false, false);
 								iterator.remove();
 								tick = delay.get();
 							}
-						}
-						else
-						{
+						} else {
 							tick--;
 						}
 					}
@@ -108,8 +103,7 @@ public class SafeMine extends Module {
 	}
 
 	@EventHandler
-	private void onCanContactLava(TickEvent.Post event)
-	{
+	private void onCanContactLava(TickEvent.Post event) {
 		if (mc.player != null && mc.level != null) {
 			Vec3 underpos = mc.player.position().add(0, -1, 0);
 			BlockPos under = new BlockPos((int) underpos.x, (int) underpos.y, (int) underpos.z);
@@ -122,8 +116,7 @@ public class SafeMine extends Module {
 						position = mc.player.position();
 					}
 				}
-			}
-			else {
+			} else {
 				freeze = false;
 			}
 		}
@@ -142,7 +135,7 @@ public class SafeMine extends Module {
 	@EventHandler
 	private void onFluidCollisionShape(CollisionShapeEvent event) {
 		if (!event.state.getFluidState().isEmpty()) {
-			if (mc.player != null && event.state != null && event.state.is(Blocks.LAVA )&& !mc.player.isInLava() && solidLava.get()) {
+			if (mc.player != null && event.state != null && event.state.is(Blocks.LAVA) && !mc.player.isInLava() && solidLava.get()) {
 				event.shape = Shapes.block();
 			}
 		}
@@ -160,8 +153,7 @@ public class SafeMine extends Module {
 		}
 	}
 
-	private ArrayList<BlockPos> isExposedLava(BlockPos pos)
-	{
+	private ArrayList<BlockPos> isExposedLava(BlockPos pos) {
 		ArrayList<BlockPos> blocks = new ArrayList<>();
 		if (mc.level != null) {
 			if (mc.level.getBlockState(pos).is(Blocks.LAVA)) {
@@ -174,16 +166,16 @@ public class SafeMine extends Module {
 				blocks.add(pos.offset(-1, 0, 0));
 			}
 			if (mc.level.getBlockState(pos.offset(0, 1, 0)).is(Blocks.LAVA)) {
-				blocks.add(pos.offset(0,1, 0));
+				blocks.add(pos.offset(0, 1, 0));
 			}
 			if (mc.level.getBlockState(pos.offset(0, -1, 0)).is(Blocks.LAVA)) {
-				blocks.add(pos.offset(0,-1, 0));
+				blocks.add(pos.offset(0, -1, 0));
 			}
 			if (mc.level.getBlockState(pos.offset(0, 0, 1)).is(Blocks.LAVA)) {
-				blocks.add(pos.offset(0,0, 1));
+				blocks.add(pos.offset(0, 0, 1));
 			}
 			if (mc.level.getBlockState(pos.offset(0, 0, -1)).is(Blocks.LAVA)) {
-				blocks.add(pos.offset(0,0, -1));
+				blocks.add(pos.offset(0, 0, -1));
 			}
 		}
 		return blocks;
@@ -227,7 +219,7 @@ public class SafeMine extends Module {
 
 	@Override()
 	public void onActivate() {
-		if (mc.player != null){
+		if (mc.player != null) {
 			yaw = mc.player.getYRot();
 			pitch = mc.player.getXRot();
 			position = mc.player.position();
@@ -236,12 +228,10 @@ public class SafeMine extends Module {
 
 	private boolean rotate = false;
 
-	private void setFreezeLook(PacketEvent.Send event, ServerboundMovePlayerPacket playerMove)
-	{
+	private void setFreezeLook(PacketEvent.Send event, ServerboundMovePlayerPacket playerMove) {
 		if (playerMove.hasRotation() && FreezeLook.get() && FreezeLookSilent.get() && !rotate) {
 			event.setCancelled(true);
-		}
-		else if (mc.player != null && playerMove.hasRotation() && FreezeLook.get() && !FreezeLookSilent.get()) {
+		} else if (mc.player != null && playerMove.hasRotation() && FreezeLook.get() && !FreezeLookSilent.get()) {
 			event.setCancelled(true);
 			mc.player.setYRot(yaw);
 			mc.player.setXRot(pitch);
@@ -254,8 +244,7 @@ public class SafeMine extends Module {
 	}
 
 	@EventHandler
-	private void InteractBlockEvent(InteractBlockEvent event)
-	{
+	private void InteractBlockEvent(InteractBlockEvent event) {
 		if (mc.player != null && mc.getConnection() != null && FreezeLookPlace.get() && freeze) {
 			ServerboundMovePlayerPacket.Rot r = new ServerboundMovePlayerPacket.Rot(mc.player.getYRot(), mc.player.getXRot(), mc.player.onGround(), mc.player.horizontalCollision);
 			rotate = true;
@@ -274,6 +263,7 @@ public class SafeMine extends Module {
 			}
 		}
 	}
+
 	@EventHandler
 	private void onMovePacket2(PacketEvent.Send event) {
 		if (freeze) {

@@ -9,9 +9,9 @@ import meteordevelopment.meteorclient.utils.player.InvUtils;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallMode;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import nekiplay.meteorplus.mixin.minecraft.entity.ServerboundMovePlayerPacketAccessor;
+import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Items;
-import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 
 public class No_Ground_Elytra extends NoFallMode {
 	/*

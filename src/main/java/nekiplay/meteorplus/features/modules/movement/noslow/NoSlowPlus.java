@@ -15,6 +15,7 @@ public class NoSlowPlus extends Module {
 	public NoSlowPlus() {
 		super(Categories.Movement, "no-slow+", "Remove or increase slowness.");
 	}
+
 	public SettingGroup defaultGroup = settings.getDefaultGroup();
 
 	private NoSlowMode currentMode;

@@ -15,7 +15,13 @@ public class NoSlowMode {
 		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}
-	public void onUse(PlayerUseMultiplierEvent event) { }
-	public void onTickEventPre(TickEvent.Pre event) { }
-	public void onActivate() { }
+
+	public void onUse(PlayerUseMultiplierEvent event) {
+	}
+
+	public void onTickEventPre(TickEvent.Pre event) {
+	}
+
+	public void onActivate() {
+	}
 }
