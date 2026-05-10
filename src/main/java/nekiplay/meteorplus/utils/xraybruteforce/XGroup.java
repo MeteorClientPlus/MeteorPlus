@@ -94,7 +94,7 @@ public class XGroup {
 			}
 		}
 
-		if (neighbours.size() > 0) {
+		if (!neighbours.isEmpty()) {
 			XGroup group = search.newGroup(this.block);
 			group.blocks.ensureCapacity(remainingBlocks.size());
 

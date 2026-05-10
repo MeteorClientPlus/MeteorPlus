@@ -145,7 +145,7 @@ public class AutoAccept extends Module {
 					Accept(nickname, pattern, message);
 				} else {
 					nickname = getName(custom, message);
-					if (!nickname.equals("")) {
+					if (!nickname.isEmpty()) {
 						try {
 							Thread.sleep(Delay.get());
 						} catch (InterruptedException e) {
@@ -163,7 +163,7 @@ public class AutoAccept extends Module {
 		String nickname = "";
 		for (TPPattern tpPattern : patterns) {
 			String nn = getName(tpPattern, message);
-			if (!nn.equals("")) {
+			if (!nn.isEmpty()) {
 				nickname = nn;
 			}
 		}
@@ -176,7 +176,7 @@ public class AutoAccept extends Module {
 		Matcher matcher = pattern.matcher(message);
 		if (matcher.find()) {
 			String player = matcher.group(tpPattern.group);
-			if (!player.equals("")) {
+			if (!player.isEmpty()) {
 				nickname = player;
 			}
 		}
@@ -189,7 +189,7 @@ public class AutoAccept extends Module {
 			Matcher matcher = pattern.matcher(message);
 			if (matcher.find()) {
 				String player = matcher.group(tpPattern.group);
-				if (!player.equals("")) {
+				if (!player.isEmpty()) {
 					return tpPattern;
 				}
 			}

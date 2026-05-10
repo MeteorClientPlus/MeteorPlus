@@ -448,7 +448,7 @@ public class XrayBruteforce extends Module {
 					defaultBlockConfig.get().tickRainbow();
 					if (blockConfigs.get() != null) {
 						Collection<ESPBlockData> datas = blockConfigs.get().values();
-						if (datas.size() > 0) {
+						if (!datas.isEmpty()) {
 							for (ESPBlockData blockData : datas) {
 								if (blockData != null) {
 									blockData.tickRainbow();
@@ -666,7 +666,7 @@ public class XrayBruteforce extends Module {
 	}
 
 	private void updateRenderedOres() {
-		if (ores.size() > 0) {
+		if (!ores.isEmpty()) {
 			for (RenderOre pos : ores.toArray(new RenderOre[0])) {
 				BlockState state = mc.level.getBlockState(pos.blockPos);
 				if (state.getBlock() == pos.block) {
@@ -678,7 +678,7 @@ public class XrayBruteforce extends Module {
 
 	private void renderOres(Render3DEvent event) {
 		int renderBlocks = 0;
-		if (ores.size() > 0) {
+		if (!ores.isEmpty()) {
 			for (RenderOre pos : ores.toArray(new RenderOre[0])) {
 				if (setColors(pos)) {
 					if (autoSave.get()) {
@@ -939,7 +939,7 @@ public class XrayBruteforce extends Module {
 	private void checker() {
 		float timeSinceLastTick = TickRate.INSTANCE.getTimeSinceLastTick();
 		if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() >= millis && !pause_toggle) {
-			if (blocks != null && blocks.size() > 0) {
+			if (blocks != null && !blocks.isEmpty()) {
 				if (tps_sync.get() && timeSinceLastTick <= 1f) {
 					work();
 				} else if (!tps_sync.get()) {

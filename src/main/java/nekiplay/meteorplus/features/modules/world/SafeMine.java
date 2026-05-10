@@ -144,7 +144,7 @@ public class SafeMine extends Module {
 	@EventHandler(priority = EventPriority.HIGH)
 	private void onStartBreakingBlock(StartBreakingBlockEvent event) {
 		ArrayList<BlockPos> lavaBlocks = isExposedLava(event.blockPos);
-		if (lavaBlocks.size() > 0 && antiMine.get()) {
+		if (!lavaBlocks.isEmpty() && antiMine.get()) {
 			mc.options.keyAttack.setDown(false);
 			event.setCancelled(true);
 			synchronized (lava) {

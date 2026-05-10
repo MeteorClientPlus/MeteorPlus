@@ -128,9 +128,7 @@ public class TimerPlus extends Module {
 				timerMultiplier = 1.25;
 				timerMultiplierOnRecharge = Timer.OFF;
 			}
-			case Vulcan -> {
-				currentMode = new Vulcan();
-			}
+			case Vulcan -> currentMode = new Vulcan();
 			case Grim -> {
 				currentMode = new NCP();
 				workingDelay = 14;

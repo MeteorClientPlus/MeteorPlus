@@ -169,9 +169,7 @@ public class AutoObsidianFarm extends Module {
 					error("This mode need Baritone API (Fabric)");
 				}
 			}
-			case Cauldrons -> {
-				currentMode = new Cauldrons();
-			}
+			case Cauldrons -> currentMode = new Cauldrons();
 		}
 	}
 
