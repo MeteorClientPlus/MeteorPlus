@@ -70,8 +70,7 @@ public class ItemFrameEsp extends Module {
 			double xl = entity.getX();
 			double yl = entity.getY();
 			double zl = entity.getZ();
-			if (entity instanceof ItemFrame) {
-				ItemFrame itemFrame = (ItemFrame) entity;
+			if (entity instanceof ItemFrame itemFrame) {
 				ItemStack held = itemFrame.getItem();
 				if (whitelist.get().contains(held.getItem())) {
 					ESPItemData espItemData = blockConfigs.get().get(held.getItem());

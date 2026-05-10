@@ -24,7 +24,7 @@ public class Vulcan extends SpiderMode {
 	private double startY = 0;
 	private double lastY = 0;
 
-	private double coff = 0.0000000000326;
+	private final double coff = 0.0000000000326;
 
 	@Override
 	public void onActivate() {

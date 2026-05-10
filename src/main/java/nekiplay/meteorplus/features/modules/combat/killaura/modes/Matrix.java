@@ -120,7 +120,7 @@ public class Matrix extends KillAuraPlusMode {
 		if (entity instanceof Player player) {
 			if (player.isCreative()) return false;
 			if (!Friends.get().shouldAttack(player)) return false;
-			if (settings.shieldMode.get() == KillAura.ShieldMode.Ignore && player.isBlocking()) return false;
+			return settings.shieldMode.get() != KillAura.ShieldMode.Ignore || !player.isBlocking();
 		}
 		return true;
 	}

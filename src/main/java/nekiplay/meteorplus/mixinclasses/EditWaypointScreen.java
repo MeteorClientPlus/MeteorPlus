@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class EditWaypointScreen extends EditSystemScreen<Waypoint> {
-	private Runnable reload;
+	private final Runnable reload;
 
 	public EditWaypointScreen(GuiTheme theme, Waypoint value, Runnable reload) {
 		super(theme, value, reload);

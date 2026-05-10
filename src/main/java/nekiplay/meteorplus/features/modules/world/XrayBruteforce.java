@@ -114,7 +114,7 @@ public class XrayBruteforce extends Module {
 				File dir2 = new File(dir, Utils.getWorldName());
 				if (dir2.exists()) {
 					File[] arrFiles = dir2.listFiles();
-					List<File> lst = Arrays.asList(arrFiles);
+					File[] lst = arrFiles;
 					for (File file : lst) {
 						FileReader fr = null;
 						try {
@@ -863,14 +863,13 @@ public class XrayBruteforce extends Module {
 					return true;
 				else if (isExposedBlock(mc.level.getBlockState(pos.offset(0, 0, 1))))
 					return true;
-				else if (isExposedBlock(mc.level.getBlockState(pos.offset(-0, 0, -1))))
-					return true;
+				else return isExposedBlock(mc.level.getBlockState(pos.offset(-0, 0, -1)));
 			}
 		}
 		return false;
 	}
 
-	private List<BlockPos> blocks = new ArrayList<>();
+	private final List<BlockPos> blocks = new ArrayList<>();
 
 	@Override
 	public String getInfoString() {
@@ -882,10 +881,7 @@ public class XrayBruteforce extends Module {
 	}
 
 	private boolean send(BlockPos blockpos) {
-		boolean success = true;
-		if (blockpos == null) {
-			success = false;
-		}
+		boolean success = blockpos != null;
 		ClientPacketListener conn = mc.getConnection();
 		if (conn == null) {
 			success = false;
@@ -998,10 +994,7 @@ public class XrayBruteforce extends Module {
 
 		if (auto_height.get()) {
 			List<Block> findBlocks = whblocks.get();
-			boolean newGeneration = false;
-			if (generationType.get() == GenerationType.New) {
-				newGeneration = true;
-			}
+			boolean newGeneration = generationType.get() == GenerationType.New;
 			for (Block block : findBlocks) {
 				GenerationBlock b = GenerationBlock.getGenerationBlock(block, newGeneration);
 				if (b != null && b.block == block) {

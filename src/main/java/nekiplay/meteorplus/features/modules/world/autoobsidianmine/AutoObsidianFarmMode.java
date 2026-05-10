@@ -13,7 +13,6 @@ public class AutoObsidianFarmMode {
 
 	public AutoObsidianFarmMode(AutoObsidianFarmModes type) {
 		this.settings = Modules.get().get(AutoObsidianFarm.class);
-		;
 		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}

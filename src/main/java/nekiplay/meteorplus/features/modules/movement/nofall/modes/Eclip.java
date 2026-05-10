@@ -29,7 +29,7 @@ public class Eclip extends NoFallMode {
 	private int blocks = 0;
 	private boolean cliped = false;
 	private boolean groundcheck = false;
-	private int timer = 0;
+	private final int timer = 0;
 	private int teleports = 0;
 
 	@Override

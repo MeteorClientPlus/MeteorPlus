@@ -14,8 +14,7 @@ public class Vulcan277 extends NoFallMode {
 
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
-		if (event.packet instanceof ServerboundMovePlayerPacket) {
-			ServerboundMovePlayerPacket packet = (ServerboundMovePlayerPacket) event.packet;
+		if (event.packet instanceof ServerboundMovePlayerPacket packet) {
 			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor) packet;
 
 			if (mc.player.fallDistance > 7.0) {

@@ -93,11 +93,7 @@ public class CustomBlocksModule extends Module {
 	private boolean isValidBlockForReplace(Block block) {
 		if (block != Blocks.AIR && noSetIfAir.get()) {
 			return true;
-		} else if (!noSetIfAir.get()) {
-			return true;
-		}
-
-		return false;
+		} else return !noSetIfAir.get();
 	}
 
 	private void setBlock(BlockPos pos, CustomBlockData data) {

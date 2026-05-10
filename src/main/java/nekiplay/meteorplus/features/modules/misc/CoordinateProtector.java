@@ -64,7 +64,7 @@ public class CoordinateProtector {
 						BlockPos blockPos = ((BlockHitResult) blockHitResult).getBlockPos();
 						blockPos = blockPos.offset(ConfigModifier.get().x_spoof.get(), 0, ConfigModifier.get().z_spoof.get());
 						if (ConfigModifier.get().spoofMode.get() == SpoofMode.Fake) {
-							lines.set(index, "" + var10001 + "Targeted Block: " + blockPos.getX() + ", " + blockPos.getY() + ", " + blockPos.getZ());
+							lines.set(index, var10001 + "Targeted Block: " + blockPos.getX() + ", " + blockPos.getY() + ", " + blockPos.getZ());
 						} else if (ConfigModifier.get().spoofMode.get() == SpoofMode.Sensor) {
 							lines.set(index, var10001 + "Targeted Block: *** *** ***");
 						}
@@ -77,7 +77,7 @@ public class CoordinateProtector {
 						BlockPos blockPos = ((BlockHitResult) blockHitResult).getBlockPos();
 						blockPos = blockPos.offset(ConfigModifier.get().x_spoof.get(), 0, ConfigModifier.get().z_spoof.get());
 						if (ConfigModifier.get().spoofMode.get() == SpoofMode.Fake) {
-							lines.set(index, "" + var10001 + "Targeted Fluid: " + blockPos.getX() + ", " + blockPos.getY() + ", " + blockPos.getZ());
+							lines.set(index, var10001 + "Targeted Fluid: " + blockPos.getX() + ", " + blockPos.getY() + ", " + blockPos.getZ());
 						} else if (ConfigModifier.get().spoofMode.get() == SpoofMode.Sensor) {
 							lines.set(index, var10001 + "Targeted Fluid: *** *** ***");
 						}

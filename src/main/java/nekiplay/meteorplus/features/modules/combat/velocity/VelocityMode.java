@@ -12,7 +12,6 @@ public class VelocityMode {
 
 	public VelocityMode(VelocityModes type) {
 		this.settings = Modules.get().get(VelocityPlus.class);
-		;
 		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}

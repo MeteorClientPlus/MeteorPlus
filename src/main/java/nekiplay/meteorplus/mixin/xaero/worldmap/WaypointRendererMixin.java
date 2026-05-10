@@ -40,7 +40,7 @@ public class WaypointRendererMixin {
 						SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
 					}
 				});
-				if ((Boolean) WorldMap.INSTANCE.getConfigs().getClientConfigManager().getEffective(WorldMapProfiledConfigOptions.COORDINATES) && !SupportMods.xaeroMinimap.hidingWaypointCoordinates()) {
+				if (WorldMap.INSTANCE.getConfigs().getClientConfigManager().getEffective(WorldMapProfiledConfigOptions.COORDINATES) && !SupportMods.xaeroMinimap.hidingWaypointCoordinates()) {
 					rightClickOptions.add(new RightClickOption(String.format("X: %d, Y: %s, Z: %d", element.getX(), element.isyIncluded() ? "" + element.getY() : "~", element.getZ()), rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
 							SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
@@ -52,7 +52,7 @@ public class WaypointRendererMixin {
 					public void onAction(Screen screen) {
 						SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
 					}
-				}).setNameFormatArgs(new Object[]{"E"}));
+				}).setNameFormatArgs("E"));
 
 				if (mapIntegration != null && mapIntegration.baritoneGoto.get()) {
 					rightClickOptions.add((new RightClickOption("gui.world_map.baritone_goal_here", rightClickOptions.size(), target) {
@@ -64,7 +64,7 @@ public class WaypointRendererMixin {
 						public boolean isActive() {
 							return true;
 						}
-					}).setNameFormatArgs(new Object[]{"G"}));
+					}).setNameFormatArgs("G"));
 
 					rightClickOptions.add((new RightClickOption("gui.world_map.look_at_waypoint", rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
@@ -91,7 +91,7 @@ public class WaypointRendererMixin {
 						public boolean isActive() {
 							return true;
 						}
-					}).setNameFormatArgs(new Object[]{"L"}));
+					}).setNameFormatArgs("L"));
 
 					rightClickOptions.add((new RightClickOption("gui.world_map.baritone_path_here", rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
@@ -102,7 +102,7 @@ public class WaypointRendererMixin {
 						public boolean isActive() {
 							return true;
 						}
-					}).setNameFormatArgs(new Object[]{"P"}));
+					}).setNameFormatArgs("P"));
 
 					if (mapIntegration.baritoneElytra.get() && PlayerUtils.getDimension() == Dimension.Nether) {
 						rightClickOptions.add((new RightClickOption("gui.world_map.baritone_elytra_here", rightClickOptions.size(), target) {
@@ -115,7 +115,7 @@ public class WaypointRendererMixin {
 							public boolean isActive() {
 								return true;
 							}
-						}).setNameFormatArgs(new Object[]{"P"}));
+						}).setNameFormatArgs("P"));
 					}
 				}
 
@@ -127,7 +127,7 @@ public class WaypointRendererMixin {
 					public boolean isActive() {
 						return SupportMods.xaeroMinimap.canTeleport(SupportMods.xaeroMinimap.getWaypointWorld());
 					}
-				}).setNameFormatArgs(new Object[]{"T"}));
+				}).setNameFormatArgs("T"));
 				rightClickOptions.add(new RightClickOption("gui.xaero_right_click_waypoint_share", rightClickOptions.size(), target) {
 					public void onAction(Screen screen) {
 						SupportMods.xaeroMinimap.shareWaypoint(element, (GuiMap) screen, SupportMods.xaeroMinimap.getWaypointWorld());
@@ -146,7 +146,7 @@ public class WaypointRendererMixin {
 						}
 
 					}
-				}).setNameFormatArgs(new Object[]{"H"}));
+				}).setNameFormatArgs("H"));
 				rightClickOptions.add((new RightClickOption("", rightClickOptions.size(), target) {
 					public String getName() {
 						return element.isTemporary() ? "gui.xaero_right_click_waypoint_delete_confirm" : "gui.xaero_right_click_waypoint_delete";
@@ -160,7 +160,7 @@ public class WaypointRendererMixin {
 						}
 
 					}
-				}).setNameFormatArgs(new Object[]{"DEL"}));
+				}).setNameFormatArgs("DEL"));
 				cir.setReturnValue(rightClickOptions);
 			}
 		}

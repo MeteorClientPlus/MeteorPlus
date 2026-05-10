@@ -210,9 +210,7 @@ public class KillAuraMixin extends Module {
 	@Unique
 	private boolean oneHitEntity() {
 		if (getTarget() != null) {
-			if (ignoreSmartDelayForShulkerBulletAndGhastCharge.get() && (getTarget().getType() == EntityType.FIREBALL || getTarget().getType() == EntityType.SHULKER_BULLET)) {
-				return true;
-			}
+			return ignoreSmartDelayForShulkerBulletAndGhastCharge.get() && (getTarget().getType() == EntityType.FIREBALL || getTarget().getType() == EntityType.SHULKER_BULLET);
 		}
 		return false;
 	}

@@ -14,7 +14,7 @@ public class MatrixZoom2 extends JesusMode {
 	}
 
 	private final float range = 0.005f;
-	private int tick = 0;
+	private final int tick = 0;
 
 	@Override
 	public void onTickEventPre(TickEvent.Pre event) {

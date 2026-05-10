@@ -14,7 +14,7 @@ public class CriticalsPlus extends Module {
 		super(Categories.Combat, "Criticals+", "Better criticals module");
 	}
 
-	private static Minecraft mc = Minecraft.getInstance();
+	private static final Minecraft mc = Minecraft.getInstance();
 
 	public static boolean canCrit() {
 		return !mc.player.onGround() && mc.player.fallDistance > 0;

@@ -43,11 +43,7 @@ public class Eclip extends SpiderMode {
 		LocalPlayer player = mc.player;
 		assert player != null;
 		FindItemResult elytra = InvUtils.find(Items.ELYTRA);
-		if (elytra.found()) {
-			return true;
-		} else {
-			return false;
-		}
+		return elytra.found();
 	}
 
 	private void clip() {

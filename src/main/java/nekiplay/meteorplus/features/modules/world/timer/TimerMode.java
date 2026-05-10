@@ -14,9 +14,7 @@ public class TimerMode {
 
 	public TimerMode(TimerModes type) {
 		this.timer = Modules.get().get(Timer.class);
-		;
 		this.settings = Modules.get().get(TimerPlus.class);
-		;
 		this.mc = Minecraft.getInstance();
 		this.type = type;
 	}

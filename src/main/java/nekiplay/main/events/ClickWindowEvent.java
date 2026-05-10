@@ -14,7 +14,6 @@ public class ClickWindowEvent extends Cancellable {
 		INSTANCE.setCancelled(false);
 		INSTANCE.windowId = windowId;
 		INSTANCE.mouseButtonClicked = mouseButtonClicked;
-		;
 		INSTANCE.slotId = slotId;
 		INSTANCE.mode = mode;
 		return INSTANCE;

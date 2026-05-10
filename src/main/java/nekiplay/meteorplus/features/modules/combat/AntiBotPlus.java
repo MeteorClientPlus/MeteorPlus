@@ -121,11 +121,11 @@ public class AntiBotPlus extends Module {
 		.build()
 	);
 
-	private ArrayList<UUID> hash = new ArrayList<UUID>();
-	private ArrayList<Integer> swings = new ArrayList<Integer>();
-	private ArrayList<Integer> grounds = new ArrayList<Integer>();
-	private ArrayList<Integer> airs = new ArrayList<Integer>();
-	private Map<Integer, Integer> invalidGrounds = new HashMap<>();
+	private final ArrayList<UUID> hash = new ArrayList<UUID>();
+	private final ArrayList<Integer> swings = new ArrayList<Integer>();
+	private final ArrayList<Integer> grounds = new ArrayList<Integer>();
+	private final ArrayList<Integer> airs = new ArrayList<Integer>();
+	private final Map<Integer, Integer> invalidGrounds = new HashMap<>();
 
 	@Override
 	public void onDeactivate() {

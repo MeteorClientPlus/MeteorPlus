@@ -26,8 +26,7 @@ public class MatrixNew extends NoFallMode {
 
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
-		if (event.packet instanceof ServerboundMovePlayerPacket) {
-			ServerboundMovePlayerPacket packet = (ServerboundMovePlayerPacket) event.packet;
+		if (event.packet instanceof ServerboundMovePlayerPacket packet) {
 			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor) packet;
 			timer = Modules.get().get(Timer.class);
 
