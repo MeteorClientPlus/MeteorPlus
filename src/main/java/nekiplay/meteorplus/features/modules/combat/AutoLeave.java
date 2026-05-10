@@ -1,5 +1,6 @@
 package nekiplay.meteorplus.features.modules.combat;
 
+import meteordevelopment.meteorclient.events.entity.EntityAddedEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -8,17 +9,18 @@ import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.packet.s2c.common.DisconnectS2CPacket;
-import net.minecraft.text.Text;
-import meteordevelopment.meteorclient.events.entity.EntityAddedEvent;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.ClientboundDisconnectPacket;
+import net.minecraft.world.entity.player.Player;
+
 import java.util.Objects;
 
 public class AutoLeave extends Module {
 	public AutoLeave() {
 		super(Categories.Combat, "auto-leave", "Automatically logs out from the server when someone enters your render distance.");
 	}
+
 	private final SettingGroup ALSettings = settings.getDefaultGroup();
 	private final Setting<Boolean> visualRangeIgnoreFriends = ALSettings.add(new BoolSetting.Builder()
 		.name("ignore-friends")
@@ -53,21 +55,20 @@ public class AutoLeave extends Module {
 	public void onEntityAdded(EntityAddedEvent event) {
 		if (mc.player == null) return;
 		if (visualRangeIgnoreFriends.get()) {
-			if (event.entity.isPlayer() && !Friends.get().isFriend((PlayerEntity) event.entity) && !Objects.equals(event.entity.getName(), mc.player.getName()) && !Objects.equals(event.entity.getName(), "FreeCamera")) {
+			if (event.entity.isAlwaysTicking() && !Friends.get().isFriend((Player) event.entity) && !Objects.equals(event.entity.getName(), mc.player.getName()) && !Objects.equals(event.entity.getName(), "FreeCamera")) {
 				if (Command.get()) {
 					ChatUtils.sendPlayerMsg(command_str.get());
 					info((String.format("player §c%s§r was detected", event.entity.getName())));
 				} else {
-					assert mc.world != null;
-					mc.world.disconnect(Text.of(""));
-					mc.player.networkHandler.onDisconnect(new DisconnectS2CPacket(Text.literal(String.format("[§dAuto Leaeve§r] player %s was detected", event.entity.getName()))));
+					assert mc.level != null;
+					mc.level.disconnect(Component.nullToEmpty(""));
+					mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal(String.format("[§dAuto Leave§r] player %s was detected", event.entity.getName()))));
 				}
-			if (AutoDisable.get()) this.toggle();
-			}
-		}
-		else if (event.entity.isPlayer()){
-				mc.player.networkHandler.onDisconnect(new DisconnectS2CPacket(Text.literal(String.format("[§dAuto Leaeve§r] player %s was detected", event.entity.getName()))));
 				if (AutoDisable.get()) this.toggle();
+			}
+		} else if (event.entity.isAlwaysTicking()) {
+			mc.player.connection.handleDisconnect(new ClientboundDisconnectPacket(Component.literal(String.format("[§dAuto Leave§r] player %s was detected", event.entity.getName()))));
+			if (AutoDisable.get()) this.toggle();
 		}
 	}
 }

@@ -16,16 +16,15 @@ import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -76,52 +75,55 @@ public class BedrockStorageBruteforce extends Module {
 	);
 	Thread clickerThread = null;
 	private boolean scan = true;
+
 	private void stop() {
-		if (clickerThread != null && clickerThread.isAlive())
-		{
+		if (clickerThread != null && clickerThread.isAlive()) {
 
 		}
 		scan = false;
 	}
+
 	@Override
 	public void onDeactivate() {
 		stop();
 	}
+
 	private boolean isAllowScan(BlockPos pos) {
-		if (mc.world != null) {
+		if (mc.level != null) {
 			if (!scanned.contains(pos)) {
-				BlockState state = mc.world.getBlockState(pos);
+				BlockState state = mc.level.getBlockState(pos);
 				Block block = state.getBlock();
 				return block != Blocks.AIR && block != Blocks.BEDROCK && block != Blocks.LAVA && block != Blocks.WATER;
 			}
 		}
 		return false;
 	}
+
 	Dimension dim;
+
 	@Override
 	public void onActivate() {
 		dim = PlayerUtils.getDimension();
 		scan = true;
 		clickerThread = new Thread(() -> {
-			while (scan)
-			{
+			while (scan) {
 				assert mc.player != null;
-				BlockPos playerPos = mc.player.getBlockPos();
+				BlockPos playerPos = mc.player.blockPosition();
 				int ranger = range.get();
 				int x = Utils.random(playerPos.getX() - ranger, playerPos.getX() + ranger);
 				int y = Utils.random(1, 4);
 				int z = Utils.random(playerPos.getZ() - ranger, playerPos.getZ() + ranger);
-				BlockPos posible = new BlockPos(x, y, z);
+				BlockPos possible = new BlockPos(x, y, z);
 				if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() >= millis) {
-					if (isAllowScan(posible)) {
-						ClientPlayNetworkHandler conn = mc.getNetworkHandler();
+					if (isAllowScan(possible)) {
+						ClientPacketListener conn = mc.getConnection();
 						if (conn != null) {
-							last = posible;
-							scanned.add(posible);
-							PlayerActionC2SPacket abortPacket = new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, posible, Direction.UP, 0);
-							conn.sendPacket(abortPacket);
-							PlayerActionC2SPacket abortPacket2 = new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, posible, Direction.UP, 0);
-							conn.sendPacket(abortPacket2);
+							last = possible;
+							scanned.add(possible);
+							ServerboundPlayerActionPacket abortPacket = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK, possible, Direction.UP, 0);
+							conn.send(abortPacket);
+							ServerboundPlayerActionPacket abortPacket2 = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, possible, Direction.UP, 0);
+							conn.send(abortPacket2);
 							millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + Utils.random(delaymin.get(), delaymax.get());
 						}
 					}
@@ -131,28 +133,32 @@ public class BedrockStorageBruteforce extends Module {
 		clickerThread.start();
 		millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 	}
+
 	BlockPos last = null;
 	long millis = 0;
+
 	@EventHandler
 	private void onRender(Render3DEvent event) {
 		if (last != null) {
 			BlockPos bp = last;
-			assert mc.world != null;
-			BlockState state = mc.world.getBlockState(bp);
-			VoxelShape shape = state.getOutlineShape(mc.world, bp);
+			assert mc.level != null;
+			BlockState state = mc.level.getBlockState(bp);
+			VoxelShape shape = state.getShape(mc.level, bp);
 			SettingColor color = new SettingColor(255, 255, 255);
 			if (shape.isEmpty()) return;
-			for (Box b : shape.getBoundingBoxes()) {
+			for (AABB b : shape.toAabbs()) {
 				event.renderer.box(bp.getX() + b.minX, bp.getY() + b.minY, bp.getZ() + b.minZ, bp.getX() + b.maxX, bp.getY() + b.maxY, bp.getZ() + b.maxZ, new SettingColor(255, 255, 255, 255), color, ShapeMode.Lines, 0);
 			}
 			event.renderer.line(RenderUtils.center.x, RenderUtils.center.y, RenderUtils.center.z, bp.getX(), bp.getY(), bp.getZ(), color);
 		}
 	}
+
 	@EventHandler
 	private void onGameLeft(GameLeftEvent event) {
 		scanned.clear();
 		stop();
 	}
+
 	@EventHandler
 	private void onTickPre(TickEvent.Pre event) {
 		if (PlayerUtils.getDimension() != dim) {

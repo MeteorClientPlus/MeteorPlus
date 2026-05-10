@@ -18,7 +18,7 @@ public class WhereIsIt extends Module {
 		.build()
 	);
 
-	public final Setting<Boolean> suport_color_symbols = defaultGroup.add(new BoolSetting.Builder()
+	public final Setting<Boolean> support_color_symbols = defaultGroup.add(new BoolSetting.Builder()
 		.name("use-color-symbols")
 		.defaultValue(true)
 		.build()
@@ -26,7 +26,7 @@ public class WhereIsIt extends Module {
 
 	public final Setting<SettingColor> text_color = defaultGroup.add(new ColorSetting.Builder()
 		.name("text-color")
-		.visible(() -> !suport_color_symbols.get())
+		.visible(() -> !support_color_symbols.get())
 		.build()
 	);
 

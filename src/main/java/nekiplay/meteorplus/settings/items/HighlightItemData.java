@@ -1,14 +1,13 @@
 package nekiplay.meteorplus.settings.items;
 
 import meteordevelopment.meteorclient.gui.GuiTheme;
-import meteordevelopment.meteorclient.gui.WidgetScreen; 
+import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.settings.GenericSetting;
-import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Item;
 
 public class HighlightItemData implements IGeneric<HighlightItemData>, IChangeable, IItemData<HighlightItemData> {
 	public SettingColor Color;
@@ -55,8 +54,8 @@ public class HighlightItemData implements IGeneric<HighlightItemData>, IChangeab
 	}
 
 	@Override
-	public NbtCompound toTag() {
-		NbtCompound tag = new NbtCompound();
+	public CompoundTag toTag() {
+		CompoundTag tag = new CompoundTag();
 
 		tag.put("color", Color.toTag());
 		tag.putBoolean("changed", changed);
@@ -65,7 +64,7 @@ public class HighlightItemData implements IGeneric<HighlightItemData>, IChangeab
 	}
 
 	@Override
-	public HighlightItemData fromTag(NbtCompound tag) {
+	public HighlightItemData fromTag(CompoundTag tag) {
 		Color.fromTag(tag.getCompound("color").get());
 		changed = tag.getBoolean("changed").get();
 

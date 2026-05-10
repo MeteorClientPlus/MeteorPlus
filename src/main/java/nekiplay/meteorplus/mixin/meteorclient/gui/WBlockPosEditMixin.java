@@ -5,18 +5,17 @@ import meteordevelopment.meteorclient.gui.widgets.input.WBlockPosEdit;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import nekiplay.meteorplus.mixinclasses.SpoofMode;
 import nekiplay.meteorplus.settings.ConfigModifier;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = WBlockPosEdit.class, remap = false, priority = 1001)
-public class WBlockPosEditMixin extends WHorizontalList  {
+public class WBlockPosEditMixin extends WHorizontalList {
 	@Shadow
 	public Runnable action;
 	@Shadow
@@ -35,6 +34,7 @@ public class WBlockPosEditMixin extends WHorizontalList  {
 	private BlockPos lastValue;
 	@Shadow
 	private boolean clicking;
+
 	@Inject(method = "addTextBox", at = @At("HEAD"), cancellable = true)
 	private void addTextBox(CallbackInfo ci) {
 		this.textBoxX = this.add(this.theme.textBox(Integer.toString(this.value.getX()), this::filterFixed)).minWidth(75.0).widget();
@@ -50,8 +50,8 @@ public class WBlockPosEditMixin extends WHorizontalList  {
 				}
 
 				this.newValueCheck();
+			} catch (NumberFormatException ignore) {
 			}
-			catch (NumberFormatException ignore) { }
 		};
 		this.textBoxY.actionOnUnfocused = () -> {
 			try {
@@ -63,8 +63,8 @@ public class WBlockPosEditMixin extends WHorizontalList  {
 				}
 
 				this.newValueCheck();
+			} catch (NumberFormatException ignore) {
 			}
-			catch (NumberFormatException ignore) { }
 		};
 		this.textBoxZ.actionOnUnfocused = () -> {
 			try {
@@ -74,15 +74,14 @@ public class WBlockPosEditMixin extends WHorizontalList  {
 				} else {
 					if (ConfigModifier.get().spoofMode.get() == SpoofMode.Fake) {
 						this.set(new BlockPos(this.value.getX(), this.value.getY(), Integer.parseInt(this.textBoxZ.get())));
-					}
-					else {
+					} else {
 						this.set(new BlockPos(this.value.getX(), this.value.getY(), Integer.parseInt(this.textBoxZ.get()) - ConfigModifier.get().z_spoof.get()));
 					}
 				}
 
 				this.newValueCheck();
+			} catch (NumberFormatException ignore) {
 			}
-			catch (NumberFormatException ignore) { }
 		};
 
 		if (ConfigModifier.get().positionProtection.get()) {
@@ -95,10 +94,12 @@ public class WBlockPosEditMixin extends WHorizontalList  {
 		}
 		ci.cancel();
 	}
+
 	private void updateRender(WTextBox textBox) {
 		textBoxX.setFocused(true);
 		textBoxX.setFocused(false);
 	}
+
 	@Unique
 	private boolean filterFixed(String text, char c) {
 		boolean validate = true;
@@ -119,14 +120,17 @@ public class WBlockPosEditMixin extends WHorizontalList  {
 		}
 		return good;
 	}
+
 	@Shadow
 	public BlockPos get() {
 		return this.value;
 	}
+
 	@Shadow
 	public void set(BlockPos value) {
 		this.value = value;
 	}
+
 	@Shadow
 	private void newValueCheck() {
 		if (this.value != this.lastValue) {

@@ -1,30 +1,33 @@
 package nekiplay.meteorplus.features.modules.movement.elytrafly.modes;
 
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
-import meteordevelopment.meteorclient.mixininterface.IVec3d;
+import meteordevelopment.meteorclient.mixininterface.IVec3;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyMode;
 import nekiplay.meteorplus.features.modules.movement.elytrafly.ElytraFlyModes;
-import net.minecraft.entity.EntityPose;
 
 public class Control extends ElytraFlyMode {
 	public Control() {
 		super(ElytraFlyModes.Control);
 	}
+
 	private boolean moving;
 	private float yaw;
 	private float pitch;
 	private float p;
 	private double velocity;
+
 	@Override
 	public void onPlayerMove(PlayerMoveEvent event) {
-		if (!mc.player.isGliding()) {return;}
+		if (!mc.player.isFallFlying()) {
+			return;
+		}
 
 		updateControlMovement();
 		pitch = 0;
 
 		boolean movingUp = false;
 
-		if (!mc.options.sneakKey.isPressed() && mc.options.jumpKey.isPressed() && velocity > elytraFly.speed_control.get() * 0.4) {
+		if (!mc.options.keyShift.isDown() && mc.options.keyJump.isDown() && velocity > elytraFly.speed_control.get() * 0.4) {
 			p = (float) Math.min(p + 0.1 * (1 - p) * (1 - p) * (1 - p), 1f);
 
 			pitch = Math.max(Math.max(p, 0) * -90, -90);
@@ -45,23 +48,23 @@ public class Control extends ElytraFlyMode {
 		double y = pitch < 0 ? velocity * elytraFly.upMultiplier_control.get() * -Math.sin(Math.toRadians(pitch)) * velocity : -elytraFly.fallSpeed_control.get();
 		double z = moving && !movingUp ? sin * elytraFly.speed_control.get() : movingUp ? velocity * Math.cos(Math.toRadians(pitch)) * sin : 0;
 
-		y *= Math.abs(Math.sin(Math.toRadians(movingUp ? pitch : mc.player.getPitch())));
+		y *= Math.abs(Math.sin(Math.toRadians(movingUp ? pitch : mc.player.getXRot())));
 
-		if (mc.options.sneakKey.isPressed() && !mc.options.jumpKey.isPressed()) {
+		if (mc.options.keyShift.isDown() && !mc.options.keyJump.isDown()) {
 			y = -elytraFly.downSpeed_control.get();
 		}
 
-		((IVec3d) event.movement).meteor$set(x, y, z);
+		((IVec3) event.movement).meteor$set(x, y, z);
 		if (elytraFly.resetSpeed.get()) {
-			mc.player.setVelocity(0, 0, 0);
+			mc.player.setDeltaMovement(0, 0, 0);
 		}
 	}
 
 	private void updateControlMovement() {
-		float yaw = mc.player.getYaw();
+		float yaw = mc.player.getYRot();
 
-		float forward = mc.player.input.getMovementInput().y;
-		float sideways = mc.player.input.getMovementInput().x;
+		float forward = mc.player.input.getMoveVector().y;
+		float sideways = mc.player.input.getMoveVector().x;
 
 		if (forward > 0) {
 			moving = true;

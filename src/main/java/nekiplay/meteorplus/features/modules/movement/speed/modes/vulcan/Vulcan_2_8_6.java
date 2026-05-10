@@ -2,13 +2,11 @@ package nekiplay.meteorplus.features.modules.movement.speed.modes.vulcan;
 
 import meteordevelopment.meteorclient.events.entity.player.JumpVelocityMultiplierEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedMode;
 import nekiplay.meteorplus.features.modules.movement.speed.SpeedModes;
 import nekiplay.meteorplus.utils.MovementUtils;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.phys.Vec3;
 
 public class Vulcan_2_8_6 extends SpeedMode {
 	public Vulcan_2_8_6() {
@@ -24,8 +22,8 @@ public class Vulcan_2_8_6 extends SpeedMode {
 		ticks = 0;
 		speedLevel = 0;
 		jumped = true;
-		if (mc.player.hasStatusEffect(StatusEffects.SPEED)) {
-			speedLevel = mc.player.getStatusEffect(StatusEffects.SPEED).getAmplifier();
+		if (mc.player.hasEffect(MobEffects.SPEED)) {
+			speedLevel = mc.player.getEffect(MobEffects.SPEED).getAmplifier();
 		}
 	}
 
@@ -42,12 +40,12 @@ public class Vulcan_2_8_6 extends SpeedMode {
 				}
 			}
 			if (ticks == 4) {
-				Vec3d vel = mc.player.getEntityPos();
-				mc.player.setPos(vel.x, vel.y - 0.376, vel.z);
+				Vec3 vel = mc.player.position();
+				mc.player.setPosRaw(vel.x, vel.y - 0.376, vel.z);
 			}
 
 			if (ticks == 6) {
-				if (mc.player.speed > 0.298) {
+				if (mc.player.flyDist > 0.298) {
 					MovementUtils.strafe(0.298);
 				}
 				jumped = false;

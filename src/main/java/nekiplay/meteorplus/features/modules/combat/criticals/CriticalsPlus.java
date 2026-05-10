@@ -5,31 +5,30 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.combat.Criticals;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 
 public class CriticalsPlus extends Module {
 	public CriticalsPlus() {
 		super(Categories.Combat, "Criticals+", "Better criticals module");
 	}
 
-	private static MinecraftClient mc = MinecraftClient.getInstance();
+	private static final Minecraft mc = Minecraft.getInstance();
 
 	public static boolean canCrit() {
-		return !mc.player.isOnGround() && mc.player.fallDistance > 0;
+		return !mc.player.onGround() && mc.player.fallDistance > 0;
 	}
 
 	public static boolean skipCrit() {
-		return !mc.player.isOnGround() || mc.player.isSubmergedInWater() || mc.player.isInLava() || mc.player.isClimbing();
+		return !mc.player.onGround() || mc.player.isUnderWater() || mc.player.isInLava() || mc.player.onClimbable();
 	}
 
 	public static boolean allowCrit() {
 		if (canCrit()) {
 			return true;
-		}
-		else if (Modules.get().get(Criticals.class).isActive()) {
-            return !skipCrit();
+		} else if (Modules.get().get(Criticals.class).isActive()) {
+			return !skipCrit();
 		}
 		return false;
 	}

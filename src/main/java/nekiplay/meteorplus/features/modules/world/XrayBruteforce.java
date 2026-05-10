@@ -5,49 +5,47 @@ import com.google.gson.Gson;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.events.game.GameLeftEvent;
-import meteordevelopment.meteorclient.events.meteor.KeyEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
-import meteordevelopment.meteorclient.systems.modules.Categories;
-import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPBlock;
-import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPBlockData;
-import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPChunk;
-import meteordevelopment.meteorclient.utils.misc.Keybind;
-import meteordevelopment.meteorclient.utils.misc.UnorderedArrayList;
-import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
-import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import meteordevelopment.meteorclient.utils.render.color.RainbowColors;
-import meteordevelopment.meteorclient.utils.world.Dimension;
-import meteordevelopment.meteorclient.utils.world.TickRate;
-import nekiplay.meteorplus.MeteorPlusAddon;
-import nekiplay.meteorplus.utils.GenerationBlock;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.chunk.Chunk;
-
 import meteordevelopment.meteorclient.events.entity.player.BreakBlockEvent;
+import meteordevelopment.meteorclient.events.game.GameLeftEvent;
+import meteordevelopment.meteorclient.events.meteor.KeyInputEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.BlockUpdateEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.*;
+import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPBlock;
+import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPBlockData;
+import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPChunk;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
+import meteordevelopment.meteorclient.utils.misc.Keybind;
+import meteordevelopment.meteorclient.utils.misc.UnorderedArrayList;
+import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
+import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
+import meteordevelopment.meteorclient.utils.render.color.RainbowColors;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
+import meteordevelopment.meteorclient.utils.world.Dimension;
+import meteordevelopment.meteorclient.utils.world.TickRate;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
+import nekiplay.meteorplus.utils.GenerationBlock;
 import nekiplay.meteorplus.utils.xraybruteforce.XBlock;
 import nekiplay.meteorplus.utils.xraybruteforce.XChunk;
 import nekiplay.meteorplus.utils.xraybruteforce.XGroup;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -58,13 +56,14 @@ import java.util.*;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
 
 public class XrayBruteforce extends Module {
-    public XrayBruteforce() {
-        super(Categories.World, "xray-bruteForce", "Bypasses anti-xray.");
+	public XrayBruteforce() {
+		super(Categories.World, "xray-bruteForce", "Bypasses anti-xray.");
 		RainbowColors.register(this::onTickRainbow);
-    }
-    private final SettingGroup sgGeneral = settings.getDefaultGroup();
-	private final SettingGroup sgSVisual = settings.createGroup("Scaner");
-    private final SettingGroup sgRVisual = settings.createGroup("Scaner Render Visuals");
+	}
+
+	private final SettingGroup sgGeneral = settings.getDefaultGroup();
+	private final SettingGroup sgSVisual = settings.createGroup("Scanner");
+	private final SettingGroup sgRVisual = settings.createGroup("Scanner Render Visuals");
 	private final SettingGroup sgSRenderer = settings.createGroup("Scanned Renderer");
 	private final SettingGroup sgSaver = settings.createGroup("Scanned Saver");
 	private final SettingGroup sgDelayer = settings.createGroup("Scanned Delayer");
@@ -94,7 +93,7 @@ public class XrayBruteforce extends Module {
 		.build()
 	);
 
-    public final Setting<Boolean> load = sgSaver.add(new BoolSetting.Builder()
+	public final Setting<Boolean> load = sgSaver.add(new BoolSetting.Builder()
 		.name("Load")
 		.description("Load rendered ores.")
 		.defaultValue(false)
@@ -115,7 +114,7 @@ public class XrayBruteforce extends Module {
 				File dir2 = new File(dir, Utils.getWorldName());
 				if (dir2.exists()) {
 					File[] arrFiles = dir2.listFiles();
-					List<File> lst = Arrays.asList(arrFiles);
+					File[] lst = arrFiles;
 					for (File file : lst) {
 						FileReader fr = null;
 						try {
@@ -124,12 +123,13 @@ public class XrayBruteforce extends Module {
 							try {
 								String json = reader.readLine();
 								Gson gson = new Gson();
-								Type type = new TypeToken<Map<String, Integer>>(){}.getType();
+								Type type = new TypeToken<Map<String, Integer>>() {
+								}.getType();
 								Map<String, Integer> read = gson.fromJson(json, type);
 								BlockPos pos = new BlockPos(read.get("X"), read.get("Y"), read.get("Z"));
-                                if (EntityUtils.isInRenderDistance(pos)) {
-                                    addBlock(pos, true);
-                                }
+								if (EntityUtils.isInRenderDistance(pos)) {
+									addBlock(pos, true);
+								}
 
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -185,17 +185,17 @@ public class XrayBruteforce extends Module {
 		.build()
 	);
 
-    private final Setting<List<Block>> whblocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("whitelist")
-        .description("Which blocks to show x-rayed.")
-        .defaultValue(
-            Blocks.DIAMOND_ORE,
-            Blocks.DEEPSLATE_DIAMOND_ORE,
-            Blocks.ANCIENT_DEBRIS
-        )
-        .onChanged(v -> scanned.clear())
-        .build()
-    );
+	private final Setting<List<Block>> whblocks = sgGeneral.add(new BlockListSetting.Builder()
+		.name("whitelist")
+		.description("Which blocks to show x-rayed.")
+		.defaultValue(
+			Blocks.DIAMOND_ORE,
+			Blocks.DEEPSLATE_DIAMOND_ORE,
+			Blocks.ANCIENT_DEBRIS
+		)
+		.onChanged(v -> scanned.clear())
+		.build()
+	);
 
 
 	private final Setting<ESPBlockData> defaultBlockConfig = sgGeneral.add(new GenericSetting.Builder<ESPBlockData>()
@@ -231,12 +231,12 @@ public class XrayBruteforce extends Module {
 		.build()
 	);
 
-    private final Setting<PacketMode> packet_first = sgGeneral.add(new EnumSetting.Builder<PacketMode>()
-        .name("packet-#1")
-        .description("First packet.")
-        .defaultValue(PacketMode.Start)
-        .build()
-    );
+	private final Setting<PacketMode> packet_first = sgGeneral.add(new EnumSetting.Builder<PacketMode>()
+		.name("packet-#1")
+		.description("First packet.")
+		.defaultValue(PacketMode.Start)
+		.build()
+	);
 
 	private final Setting<PacketMode> packet_two = sgGeneral.add(new EnumSetting.Builder<PacketMode>()
 		.name("packet-#2")
@@ -252,55 +252,54 @@ public class XrayBruteforce extends Module {
 		.build()
 	);
 
-    public enum PacketMode
-    {
+	public enum PacketMode {
 		None,
-        Start,
-        Abort,
+		Start,
+		Abort,
 		Stop,
-    }
+	}
 
-    public final Setting<Boolean> clear_cache_blocks = sgGeneral.add(new BoolSetting.Builder()
-        .name("Clear-cache")
-        .description("Clear saved cache.")
-        .defaultValue(false)
-        .build()
-    );
+	public final Setting<Boolean> clear_cache_blocks = sgGeneral.add(new BoolSetting.Builder()
+		.name("Clear-cache")
+		.description("Clear saved cache.")
+		.defaultValue(false)
+		.build()
+	);
 
-    public final Setting<Boolean> clear_cache_ores = sgGeneral.add(new BoolSetting.Builder()
-        .name("Clear-rendered-ores-cache")
-        .description("Clear saved ores cache.")
-        .defaultValue(false)
-        .build()
-    );
+	public final Setting<Boolean> clear_cache_ores = sgGeneral.add(new BoolSetting.Builder()
+		.name("Clear-rendered-ores-cache")
+		.description("Clear saved ores cache.")
+		.defaultValue(false)
+		.build()
+	);
 
-	public final Setting<Integer> rescanerDelay = sgDelayer.add(new IntSetting.Builder()
-		.name("rescaner-delay")
-		.description("Deley for rechecking blobk.")
+	public final Setting<Integer> rescannerDelay = sgDelayer.add(new IntSetting.Builder()
+		.name("rescanner-delay")
+		.description("Delay for rechecking block.")
 		.defaultValue(2000)
 		.build()
 	);
 
 	public final Setting<Boolean> tps_sync = sgDelayer.add(new BoolSetting.Builder()
 		.name("TPS-sync")
-		.description("TPS sync scaning.")
+		.description("TPS sync scanning.")
 		.defaultValue(true)
 		.build()
 	);
 
-    public final Setting<Boolean> fps_sync = sgDelayer.add(new BoolSetting.Builder()
-        .name("FPS-sync")
-        .description("FPS sync scaning.")
-        .defaultValue(false)
-        .build()
-    );
+	public final Setting<Boolean> fps_sync = sgDelayer.add(new BoolSetting.Builder()
+		.name("FPS-sync")
+		.description("FPS sync scanning.")
+		.defaultValue(false)
+		.build()
+	);
 
-    public final Setting<Boolean> auto_height = sgSVisual.add(new BoolSetting.Builder()
-        .name("Auto-height")
-        .description("Auto detect height.")
-        .defaultValue(false)
-        .build()
-    );
+	public final Setting<Boolean> auto_height = sgSVisual.add(new BoolSetting.Builder()
+		.name("Auto-height")
+		.description("Auto detect height.")
+		.defaultValue(false)
+		.build()
+	);
 
 	public final Setting<Boolean> auto_dimension = sgSVisual.add(new BoolSetting.Builder()
 		.name("Auto-dimension")
@@ -345,31 +344,31 @@ public class XrayBruteforce extends Module {
 		Normal
 	}
 
-    private final Setting<Integer> range = sgSVisual.add(new IntSetting.Builder()
-        .name("range")
-        .description("Bruteforce range.")
-        .defaultValue(40)
-        .min(3)
-        .sliderRange(3, 512)
-        .build()
-    );
-    private final Setting<Integer> y_range = sgSVisual.add(new IntSetting.Builder()
-        .name("y-range")
-        .description("Bruteforce range.")
-        .defaultValue(13)
-        .min(3)
-        .sliderRange(3, 255)
-        .build()
-    );
+	private final Setting<Integer> range = sgSVisual.add(new IntSetting.Builder()
+		.name("range")
+		.description("Bruteforce range.")
+		.defaultValue(40)
+		.min(3)
+		.sliderRange(3, 512)
+		.build()
+	);
+	private final Setting<Integer> y_range = sgSVisual.add(new IntSetting.Builder()
+		.name("y-range")
+		.description("Bruteforce range.")
+		.defaultValue(13)
+		.min(3)
+		.sliderRange(3, 255)
+		.build()
+	);
 
-    private final Setting<Integer> delaymin = sgDelayer.add(new IntSetting.Builder()
-        .name("Scan delay min")
-        .description("Bruteforce delay min .")
-        .defaultValue(30)
-        .min(0)
-        .sliderRange(0, 150)
-        .build()
-    );
+	private final Setting<Integer> delaymin = sgDelayer.add(new IntSetting.Builder()
+		.name("Scan delay min")
+		.description("Bruteforce delay min .")
+		.defaultValue(30)
+		.min(0)
+		.sliderRange(0, 150)
+		.build()
+	);
 
 	private final Setting<Integer> delaymax = sgDelayer.add(new IntSetting.Builder()
 		.name("Scan delay max")
@@ -438,7 +437,7 @@ public class XrayBruteforce extends Module {
 		return (pausekeybind.get().isPressed() && pauseBind.get());
 	}
 
-    private BlockPos currentScanBlock;
+	private BlockPos currentScanBlock;
 
 	private boolean pause_toggle = true;
 
@@ -449,7 +448,7 @@ public class XrayBruteforce extends Module {
 					defaultBlockConfig.get().tickRainbow();
 					if (blockConfigs.get() != null) {
 						Collection<ESPBlockData> datas = blockConfigs.get().values();
-						if (datas.size() > 0) {
+						if (!datas.isEmpty()) {
 							for (ESPBlockData blockData : datas) {
 								if (blockData != null) {
 									blockData.tickRainbow();
@@ -458,21 +457,19 @@ public class XrayBruteforce extends Module {
 						}
 					}
 				}
+			} catch (NullPointerException ignore) {
 			}
-			catch (NullPointerException ignore) { }
 		}
 	}
 
 	@EventHandler
-	private void onKeyEvent(KeyEvent event)
-	{
+	private void onKeyInputEvent(KeyInputEvent event) {
 		if (event.action == KeyAction.Press && isPressed()) {
 			pause_toggle = !pause_toggle;
 			if (pause_toggle) {
 				currentScanBlock = null;
 				info("§c" + "Paused");
-			}
-			else {
+			} else {
 				info("§a" + "Un paused");
 			}
 		}
@@ -485,16 +482,15 @@ public class XrayBruteforce extends Module {
 			if (pause_toggle) {
 				currentScanBlock = null;
 				info("§c" + "Paused");
-			}
-			else {
+			} else {
 				info("§a" + "Un paused");
 			}
 		}
 	}
 
 	public class RenderOre {
-        public Block block = Blocks.AIR;
-        public BlockPos blockPos = null;
+		public Block block = Blocks.AIR;
+		public BlockPos blockPos = null;
 
 		public RenderOre(BlockPos pos) {
 			this.blockPos = pos;
@@ -507,13 +503,13 @@ public class XrayBruteforce extends Module {
 		public SettingColor sidecolor = null;
 		public SettingColor tracercolor = null;
 		public ShapeMode shapeMode = null;
-    }
+	}
 
 	private final List<XGroup> groups = new UnorderedArrayList<>();
 	public HashMap<BlockPos, XBlock> oresV3 = new HashMap<BlockPos, XBlock>();
+
 	public XBlock getSBlockData(BlockPos pos) {
-		if (oresV3.containsKey(pos))
-		{
+		if (oresV3.containsKey(pos)) {
 			return oresV3.get(pos);
 		}
 		return null;
@@ -536,15 +532,14 @@ public class XrayBruteforce extends Module {
 	private final Long2ObjectMap<XChunk> chunks = new Long2ObjectOpenHashMap<>();
 
 	public XBlock getBlock(int x, int y, int z) {
-		XChunk chunk = chunks.get(ChunkPos.toLong(x >> 4, z >> 4));
+		XChunk chunk = chunks.get(ChunkPos.pack(x >> 4, z >> 4));
 		return chunk == null ? null : chunk.get(x, y, z);
 	}
 
-	private boolean setColors(RenderOre ore)
-	{
+	private boolean setColors(RenderOre ore) {
 		if (ore != null && ore.block != null && ore.linecolor == null && ore.sidecolor == null && ore.tracercolor == null && ore.shapeMode == null && ore.sBlock == null) {
-			assert mc.world != null;
-			BlockState state = mc.world.getBlockState(ore.blockPos);
+			assert mc.level != null;
+			BlockState state = mc.level.getBlockState(ore.blockPos);
 			if (ore.block == Blocks.AIR) {
 				ore.block = state.getBlock();
 			}
@@ -562,8 +557,9 @@ public class XrayBruteforce extends Module {
 		return false;
 	}
 
-    public static final List<RenderOre> ores = new ArrayList<>();
-    private RenderOre getRenderOre(BlockPos pos) {
+	public static final List<RenderOre> ores = new ArrayList<>();
+
+	private RenderOre getRenderOre(BlockPos pos) {
 		synchronized (ores) {
 			for (RenderOre cur : ores) {
 				if (cur != null && cur.block != null && cur.blockPos != null && cur.blockPos.equals(pos)) {
@@ -573,24 +569,25 @@ public class XrayBruteforce extends Module {
 			return null;
 		}
 	}
+
 	private void removeRenderOre(BlockPos pos) {
 		synchronized (ores) {
 			ores.removeIf(cur -> cur != null && cur.block != null && cur.blockPos != null && cur.blockPos.equals(pos));
 		}
 	}
-    private void addRenderBlock(BlockPos blockPos) {
-        synchronized (ores) {
-            RenderOre ore = getRenderOre(blockPos);
-            if (ore == null) {
-                RenderOre ne = new RenderOre(blockPos);
-                ne.blockPos = blockPos;
-                ores.add(ne);
-            }
-			else if (ore.sBlock != null) {
+
+	private void addRenderBlock(BlockPos blockPos) {
+		synchronized (ores) {
+			RenderOre ore = getRenderOre(blockPos);
+			if (ore == null) {
+				RenderOre ne = new RenderOre(blockPos);
+				ne.blockPos = blockPos;
+				ores.add(ne);
+			} else if (ore.sBlock != null) {
 				ore.sBlock.update();
 			}
-        }
-    }
+		}
+	}
 
 	public enum GenerationType {
 		Old,
@@ -613,8 +610,8 @@ public class XrayBruteforce extends Module {
 		}
 	}
 
-    @EventHandler
-    public void blockUpdateEvent(BlockUpdateEvent event) {
+	@EventHandler
+	public void blockUpdateEvent(BlockUpdateEvent event) {
 		if (!event.oldState.isAir()) {
 			if (scanned.contains(event.pos)) {
 				if (whblocks.get().contains(event.newState.getBlock()) && !pause_toggle) {
@@ -634,34 +631,34 @@ public class XrayBruteforce extends Module {
 				}
 			}
 		}
-    }
+	}
 
-    @EventHandler
-    private void minedBlock(BreakBlockEvent event) {
-        new Thread(() -> {
-            RenderOre ore = getRenderOre(event.blockPos);
-            if (ore != null) {
-                ore.block = Blocks.AIR;
+	@EventHandler
+	private void minedBlock(BreakBlockEvent event) {
+		new Thread(() -> {
+			RenderOre ore = getRenderOre(event.blockPos);
+			if (ore != null) {
+				ore.block = Blocks.AIR;
 				updateRenderedOres();
 				synchronized (ores) {
 					ores.remove(ore);
 				}
-            }
-        }).start();
-    }
+			}
+		}).start();
+	}
 
 
-    private void addBlock(BlockPos pos, Boolean ignore) {
-        if (!scanned.contains(pos) && !ignore) {
-            blocks.add(pos);
+	private void addBlock(BlockPos pos, Boolean ignore) {
+		if (!scanned.contains(pos) && !ignore) {
+			blocks.add(pos);
 			scanned.add(pos);
-        } else if (ignore) {
+		} else if (ignore) {
 			blocks.add(pos);
 			if (!scanned.contains(pos)) {
 				scanned.add(pos);
 			}
 		}
-    }
+	}
 
 	public ESPBlockData getBlockData(Block block) {
 		ESPBlockData blockData = blockConfigs.get().get(block);
@@ -669,9 +666,9 @@ public class XrayBruteforce extends Module {
 	}
 
 	private void updateRenderedOres() {
-		if (ores.size() > 0) {
+		if (!ores.isEmpty()) {
 			for (RenderOre pos : ores.toArray(new RenderOre[0])) {
-				BlockState state = mc.world.getBlockState(pos.blockPos);
+				BlockState state = mc.level.getBlockState(pos.blockPos);
 				if (state.getBlock() == pos.block) {
 					pos.sBlock.update();
 				}
@@ -679,12 +676,11 @@ public class XrayBruteforce extends Module {
 		}
 	}
 
-    private void renderOres(Render3DEvent event) {
+	private void renderOres(Render3DEvent event) {
 		int renderBlocks = 0;
-		if (ores.size() > 0) {
+		if (!ores.isEmpty()) {
 			for (RenderOre pos : ores.toArray(new RenderOre[0])) {
-				if (setColors(pos))
-				{
+				if (setColors(pos)) {
 					if (autoSave.get()) {
 						Thread saveth = new Thread(() -> {
 							for (RenderOre ore : ores.toArray(new RenderOre[0])) {
@@ -699,8 +695,7 @@ public class XrayBruteforce extends Module {
 						renderOreBlock(event, pos);
 						renderBlocks++;
 					}
-				}
-				else {
+				} else {
 					if (pos.sBlock != null) {
 						if (EntityUtils.isInRenderDistance(pos.blockPos) && pos.block != null && whblocks.get().contains(pos.block)) {
 							pos.sBlock.render(event, pos);
@@ -715,52 +710,53 @@ public class XrayBruteforce extends Module {
 		}
 		renderedBlocks = renderBlocks;
 	}
-    private int renderedBlocks = 0;
-    private void renderOreBlock(Render3DEvent event, RenderOre ore)
-    {
-        if (ore.block != null && mc.world != null && ore.tracercolor != null && ore.sidecolor != null && ore.linecolor != null) {
-			BlockState state = mc.world.getBlockState(ore.blockPos);
-            VoxelShape shape = state.getOutlineShape(mc.world, ore.blockPos);
+
+	private int renderedBlocks = 0;
+
+	private void renderOreBlock(Render3DEvent event, RenderOre ore) {
+		if (ore.block != null && mc.level != null && ore.tracercolor != null && ore.sidecolor != null && ore.linecolor != null) {
+			BlockState state = mc.level.getBlockState(ore.blockPos);
+			VoxelShape shape = state.getShape(mc.level, ore.blockPos);
 			ESPBlockData blockdata = getBlockData(ore.block);
 			if (shape.isEmpty()) return;
-            for (Box b : shape.getBoundingBoxes()) {
-                event.renderer.box(ore.blockPos.getX() + b.minX, ore.blockPos.getY() + b.minY, ore.blockPos.getZ() + b.minZ, ore.blockPos.getX() + b.maxX, ore.blockPos.getY() + b.maxY, ore.blockPos.getZ() + b.maxZ, ore.sidecolor, ore.linecolor, blockdata.shapeMode, 0);
-            }
+			for (AABB b : shape.toAabbs()) {
+				event.renderer.box(ore.blockPos.getX() + b.minX, ore.blockPos.getY() + b.minY, ore.blockPos.getZ() + b.minZ, ore.blockPos.getX() + b.maxX, ore.blockPos.getY() + b.maxY, ore.blockPos.getZ() + b.maxZ, ore.sidecolor, ore.linecolor, blockdata.shapeMode, 0);
+			}
 			if (blockdata.tracer) {
 				event.renderer.line(RenderUtils.center.x, RenderUtils.center.y, RenderUtils.center.z, ore.blockPos.getX(), ore.blockPos.getY(), ore.blockPos.getZ(), ore.tracercolor);
 			}
-        }
-    }
-    private boolean lagging = false;
-    @EventHandler
-    private void render2d(Render2DEvent event)
-    {
-        lagging = false;
-    }
-    @EventHandler
-    private void onRender(Render3DEvent event) {
-        if (clear_cache_blocks.get())
-        {
-            scanned.clear();
+		}
+	}
+
+	private boolean lagging = false;
+
+	@EventHandler
+	private void render2d(Render2DEvent event) {
+		lagging = false;
+	}
+
+	@EventHandler
+	private void onRender(Render3DEvent event) {
+		if (clear_cache_blocks.get()) {
+			scanned.clear();
 			need_rescan.clear();
-            clear_cache_blocks.set(false);
-            info("Cache checked blocks cleared");
-        }
-        if (clear_cache_ores.get())
-        {
-            ores.clear();
-            clear_cache_ores.set(false);
-            info("Cache render ores cleared");
-        }
+			clear_cache_blocks.set(false);
+			info("Cache checked blocks cleared");
+		}
+		if (clear_cache_ores.get()) {
+			ores.clear();
+			clear_cache_ores.set(false);
+			info("Cache render ores cleared");
+		}
 		if (currentScanBlock != null) {
 			BlockPos bp = currentScanBlock;
-			assert mc.world != null;
-			BlockState state = mc.world.getBlockState(bp);
-			VoxelShape shape = state.getOutlineShape(mc.world, bp);
+			assert mc.level != null;
+			BlockState state = mc.level.getBlockState(bp);
+			VoxelShape shape = state.getShape(mc.level, bp);
 
 			if (shape.isEmpty()) return;
 			if (outline.get()) {
-				for (Box b : shape.getBoundingBoxes()) {
+				for (AABB b : shape.toAabbs()) {
 					event.renderer.box(bp.getX() + b.minX, bp.getY() + b.minY, bp.getZ() + b.minZ, bp.getX() + b.maxX, bp.getY() + b.maxY, bp.getZ() + b.maxZ, new SettingColor(255, 255, 255, 255), outlineColor.get(), ShapeMode.Lines, 0);
 				}
 			}
@@ -768,13 +764,14 @@ public class XrayBruteforce extends Module {
 				event.renderer.line(RenderUtils.center.x, RenderUtils.center.y, RenderUtils.center.z, bp.getX(), bp.getY(), bp.getZ(), tracerColor.get());
 			}
 		}
-    }
+	}
 
 	@EventHandler
 	private void onRenderOres(Render3DEvent event) {
 		renderOres(event);
 	}
-	private void addCaves(Chunk chunk) {
+
+	private void addCaves(ChunkAccess chunk) {
 		if (scanPriority.get() == ScanPriority.Caves) {
 			ArrayList<Block> caf = new ArrayList<Block>();
 			caf.add(Blocks.AIR);
@@ -800,19 +797,20 @@ public class XrayBruteforce extends Module {
 			}
 		}
 	}
+
 	private void addExposedBlocks() {
-		if (mc.world != null) {
-			Iterable<Chunk> chunks = Utils.chunks();
-			for (Chunk chunk : chunks) {
+		if (mc.level != null) {
+			Iterable<ChunkAccess> chunks = Utils.chunks();
+			for (ChunkAccess chunk : chunks) {
 				if (expanded.get()) {
 					ESPChunk s = ESPChunk.searchChunk(chunk, whblocks.get());
 					if (s.blocks != null) {
 						for (ESPBlock sBlock : s.blocks.values()) {
 							BlockPos pos = new BlockPos(sBlock.x, sBlock.y, sBlock.z);
-							if (whblocks.get().contains(mc.world.getBlockState(pos).getBlock())) {
+							if (whblocks.get().contains(mc.level.getBlockState(pos).getBlock())) {
 								if (isExposedOre(pos)) {
 									if (auto_dimension.get()) {
-										GenerationBlock generationBlock = GenerationBlock.getGenerationBlock(mc.world.getBlockState(pos).getBlock(), false);
+										GenerationBlock generationBlock = GenerationBlock.getGenerationBlock(mc.level.getBlockState(pos).getBlock(), false);
 										if (generationBlock != null && generationBlock.dimension == PlayerUtils.getDimension()) {
 											addBlock(pos, false);
 											List<BlockPos> post = getBlocks(pos, clusterRange.get(), clusterRange.get());
@@ -852,93 +850,84 @@ public class XrayBruteforce extends Module {
 	}
 
 	private boolean isExposedOre(BlockPos pos) {
-		if (mc.world != null) {
-			BlockState def = mc.world.getBlockState(pos);
+		if (mc.level != null) {
+			BlockState def = mc.level.getBlockState(pos);
 			if (whblocks.get().contains(def.getBlock())) {
-				if (isExposedBlock(mc.world.getBlockState(pos.add(0, 1, 0))))
+				if (isExposedBlock(mc.level.getBlockState(pos.offset(0, 1, 0))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(0, -1, 0))))
+				else if (isExposedBlock(mc.level.getBlockState(pos.offset(0, -1, 0))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(1, 0, 0))))
+				else if (isExposedBlock(mc.level.getBlockState(pos.offset(1, 0, 0))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(-1, 0, 0))))
+				else if (isExposedBlock(mc.level.getBlockState(pos.offset(-1, 0, 0))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(0, 0, 1))))
+				else if (isExposedBlock(mc.level.getBlockState(pos.offset(0, 0, 1))))
 					return true;
-				else if (isExposedBlock(mc.world.getBlockState(pos.add(-0, 0, -1))))
-					return true;
+				else return isExposedBlock(mc.level.getBlockState(pos.offset(-0, 0, -1)));
 			}
 		}
 		return false;
 	}
 
-    private List<BlockPos> blocks = new ArrayList<>();
-    @Override
-    public String getInfoString() {
+	private final List<BlockPos> blocks = new ArrayList<>();
+
+	@Override
+	public String getInfoString() {
 		if (pause_toggle) {
 			return "paused";
-		}
-        else {
+		} else {
 			return renderedBlocks + "b, " + timescan + "t";
 		}
-    }
+	}
 
-    private boolean send(BlockPos blockpos)
-    {
-		boolean sucess = true;
-        if (blockpos == null) {
-			sucess = false;
+	private boolean send(BlockPos blockpos) {
+		boolean success = blockpos != null;
+		ClientPacketListener conn = mc.getConnection();
+		if (conn == null) {
+			success = false;
 		}
-        ClientPlayNetworkHandler conn = mc.getNetworkHandler();
-        if (conn == null) {
-			sucess = false;
-		}
-		if (mc.world == null) {
-			sucess = false;
-		}
-		else {
-			BlockState state = mc.world.getBlockState(blockpos);
+		if (mc.level == null) {
+			success = false;
+		} else {
+			BlockState state = mc.level.getBlockState(blockpos);
 			if (state.getBlock() == Blocks.WALL_TORCH || state.getBlock() == Blocks.TORCH || state.getBlock() == Blocks.AIR || state.getBlock() == Blocks.LAVA || state.getBlock() == Blocks.WATER) {
-				sucess = false;
+				success = false;
 			}
 		}
 
 		if (!EntityUtils.isInRenderDistance(blockpos)) {
-			sucess = false;
+			success = false;
 		}
 
-		if (sucess) {
+		if (success) {
 			currentScanBlock = blockpos;
-			PlayerActionC2SPacket packet_one = getPacket(blockpos, packet_first);
+			ServerboundPlayerActionPacket packet_one = getPacket(blockpos, packet_first);
 			if (packet_one != null) {
-				conn.sendPacket(packet_one);
+				conn.send(packet_one);
 			}
-			PlayerActionC2SPacket packet_tw = getPacket(blockpos, packet_two);
+			ServerboundPlayerActionPacket packet_tw = getPacket(blockpos, packet_two);
 			if (packet_tw != null) {
-				conn.sendPacket(packet_tw);
+				conn.send(packet_tw);
 			}
-			addNeedRescan(blockpos, rescanerDelay.get());
+			addNeedRescan(blockpos, rescannerDelay.get());
+		} else {
+			currentScanBlock = null;
 		}
-		else {
-			currentScanBlock = 	null;
-		}
-		if (sucess && !scanned.contains(blockpos)) {
+		if (success && !scanned.contains(blockpos)) {
 			scanned.add(blockpos);
 		}
-        return sucess;
-    }
+		return success;
+	}
 
-	private PlayerActionC2SPacket getPacket(BlockPos blockpos, Setting<PacketMode> setting) {
+	private ServerboundPlayerActionPacket getPacket(BlockPos blockpos, Setting<PacketMode> setting) {
 		if (setting.get() == PacketMode.Abort) {
-			PlayerActionC2SPacket abort = new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
+			ServerboundPlayerActionPacket abort = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
 			return abort;
-		}
-		else if (setting.get() == PacketMode.Start) {
-			PlayerActionC2SPacket start = new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
+		} else if (setting.get() == PacketMode.Start) {
+			ServerboundPlayerActionPacket start = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
 			return start;
-		}
-		else if (setting.get() == PacketMode.Stop) {
-			PlayerActionC2SPacket stop = new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
+		} else if (setting.get() == PacketMode.Stop) {
+			ServerboundPlayerActionPacket stop = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
 			return stop;
 		}
 		return null;
@@ -946,135 +935,119 @@ public class XrayBruteforce extends Module {
 
 	long timescan = 0;
 	long millis = 0;
-    private void checker()
-    {
-		float timeSinceLastTick = TickRate.INSTANCE.getTimeSinceLastTick();
-        if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() >= millis && !pause_toggle)
-        {
-            if (blocks != null && blocks.size() > 0) {
-				if (tps_sync.get() && timeSinceLastTick <= 1f) {
-					work();
-				}
-				else if (!tps_sync.get()) {
-					work();
-				}
-            }
-            else
-            {
-				if (tps_sync.get() && timeSinceLastTick <= 1f) {
-					addRandomBlock();
-					work();
-				}
-				else if (!tps_sync.get()) {
-					addRandomBlock();
-					work();
-				}
-            }
-        }
-    }
 
-    private void work()
-    {
-        try {
+	private void checker() {
+		float timeSinceLastTick = TickRate.INSTANCE.getTimeSinceLastTick();
+		if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() >= millis && !pause_toggle) {
+			if (blocks != null && !blocks.isEmpty()) {
+				if (tps_sync.get() && timeSinceLastTick <= 1f) {
+					work();
+				} else if (!tps_sync.get()) {
+					work();
+				}
+			} else {
+				if (tps_sync.get() && timeSinceLastTick <= 1f) {
+					addRandomBlock();
+					work();
+				} else if (!tps_sync.get()) {
+					addRandomBlock();
+					work();
+				}
+			}
+		}
+	}
+
+	private void work() {
+		try {
 			long start = System.currentTimeMillis();
-            Iterator<BlockPos> blocksIterator = blocks.iterator();
-            if (blocksIterator.hasNext()) {
-                if (fps_sync.get()) {
-                    if (!lagging) {
-                        BlockPos block = blocksIterator.next();
-                        if (send(block)) {
-                            millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + Utils.random(delaymin.get(), delaymax.get());
-                            lagging = true;
-                        }
+			Iterator<BlockPos> blocksIterator = blocks.iterator();
+			if (blocksIterator.hasNext()) {
+				if (fps_sync.get()) {
+					if (!lagging) {
+						BlockPos block = blocksIterator.next();
+						if (send(block)) {
+							millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + Utils.random(delaymin.get(), delaymax.get());
+							lagging = true;
+						}
 						blocksIterator.remove();
-                    }
-                }
-                else
-                {
-                    BlockPos block = blocksIterator.next();
-                    blocksIterator.remove();
-                    if (send(block)) {
-                        millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + Utils.random(delaymin.get(), delaymax.get());
-                        lagging = true;
-                    }
-                }
-            }
+					}
+				} else {
+					BlockPos block = blocksIterator.next();
+					blocksIterator.remove();
+					if (send(block)) {
+						millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + Utils.random(delaymin.get(), delaymax.get());
+						lagging = true;
+					}
+				}
+			}
 			long finish = System.currentTimeMillis();
 			timescan = finish - start;
-        } catch (Exception ignored) { }
-    }
+		} catch (Exception ignored) {
+		}
+	}
 
-    private void addRandomBlock() {
+	private void addRandomBlock() {
 		assert mc.player != null;
-		int x = Utils.random(mc.player.getBlockPos().getX() -range.get(), mc.player.getBlockPos().getX() + range.get());
-        int y;
-        int z = Utils.random(mc.player.getBlockPos().getZ() -range.get(), mc.player.getBlockPos().getZ() + range.get());
+		int x = Utils.random(mc.player.blockPosition().getX() - range.get(), mc.player.blockPosition().getX() + range.get());
+		int y;
+		int z = Utils.random(mc.player.blockPosition().getZ() - range.get(), mc.player.blockPosition().getZ() + range.get());
 
-        if (auto_height.get())
-        {
+		if (auto_height.get()) {
 			List<Block> findBlocks = whblocks.get();
-			boolean newGeneration = false;
-			if (generationType.get() == GenerationType.New) {
-				newGeneration = true;
-			}
+			boolean newGeneration = generationType.get() == GenerationType.New;
 			for (Block block : findBlocks) {
 				GenerationBlock b = GenerationBlock.getGenerationBlock(block, newGeneration);
 				if (b != null && b.block == block) {
 					y = Utils.random(b.min_height, b.max_height);
 					if (auto_dimension.get() && PlayerUtils.getDimension() == b.dimension) {
 						addBlock(new BlockPos(x, y, z), false);
-					}
-					else if (!auto_dimension.get()) {
+					} else if (!auto_dimension.get()) {
 						addBlock(new BlockPos(x, y, z), false);
 					}
-				}
-				else if (b == null) {
-					y = Utils.random(mc.player.getBlockPos().getY() -y_range.get(), mc.player.getBlockPos().getY() + y_range.get());
+				} else if (b == null) {
+					y = Utils.random(mc.player.blockPosition().getY() - y_range.get(), mc.player.blockPosition().getY() + y_range.get());
 					if (!scanned.contains(new BlockPos(x, y, z))) {
 						addBlock(new BlockPos(x, y, z), false);
 					}
 				}
 			}
-        }
-		else {
-			y = Utils.random(mc.player.getBlockPos().getY() -y_range.get(), mc.player.getBlockPos().getY() + y_range.get());
+		} else {
+			y = Utils.random(mc.player.blockPosition().getY() - y_range.get(), mc.player.blockPosition().getY() + y_range.get());
 			if (!scanned.contains(new BlockPos(x, y, z))) {
 				if (auto_dimension.get() && PlayerUtils.getDimension() == Dimension.Overworld) {
 					addBlock(new BlockPos(x, y, z), false);
-				}
-				else if (!auto_dimension.get()) {
+				} else if (!auto_dimension.get()) {
 					addBlock(new BlockPos(x, y, z), false);
 				}
 			}
 		}
-    }
-    private Thread clickerThread;
+	}
+
+	private Thread clickerThread;
 
 	@EventHandler
 	private void onGameLeft(GameLeftEvent event) {
 		need_rescan.clear();
 	}
 
-	private void reScaner()
-	{
+	private void reScanner() {
 		synchronized (need_rescan) {
 			float timeSinceLastTick = TickRate.INSTANCE.getTimeSinceLastTick();
 			Iterator<BlockScanned> iterator = need_rescan.iterator();
 			while (iterator.hasNext()) {
 				BlockScanned blockscanned = iterator.next();
 				if (timeSinceLastTick <= 1f) {
-					if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() >= blockscanned.rescanTime && mc.world != null) {
-						BlockState state = mc.world.getBlockState(blockscanned.pos);
+					if (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() >= blockscanned.rescanTime && mc.level != null) {
+						BlockState state = mc.level.getBlockState(blockscanned.pos);
 						if (whblocks.get().contains(state.getBlock())) {
 							addRenderBlock(blockscanned.pos);
 							for (BlockPos pos : getBlocks(blockscanned.pos, clusterRange.get(), clusterRange.get())) {
 								addBlock(pos, true);
 								if (!scanned.contains(pos)) {
-									addNeedRescan(pos, rescanerDelay.get());
+									addNeedRescan(pos, rescannerDelay.get());
 								}
 							}
-						}
-						else {
+						} else {
 							RenderOre ore = getRenderOre(blockscanned.pos);
 							if (ore != null) {
 								removeRenderOre(blockscanned.pos);
@@ -1082,8 +1055,7 @@ public class XrayBruteforce extends Module {
 						}
 						iterator.remove();
 					}
-				}
-				else if (timeSinceLastTick > 1) {
+				} else if (timeSinceLastTick > 1) {
 
 					int[] piArray = String.valueOf(1 / timeSinceLastTick)
 						.replaceAll("\\D", "")
@@ -1096,24 +1068,24 @@ public class XrayBruteforce extends Module {
 			}
 		}
 	}
+
 	private Thread exposedthread = null;
-    @Override
-    public void onActivate() {
+
+	@Override
+	public void onActivate() {
 		scan = true;
-        millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        clickerThread = new Thread(() -> {
+		millis = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+		clickerThread = new Thread(() -> {
 			addRandomBlock();
-            while (scan)
-            {
-                checker();
-				reScaner();
-            }
-        });
+			while (scan) {
+				checker();
+				reScanner();
+			}
+		});
 		clickerThread.start();
 
 		exposedthread = new Thread(() -> {
-			while (scan)
-			{
+			while (scan) {
 				addExposedBlocks();
 				updateRenderedOres();
 				try {
@@ -1124,42 +1096,41 @@ public class XrayBruteforce extends Module {
 			}
 		});
 		exposedthread.start();
-    }
+	}
+
 	private boolean scan = false;
-    @Override
-    public void onDeactivate() {
+
+	@Override
+	public void onDeactivate() {
 		scan = false;
-        blocks.clear();
-        currentScanBlock = null;
-        if (clickerThread != null)
-        {
-            clickerThread = null;
-        }
-		if (exposedthread != null)
-		{
+		blocks.clear();
+		currentScanBlock = null;
+		if (clickerThread != null) {
+			clickerThread = null;
+		}
+		if (exposedthread != null) {
 			exposedthread = null;
 		}
-    }
+	}
 
-    private static final List<BlockPos> scanned = new ArrayList<>();
+	private static final List<BlockPos> scanned = new ArrayList<>();
 
-    private List<BlockPos> getBlocks(BlockPos startPos, int y_radius, int radius)
-    {
-        List<BlockPos> temp = new ArrayList<>();
-        for (int dy = -y_radius; dy <= y_radius; dy++) {
-            if ((startPos.getY() + dy) < -60 || (startPos.getY() + dy) > 360) continue;
-            for (int dz = -radius; dz <= radius; dz++) {
-                for (int dx = -radius; dx <= radius; dx++) {
-                    BlockPos blockPos = startPos.add(dx, dy, dz);
-					BlockState state = mc.world.getBlockState(blockPos);
+	private List<BlockPos> getBlocks(BlockPos startPos, int y_radius, int radius) {
+		List<BlockPos> temp = new ArrayList<>();
+		for (int dy = -y_radius; dy <= y_radius; dy++) {
+			if ((startPos.getY() + dy) < -60 || (startPos.getY() + dy) > 360) continue;
+			for (int dz = -radius; dz <= radius; dz++) {
+				for (int dx = -radius; dx <= radius; dx++) {
+					BlockPos blockPos = startPos.offset(dx, dy, dz);
+					BlockState state = mc.level.getBlockState(blockPos);
 					boolean isInRenderDistance = EntityUtils.isInRenderDistance(blockPos);
 					boolean isBlockPosNotInList = !scanned.contains(blockPos);
-                    if (isInRenderDistance && isBlockPosNotInList) {
+					if (isInRenderDistance && isBlockPosNotInList) {
 						temp.add(blockPos);
-                    }
-                }
-            }
-        }
-        return temp;
-    }
+					}
+				}
+			}
+		}
+		return temp;
+	}
 }

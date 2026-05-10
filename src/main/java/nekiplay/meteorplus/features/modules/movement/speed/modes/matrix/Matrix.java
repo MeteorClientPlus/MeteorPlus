@@ -16,7 +16,7 @@ public class Matrix extends SpeedMode {
 	public void onDeactivate() {
 		Modules.get().get(Timer.class).setOverride(Timer.OFF);
 		if (mc.player != null) {
-			mc.player.getAbilities().setFlySpeed(0.02f);
+			mc.player.getAbilities().setFlyingSpeed(0.02f);
 		}
 	}
 
@@ -24,16 +24,15 @@ public class Matrix extends SpeedMode {
 	public void onTickEventPre(TickEvent.Pre event) {
 		Timer timer = Modules.get().get(Timer.class);
 		timer.setOverride(Timer.OFF);
-		if (mc.player.isTouchingWater() || mc.player.isInLava() ||
-			mc.player.isClimbing() || mc.player.isRiding()) return;
+		if (mc.player.isInWater() || mc.player.isInLava() ||
+			mc.player.onClimbable() || mc.player.isHandsBusy()) return;
 		if (PlayerUtils.isMoving()) {
-			if (mc.player.isOnGround()) {
-				mc.player.jump();
-				mc.player.getAbilities().setFlySpeed(0.02098f);
+			if (mc.player.onGround()) {
+				mc.player.jumpFromGround();
+				mc.player.getAbilities().setFlyingSpeed(0.02098f);
 				timer.setOverride(1.055f);
 			}
-		}
-		else {
+		} else {
 			timer.setOverride(1);
 		}
 	}

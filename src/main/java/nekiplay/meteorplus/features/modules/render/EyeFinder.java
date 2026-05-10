@@ -11,16 +11,15 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,13 +28,14 @@ public class EyeFinder extends Module {
 	public EyeFinder() {
 		super(Categories.Render, "eye-finder", "Find block player look.");
 	}
+
 	private final HashMap<Entity, HitResult> resultMap = new HashMap<Entity, HitResult>();
 
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
 	private final SettingGroup sgBlock = settings.createGroup("Block");
 
 	public void drawLine(Render3DEvent event, Entity entity, HitResult result) {
-		event.renderer.line(entity.getEyePos().x, entity.getEyePos().y, entity.getEyePos().z, result.getPos().x, result.getPos().y, result.getPos().z, lineColor.get());
+		event.renderer.line(entity.getEyePosition().x, entity.getEyePosition().y, entity.getEyePosition().z, result.getLocation().x, result.getLocation().y, result.getLocation().z, lineColor.get());
 	}
 
 
@@ -66,12 +66,12 @@ public class EyeFinder extends Module {
 		if (result instanceof BlockHitResult blockHitResult) {
 			if (blockHitResult.getType() == HitResult.Type.BLOCK || blockHitResult.getType() == HitResult.Type.MISS) {
 				BlockPos bp = new BlockPos(blockHitResult.getBlockPos());
-				BlockState state = mc.world.getBlockState(bp);
-				Direction side = blockHitResult.getSide();
-				VoxelShape shape = state.getOutlineShape(mc.world, bp);
+				BlockState state = mc.level.getBlockState(bp);
+				Direction side = blockHitResult.getDirection();
+				VoxelShape shape = state.getShape(mc.level, bp);
 
 				if (shape.isEmpty()) return;
-				Box box = shape.getBoundingBox();
+				AABB box = shape.bounds();
 
 				if (side == Direction.UP || side == Direction.DOWN) {
 					event.renderer.sideHorizontal(bp.getX() + box.minX, bp.getY() + (side == Direction.DOWN ? box.minY : box.maxY), bp.getZ() + box.minZ, bp.getX() + box.maxX, bp.getZ() + box.maxZ, sideColor.get(), lineColor.get(), shapeMode.get());
@@ -88,13 +88,13 @@ public class EyeFinder extends Module {
 
 	@EventHandler
 	public void tickEvent(TickEvent.Pre event) {
-		if (mc.world != null) {
-			Iterator<Entity> entityIterator = mc.world.getEntities().iterator();
+		if (mc.level != null) {
+			Iterator<Entity> entityIterator = mc.level.entitiesForRendering().iterator();
 			HashMap<Entity, HitResult> cachMap = new HashMap<Entity, HitResult>();
 			while (entityIterator.hasNext()) {
 				Entity entity = entityIterator.next();
-				if (entity instanceof PlayerEntity && entity != mc.player) {
-					HitResult result = entity.raycast(5, mc.getRenderTickCounter().getTickProgress(true), false);
+				if (entity instanceof Player && entity != mc.player) {
+					HitResult result = entity.pick(5, mc.getDeltaTracker().getGameTimeDeltaPartialTick(true), false);
 					cachMap.put(entity, result);
 				}
 			}

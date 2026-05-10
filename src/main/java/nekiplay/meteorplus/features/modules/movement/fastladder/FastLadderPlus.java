@@ -15,6 +15,7 @@ public class FastLadderPlus extends Module {
 		super(Categories.Movement, "fast-climb+", "Bypass fast-climb");
 		onSpiderModeChanged(spiderMode.get());
 	}
+
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
 	public final Setting<FastLadderModes> spiderMode = sgGeneral.add(new EnumSetting.Builder<FastLadderModes>()
@@ -47,10 +48,12 @@ public class FastLadderPlus extends Module {
 	private void onPostTick(TickEvent.Post event) {
 		currentMode.onTickEventPost(event);
 	}
+
 	@EventHandler
 	public void onSendPacket(PacketEvent.Send event) {
 		currentMode.onSendPacket(event);
 	}
+
 	@EventHandler
 	public void onSentPacket(PacketEvent.Sent event) {
 		currentMode.onSentPacket(event);

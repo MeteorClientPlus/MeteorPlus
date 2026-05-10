@@ -1,7 +1,6 @@
 package nekiplay.meteorplus.features.modules.world.timer.modes;
 
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import nekiplay.meteorplus.features.modules.world.timer.TimerMode;
@@ -10,7 +9,7 @@ import nekiplay.meteorplus.utils.algoritms.RandomUtils;
 
 import static nekiplay.meteorplus.features.modules.world.timer.TimerPlus.*;
 
-public class Vulcan extends TimerMode  {
+public class Vulcan extends TimerMode {
 	public Vulcan() {
 		super(TimerModes.Vulcan);
 	}
@@ -30,29 +29,24 @@ public class Vulcan extends TimerMode  {
 				rechargeDelay = delay;
 				workingTimer = 0;
 				timer.setOverride(Timer.OFF);
-			}
-			else {
+			} else {
 				if (settings.isActive()) {
 					if (settings.onlyInMove.get() && PlayerUtils.isMoving()) {
 						workingTimer++;
 						timer.setOverride(1.35);
-					}
-					else if (!settings.onlyInMove.get()) {
+					} else if (!settings.onlyInMove.get()) {
 						workingTimer++;
 						timer.setOverride(1.35);
-					}
-					else {
+					} else {
 						timer.setOverride(Timer.OFF);
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			rechargeTimer--;
 			if (settings.isActive()) {
 				timer.setOverride(Timer.OFF);
-			}
-			else {
+			} else {
 				timer.setOverride(Timer.OFF);
 			}
 		}

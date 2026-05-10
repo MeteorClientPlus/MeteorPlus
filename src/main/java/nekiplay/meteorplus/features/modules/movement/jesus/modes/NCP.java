@@ -1,61 +1,63 @@
 package nekiplay.meteorplus.features.modules.movement.jesus.modes;
 
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
-import meteordevelopment.meteorclient.mixininterface.IVec3d;
+import meteordevelopment.meteorclient.mixininterface.IVec3;
 import nekiplay.meteorplus.features.modules.movement.jesus.JesusMode;
 import nekiplay.meteorplus.features.modules.movement.jesus.JesusModes;
-import net.minecraft.block.AirBlock;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.phys.Vec3;
 
 public class NCP extends JesusMode {
 	public NCP() {
 		super(JesusModes.NCP);
 	}
+
 	float newSpeed = 0;
+
 	@Override
 	public void onPlayerMoveEvent(PlayerMoveEvent event) {
 		mc.player.setSprinting(false);
-		if (!mc.player.isInFluid()) {
+		if (!mc.player.isInLiquid()) {
 			return;
 		}
-		Vec3d velocity = mc.player.getVelocity();
+		Vec3 velocity = mc.player.getDeltaMovement();
 
-		if (mc.options.jumpKey.isPressed() && !mc.player.isSneaking() && !(mc.world.getBlockState(mc.player.getBlockPos().add(0, 1, 0)).getBlock() instanceof AirBlock)) {
-			mc.player.setVelocity(velocity.x, 0.12, velocity.z);
+		if (mc.options.keyJump.isDown() && !mc.player.isShiftKeyDown() && !(mc.level.getBlockState(mc.player.blockPosition().offset(0, 1, 0)).getBlock() instanceof AirBlock)) {
+			mc.player.setDeltaMovement(velocity.x, 0.12, velocity.z);
 		}
-		velocity = mc.player.getVelocity();
-		if (mc.options.sneakKey.isPressed()) {
-			mc.player.setVelocity(velocity.x, -0.12, velocity.z);
+		velocity = mc.player.getDeltaMovement();
+		if (mc.options.keyShift.isDown()) {
+			mc.player.setDeltaMovement(velocity.x, -0.12, velocity.z);
 		}
-		velocity = mc.player.getVelocity();
-		if (mc.world.getBlockState(mc.player.getBlockPos().add(0, 1, 0)).getBlock() instanceof AirBlock && mc.options.jumpKey.isPressed()) {
-			mc.player.setSneaking(true);
-			mc.player.setVelocity(velocity.x, 0.12, velocity.z);
+		velocity = mc.player.getDeltaMovement();
+		if (mc.level.getBlockState(mc.player.blockPosition().offset(0, 1, 0)).getBlock() instanceof AirBlock && mc.options.keyJump.isDown()) {
+			mc.player.setShiftKeyDown(true);
+			mc.player.setDeltaMovement(velocity.x, 0.12, velocity.z);
 		}
 
-		float yaw = mc.player.getYaw();
-		Vec3d forward = Vec3d.fromPolar(0, yaw);
-		Vec3d right = Vec3d.fromPolar(0, yaw + 90);
+		float yaw = mc.player.getYRot();
+		Vec3 forward = Vec3.directionFromRotation(0, yaw);
+		Vec3 right = Vec3.directionFromRotation(0, yaw + 90);
 
 		double velX = 0;
 		double velZ = 0;
 		double s = 0.5;
 		double speedValue = settings.speed.get();
 
-		if (mc.options.forwardKey.isPressed()) {
+		if (mc.options.keyUp.isDown()) {
 			velX += forward.x * s * speedValue;
 			velZ += forward.z * s * speedValue;
 		}
-		if (mc.options.backKey.isPressed()) {
+		if (mc.options.keyDown.isDown()) {
 			velX -= forward.x * s * speedValue;
 			velZ -= forward.z * s * speedValue;
 		}
 
-		if (mc.options.rightKey.isPressed()) {
+		if (mc.options.keyRight.isDown()) {
 			velX += right.x * s * speedValue;
 			velZ += right.z * s * speedValue;
 		}
-		if (mc.options.leftKey.isPressed()) {
+		if (mc.options.keyLeft.isDown()) {
 			velX -= right.x * s * speedValue;
 			velZ -= right.z * s * speedValue;
 		}
@@ -66,9 +68,10 @@ public class NCP extends JesusMode {
 		if (velZ >= settings.limit_speed.get().floatValue()) {
 			velZ = settings.limit_speed.get().floatValue();
 		}
-		((IVec3d) mc.player.getVelocity()).meteor$set(velX, 0, velZ);
-		mc.player.setSneaking(true);
+		((IVec3) mc.player.getDeltaMovement()).meteor$set(velX, 0, velZ);
+		mc.player.setShiftKeyDown(true);
 	}
+
 	@Override
 	public void onDeactivate() {
 		newSpeed = 0.6f;
@@ -83,15 +86,15 @@ public class NCP extends JesusMode {
 	}
 
 	public void setMotion(double motion) {
-		float forward = mc.player.forwardSpeed;
-		float yaw = mc.player.getYaw();
+		float forward = mc.player.zza;
+		float yaw = mc.player.getYRot();
 		if (forward == 0) {
-			((IVec3d) mc.player.getVelocity()).meteor$set(0,  mc.player.getVelocity().y, 0);
+			((IVec3) mc.player.getDeltaMovement()).meteor$set(0, mc.player.getDeltaMovement().y, 0);
 		} else {
 			double x = forward * motion * Math.cos(Math.toRadians(yaw + 90.0f)) * motion * Math.sin(Math.toRadians(yaw + 90.0f));
 			double z = forward * motion * Math.sin(Math.toRadians(yaw + 90.0f)) * motion * Math.cos(Math.toRadians(yaw + 90.0f));
 
-			((IVec3d) mc.player.getVelocity()).meteor$set(x,  mc.player.getVelocity().y, z);
+			((IVec3) mc.player.getDeltaMovement()).meteor$set(x, mc.player.getDeltaMovement().y, z);
 		}
 	}
 }

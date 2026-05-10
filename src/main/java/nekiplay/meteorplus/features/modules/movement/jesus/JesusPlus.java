@@ -77,10 +77,12 @@ public class JesusPlus extends Module {
 	private void onPostTick(TickEvent.Post event) {
 		currentMode.onTickEventPost(event);
 	}
+
 	@EventHandler
 	public void onSendPacket(PacketEvent.Send event) {
 		currentMode.onSendPacket(event);
 	}
+
 	@EventHandler
 	public void onSentPacket(PacketEvent.Sent event) {
 		currentMode.onSentPacket(event);
@@ -90,6 +92,7 @@ public class JesusPlus extends Module {
 	public void onCanWalkOnFluid(CanWalkOnFluidEvent event) {
 		currentMode.onCanWalkOnFluid(event);
 	}
+
 	@EventHandler
 	public void onCollisionShape(CollisionShapeEvent event) {
 		currentMode.onCollisionShape(event);

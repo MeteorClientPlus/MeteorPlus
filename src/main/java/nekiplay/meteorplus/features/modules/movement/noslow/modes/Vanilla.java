@@ -4,22 +4,20 @@ import nekiplay.main.events.PlayerUseMultiplierEvent;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowMode;
 import nekiplay.meteorplus.features.modules.movement.noslow.NoSlowModes;
 
-public class Vanila extends NoSlowMode {
-	public Vanila() {
-		super(NoSlowModes.Vanila);
+public class Vanilla extends NoSlowMode {
+	public Vanilla() {
+		super(NoSlowModes.Vanilla);
 	}
 
 	@Override
 	public void onUse(PlayerUseMultiplierEvent event) {
-		if (mc.player.isSneaking()) {
+		if (mc.player.isShiftKeyDown()) {
 			event.setForward(settings.sneakForward.get().floatValue());
 			event.setSideways(settings.sneakSideways.get().floatValue());
-		}
-		else if (mc.player.isUsingItem()) {
+		} else if (mc.player.isUsingItem()) {
 			event.setForward(settings.usingForward.get().floatValue());
 			event.setSideways(settings.usingSideways.get().floatValue());
-		}
-		else {
+		} else {
 			event.setForward(settings.otherForward.get().floatValue());
 			event.setSideways(settings.otherSideways.get().floatValue());
 		}

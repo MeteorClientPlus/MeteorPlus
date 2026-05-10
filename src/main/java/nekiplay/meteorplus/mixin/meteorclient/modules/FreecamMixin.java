@@ -3,7 +3,7 @@ package nekiplay.meteorplus.mixin.meteorclient.modules;
 import baritone.api.BaritoneAPI;
 import baritone.api.pathing.goals.GoalBlock;
 import meteordevelopment.meteorclient.events.Cancellable;
-import meteordevelopment.meteorclient.events.meteor.KeyEvent;
+import meteordevelopment.meteorclient.events.meteor.KeyInputEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
@@ -15,21 +15,20 @@ import meteordevelopment.meteorclient.systems.modules.movement.Blink;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
-import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.utils.RaycastUtils;
-import net.minecraft.block.*;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static meteordevelopment.meteorclient.utils.misc.input.Input.isPressed;
 import static nekiplay.meteorplus.MeteorPlusAddon.HUD_TITLE;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT;
@@ -87,8 +86,8 @@ public class FreecamMixin {
 
 	@Unique
 	private BlockPos tryGetValidPos(BlockPos pos) {
-        assert mc.world != null;
-        BlockState state = mc.world.getBlockState(pos);
+		assert mc.level != null;
+		BlockState state = mc.level.getBlockState(pos);
 		Block block = state.getBlock();
 		if (block == Blocks.FERN ||
 			block == Blocks.SHORT_GRASS ||
@@ -124,7 +123,7 @@ public class FreecamMixin {
 			block == Blocks.JUNGLE_WALL_SIGN ||
 			block == Blocks.MANGROVE_WALL_SIGN ||
 			block == Blocks.WARPED_WALL_SIGN ||
-			// Mushroms
+			// Mushrooms
 			block == Blocks.BROWN_MUSHROOM ||
 			block == Blocks.RED_MUSHROOM ||
 			block == Blocks.CRIMSON_FUNGUS ||
@@ -172,18 +171,18 @@ public class FreecamMixin {
 
 		) {
 			return pos;
-		}
-		else {
-			return pos.up();
+		} else {
+			return pos.above();
 		}
 	}
 
-	@Unique @Nullable
+	@Unique
+	@Nullable
 	private BlockPos rayCastClicked() {
 		BlockPos blockPos = null;
-		Vec3d rotationVector = RaycastUtils.getRotationVector((float) freecam.getPitch(mc.getRenderTickCounter().getTickProgress(true)), (float) freecam.getYaw(mc.getRenderTickCounter().getTickProgress(true)));
-		Vec3d pos = new Vec3d(freecam.pos.x, freecam.pos.y, freecam.pos.z);
-		HitResult result = RaycastUtils.raycast(pos, rotationVector, 64 * 4, mc.getRenderTickCounter().getTickProgress(true), true);
+		Vec3 rotationVector = RaycastUtils.getRotationVector((float) freecam.getPitch(mc.getDeltaTracker().getGameTimeDeltaPartialTick(true)), (float) freecam.getYaw(mc.getDeltaTracker().getGameTimeDeltaPartialTick(true)));
+		Vec3 pos = new Vec3(freecam.pos.x, freecam.pos.y, freecam.pos.z);
+		HitResult result = RaycastUtils.raycast(pos, rotationVector, 64 * 4, mc.getDeltaTracker().getGameTimeDeltaPartialTick(true), true);
 		if (result.getType() == HitResult.Type.BLOCK) {
 			BlockHitResult blockHitResult = (BlockHitResult) result;
 			blockPos = blockHitResult.getBlockPos();
@@ -193,16 +192,16 @@ public class FreecamMixin {
 
 	@Unique
 	private void Work(Cancellable event) {
-		if (baritoneMoveBlinkKey.get().isPressed() && mc.currentScreen == null) {
+		if (baritoneMoveBlinkKey.get().isPressed() && mc.screen == null) {
 			BlockPos clicked = rayCastClicked();
 
 			if (blinkBaritoneControl.get()) {
 
 				if (clicked == null) return;
 
-				if (mc.world == null) return;
+				if (mc.level == null) return;
 
-				BlockState state = mc.world.getBlockState(clicked);
+				BlockState state = mc.level.getBlockState(clicked);
 
 				if (state.isAir()) return;
 				isBlinkMoving = true;
@@ -213,13 +212,13 @@ public class FreecamMixin {
 				event.cancel();
 			}
 		}
-		if (baritoneMoveKey.get().isPressed() && mc.currentScreen == null) {
+		if (baritoneMoveKey.get().isPressed() && mc.screen == null) {
 			BlockPos clicked = rayCastClicked();
 			if (clicked == null) return;
 
-			if (mc.world == null) return;
+			if (mc.level == null) return;
 
-			BlockState state = mc.world.getBlockState(clicked);
+			BlockState state = mc.level.getBlockState(clicked);
 
 			if (state.isAir()) return;
 
@@ -234,7 +233,7 @@ public class FreecamMixin {
 			event.cancel();
 		}
 
-		if (baritoneStopKey.get().isPressed() && mc.currentScreen == null) {
+		if (baritoneStopKey.get().isPressed() && mc.screen == null) {
 			BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().forceCancel();
 			if (blink != null) {
 				if (blink.isActive()) {
@@ -248,16 +247,16 @@ public class FreecamMixin {
 
 	@Unique
 	@EventHandler
-	private void onKeyEvent(KeyEvent event)
-	{
-		if (mc.world != null && event.action == KeyAction.Press) {
+	private void onKeyEvent(KeyInputEvent event) {
+		if (mc.level != null && event.action == KeyAction.Press) {
 			Work(event);
 		}
 	}
+
 	@Unique
 	@EventHandler
 	private void onMouseClickEvent(MouseClickEvent event) {
-		if (mc.world != null && event.action == KeyAction.Press) {
+		if (mc.level != null && event.action == KeyAction.Press) {
 			Work(event);
 		}
 	}
@@ -265,13 +264,13 @@ public class FreecamMixin {
 	@Unique
 	@EventHandler
 	private void onTickEvent(TickEvent.Pre event) {
-		if (mc.world != null && blinkBaritoneControl.get() && blink != null) {
-			if (isBlinkMoving && (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() ) ) {
+		if (mc.level != null && blinkBaritoneControl.get() && blink != null) {
+			if (isBlinkMoving && (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing())) {
 				if (!blink.isActive()) {
 					blink.toggle();
 				}
 			}
-			if (isBlinkMoving && (!BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || !BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() ) ) {
+			if (isBlinkMoving && (!BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || !BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing())) {
 				if (blink.isActive()) {
 					blink.toggle();
 					isBlinkMoving = false;

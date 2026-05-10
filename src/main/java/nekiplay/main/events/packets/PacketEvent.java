@@ -1,8 +1,8 @@
 package nekiplay.main.events.packets;
 
 import nekiplay.main.events.Cancellable;
-import net.minecraft.network.listener.PacketListener;
-import net.minecraft.network.packet.Packet;
+import net.minecraft.network.PacketListener;
+import net.minecraft.network.protocol.Packet;
 
 public class PacketEvent {
 	public static class Receive extends Cancellable {

@@ -2,15 +2,15 @@ package nekiplay.meteorplus.features.modules.movement.spider.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixin.PlayerMoveC2SPacketAccessor;
+import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderMode;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.math.Vec3d;
 import nekiplay.meteorplus.features.modules.movement.spider.SpiderModes;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.phys.Vec3;
 
 public class Vulcan extends SpiderMode {
 	public Vulcan() {
@@ -24,7 +24,7 @@ public class Vulcan extends SpiderMode {
 	private double startY = 0;
 	private double lastY = 0;
 
-	private double coff = 0.0000000000326;
+	private final double coff = 0.0000000000326;
 
 	@Override
 	public void onActivate() {
@@ -33,7 +33,7 @@ public class Vulcan extends SpiderMode {
 		modify = false;
 
 		assert mc.player != null;
-		startY = mc.player.getEntityPos().y;
+		startY = mc.player.position().y;
 	}
 
 	private boolean YGround(double height, double min, double max) {
@@ -61,25 +61,25 @@ public class Vulcan extends SpiderMode {
 
 	private void work(Packet<?> packet) {
 		if (modify) {
-			if (packet instanceof PlayerMoveC2SPacket move) {
+			if (packet instanceof ServerboundMovePlayerPacket move) {
 				assert mc.player != null;
 				double y = mc.player.getY();
 				y = move.getY(y);
 
 				if (YGround(y, RGround(startY) - 0.1, RGround(startY) + 0.1)) {
-					((PlayerMoveC2SPacketAccessor) packet).meteor$setOnGround(true);
+					((ServerboundMovePlayerPacketAccessor) packet).meteor$setOnGround(true);
 				}
-				if (mc.player.isOnGround() && block) {
+				if (mc.player.onGround() && block) {
 					block = false;
-					startY = mc.player.getEntityPos().y;
+					startY = mc.player.position().y;
 					start = false;
 				}
 			}
 		} else {
 			assert mc.player != null;
-			if (mc.player.isOnGround() && block) {
+			if (mc.player.onGround() && block) {
 				block = false;
-				startY = mc.player.getEntityPos().y;
+				startY = mc.player.position().y;
 				start = false;
 			}
 		}
@@ -90,9 +90,9 @@ public class Vulcan extends SpiderMode {
 	@Override
 	public void onTickEventPre(TickEvent.Pre event) {
 		if (modify) {
-			ClientPlayerEntity player = mc.player;
+			LocalPlayer player = mc.player;
 			assert player != null;
-			double y = player.getEntityPos().y;
+			double y = player.position().y;
 			if (lastY == y && tick > 1) {
 				block = true;
 			} else {
@@ -105,18 +105,17 @@ public class Vulcan extends SpiderMode {
 		TypeStarted temp = TypeStarted.Air;
 		double y = RGround(startY);
 		assert mc.player != null;
-		if (mc.player.isOnGround()) {
+		if (mc.player.onGround()) {
 			temp = TypeStarted.Block;
-			assert mc.world != null;
-			if (mc.world.getBlockState(mc.player.getBlockPos()).getBlock() instanceof SlabBlock) {
+			assert mc.level != null;
+			if (mc.level.getBlockState(mc.player.blockPosition()).getBlock() instanceof SlabBlock) {
 				temp = TypeStarted.Slab;
 			}
 		}
 		return temp;
 	}
 
-	private enum TypeStarted
-	{
+	private enum TypeStarted {
 		Block,
 		Slab,
 		Air,
@@ -126,54 +125,53 @@ public class Vulcan extends SpiderMode {
 
 	@Override
 	public void onTickEventPost(TickEvent.Post event) {
-		ClientPlayerEntity player = mc.player;
+		LocalPlayer player = mc.player;
 		assert player != null;
-		Vec3d pl_velocity = player.getVelocity();
-		ClientPlayNetworkHandler h = mc.getNetworkHandler();
+		Vec3 pl_velocity = player.getDeltaMovement();
+		ClientPacketListener h = mc.getConnection();
 		modify = player.horizontalCollision;
-		if (mc.player.isOnGround()) {
+		if (mc.player.onGround()) {
 			block = false;
-			startY = mc.player.getEntityPos().y;
+			startY = mc.player.position().y;
 			start = false;
 			typeStarted = getType(startY);
 		}
 		if (player.horizontalCollision) {
 			if (!start) {
 				start = true;
-				startY = mc.player.getEntityPos().y;
+				startY = mc.player.position().y;
 				lastY = mc.player.getY();
 			}
 			if (!block) {
 				if (tick == 0) {
-					mc.player.setVelocity(pl_velocity.x, 0.41999998688698, pl_velocity.z);
+					mc.player.setDeltaMovement(pl_velocity.x, 0.41999998688698, pl_velocity.z);
 					tick = 1;
 				} else if (tick == 1) {
-					mc.player.setVelocity(pl_velocity.x, 0.33319999363 - coff, pl_velocity.z);
+					mc.player.setDeltaMovement(pl_velocity.x, 0.33319999363 - coff, pl_velocity.z);
 					tick = 2;
 				} else if (tick == 2) {
-					mc.player.setVelocity(pl_velocity.x, 0.24813599862 - coff, pl_velocity.z);
+					mc.player.setDeltaMovement(pl_velocity.x, 0.24813599862 - coff, pl_velocity.z);
 					tick = 0;
 				}
 				switch (typeStarted) {
 					case Air -> {
-						if (mc.player.getEntityPos().y >= startY + 1.5) {
+						if (mc.player.position().y >= startY + 1.5) {
 							block = true;
 						}
 					}
 					case Slab -> {
-						if (mc.player.getEntityPos().y >= startY + 2.5) {
+						if (mc.player.position().y >= startY + 2.5) {
 							block = true;
 						}
 					}
 					case Block -> {
-						if (mc.player.getEntityPos().y >= startY + 2) {
+						if (mc.player.position().y >= startY + 2) {
 							block = true;
 						}
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			modify = false;
 			tick = 0;
 		}

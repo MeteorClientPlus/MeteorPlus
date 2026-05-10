@@ -15,36 +15,12 @@ configurations.all {
 }
 
 repositories {
-	maven {
-		url = uri("https://jm.gserv.me/repository/maven-public/")
-		content {
-			includeGroup("info.journeymap")
-		}
-	}
+	// Modrinth
 	maven {
 		url = uri("https://api.modrinth.com/maven/")
 		content {
 			includeGroup("maven.modrinth")
 		}
-	}
-	maven {
-        url = uri("https://www.cursemaven.com") 
-    }
-	maven { 
-        url = uri("https://masa.dy.fi/maven") 
-        }
-	// YACL
-	maven {
-		url = uri("https://maven.isxander.dev/releases")
-	}
-	// YACL Snapshots
-	maven {
-		name = "Xander Snapshot Maven"
-		url = uri("https://maven.isxander.dev/snapshots")
-	}
-	// Where Is It, JackFredLib
-	maven {
-		url = uri("https://maven.jackf.red/releases/")
 	}
 	// Meteor Client
 	maven {
@@ -55,6 +31,11 @@ repositories {
         name = "meteor-maven-snapshots"
         url = uri("https://maven.meteordev.org/snapshots")
     }
+	// XaeroLib
+	maven {
+		name = "Xaero's Maven"
+		url = uri("https://chocolateminecraft.com/maven")
+	}
 	mavenCentral()
 	gradlePluginPortal()
 }
@@ -62,28 +43,40 @@ repositories {
 dependencies {
 	// Fabric
 	minecraft(libs.minecraft)
-	mappings(variantOf(libs.yarn) { classifier("v2") })
-	modImplementation(libs.fabric.loader)
+	implementation(libs.fabric.loader)
 
 	// Fabric API
-	modImplementation(libs.fabric.api)
+	implementation(libs.fabric.api)
 
 	// Mixin extras
 	annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.3")
 
 	// Meteor Client
-	modImplementation(files("libs\\baritone-unoptimized-fabric-1.15.0-2-gf7a53504.jar"))
-	modImplementation(libs.meteor.client)
-	implementation(libs.starscript)
-	implementation(libs.orbit)
+	implementation(libs.baritone)
+	implementation(libs.meteor.client)
 
 	// Xaero's Mods
-	modCompileOnly(libs.xwm) // Xaero's World Map
-	modCompileOnly(libs.xmm) // Xaero's Minimap
-	modCompileOnly(files("libs\\xaerolib-fabric-1.21.11-1.0.38.jar"))
+	compileOnly(libs.xlib) // XaeroLib
+	compileOnly(libs.xwm) // Xaero's World Map
+	compileOnly(libs.xmm) // Xaero's Minimap
 
 	// Chest Tracker
-	modImplementation(libs.whereisit)
+	implementation(libs.whereisit)
+}
+
+java {
+	toolchain {
+		languageVersion.set(JavaLanguageVersion.of(libs.versions.jdk.get().toInt()))
+	}
+}
+
+fun toMinecraftCompat(version: String): String {
+	val match = Regex("""^(\d{2})\.([1-9]\d*)(?:\.([1-9]\d*))?$""")
+		.matchEntire(version)
+		?: error("Invalid Minecraft version format: $version. Expected YY.D or YY.D.H")
+
+	val (year, drop, _) = match.destructured
+	return "~$year.$drop"
 }
 
 loom {
@@ -94,10 +87,11 @@ tasks {
     processResources {
         val propertyMap = mapOf(
             "version" to project.version,
-            "mc_version" to libs.versions.minecraft.get(),
+            "minecraft_version" to libs.versions.minecraft.get(),
+			"jdk_version" to libs.versions.jdk.get(),
             "gh_hash" to (System.getenv("GITHUB_SHA") ?: ""),
         )
-        
+
 	    filesMatching("fabric.mod.json") {
 		    expand (propertyMap)
         }
@@ -107,13 +101,5 @@ tasks {
         from("LICENSE") {
             rename { "${it}_${licenseSuffix}" }
         }
-    }
-    java {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-    withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        options.release = 21
     }
 }

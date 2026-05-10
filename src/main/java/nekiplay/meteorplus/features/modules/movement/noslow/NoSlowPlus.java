@@ -15,6 +15,7 @@ public class NoSlowPlus extends Module {
 	public NoSlowPlus() {
 		super(Categories.Movement, "no-slow+", "Remove or increase slowness.");
 	}
+
 	public SettingGroup defaultGroup = settings.getDefaultGroup();
 
 	private NoSlowMode currentMode;
@@ -22,7 +23,7 @@ public class NoSlowPlus extends Module {
 	public final Setting<NoSlowModes> mode = defaultGroup.add(new EnumSetting.Builder<NoSlowModes>()
 		.name("mode")
 		.description("The method of applying no slow.")
-		.defaultValue(NoSlowModes.Vanila)
+		.defaultValue(NoSlowModes.Vanilla)
 		.onModuleActivated(spiderModesSetting -> onModeChanged(spiderModesSetting.get()))
 		.onChanged(this::onModeChanged)
 		.build()
@@ -89,7 +90,7 @@ public class NoSlowPlus extends Module {
 
 	private void onModeChanged(NoSlowModes mode) {
 		switch (mode) {
-			case Vanila -> currentMode = new Vanila();
+			case Vanilla -> currentMode = new Vanilla();
 			case NCP_Strict -> currentMode = new NCPStrict();
 			case Grim_1dot8 -> currentMode = new Grim();
 			case Grim_New -> currentMode = new GrimNew();

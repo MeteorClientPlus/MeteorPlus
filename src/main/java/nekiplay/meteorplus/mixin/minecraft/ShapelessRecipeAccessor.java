@@ -1,13 +1,12 @@
 package nekiplay.meteorplus.mixin.minecraft;
 
-import net.minecraft.recipe.ShapelessRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.NormalCraftingRecipe;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(ShapelessRecipe.class)
+@Mixin(NormalCraftingRecipe.class)
 public interface ShapelessRecipeAccessor {
-	@Accessor("category")
-	CraftingRecipeCategory getCategory();
-
+	@Accessor("bookInfo")
+	CraftingRecipe.CraftingBookInfo getBookInfo();
 }

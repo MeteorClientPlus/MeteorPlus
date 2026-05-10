@@ -12,7 +12,9 @@ import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.features.modules.movement.fly.modes.*;
+import nekiplay.meteorplus.features.modules.movement.fly.modes.MatrixExploit;
+import nekiplay.meteorplus.features.modules.movement.fly.modes.MatrixExploit2;
+import nekiplay.meteorplus.features.modules.movement.fly.modes.VulcanClip;
 
 public class FlyPlus extends Module {
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
@@ -96,24 +98,27 @@ public class FlyPlus extends Module {
 	private void onPostTick(TickEvent.Post event) {
 		currentMode.onTickEventPost(event);
 	}
+
 	@EventHandler
 	public void onSendPacket(PacketEvent.Send event) {
 		currentMode.onSendPacket(event);
 	}
+
 	@EventHandler
 	public void onSentPacket(PacketEvent.Sent event) {
 		currentMode.onSentPacket(event);
 	}
 
 	@EventHandler
-	public void onRecivePacket(PacketEvent.Receive event) {
-		currentMode.onRecivePacket(event);
+	public void onReceivePacket(PacketEvent.Receive event) {
+		currentMode.onReceivePacket(event);
 	}
 
 	@EventHandler
 	public void onCanWalkOnFluid(CanWalkOnFluidEvent event) {
 		currentMode.onCanWalkOnFluid(event);
 	}
+
 	@EventHandler
 	public void onCollisionShape(CollisionShapeEvent event) {
 		currentMode.onCollisionShape(event);
@@ -123,6 +128,7 @@ public class FlyPlus extends Module {
 	private void onPlayerMoveEvent(PlayerMoveEvent event) {
 		currentMode.onPlayerMoveEvent(event);
 	}
+
 	@EventHandler
 	private void onPlayerMoveSendPre(SendMovementPacketsEvent.Pre event) {
 		currentMode.onPlayerMoveSendPre(event);

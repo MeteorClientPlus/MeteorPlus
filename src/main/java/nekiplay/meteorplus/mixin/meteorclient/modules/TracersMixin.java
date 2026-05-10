@@ -2,10 +2,10 @@ package nekiplay.meteorplus.mixin.meteorclient.modules;
 
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Tracers;
-import nekiplay.meteorplus.features.modules.combat.Teams;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import nekiplay.meteorplus.features.modules.combat.AntiBotPlus;
+import nekiplay.meteorplus.features.modules.combat.Teams;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,7 +17,7 @@ public class TracersMixin {
 	protected void shouldBeIgnored(Entity entity, CallbackInfoReturnable<Boolean> cir) {
 		AntiBotPlus antiBotPlus = Modules.get().get(AntiBotPlus.class);
 		Teams teams = Modules.get().get(Teams.class);
-		if (antiBotPlus != null && teams != null && !cir.getReturnValue() && entity instanceof PlayerEntity) {
+		if (antiBotPlus != null && teams != null && !cir.getReturnValue() && entity instanceof Player) {
 			boolean ignore = antiBotPlus.isBot(entity);
 			if (!ignore) {
 				ignore = teams.isInYourTeam(entity);

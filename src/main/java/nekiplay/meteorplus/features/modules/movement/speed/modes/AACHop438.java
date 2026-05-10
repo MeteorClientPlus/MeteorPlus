@@ -21,11 +21,11 @@ public class AACHop438 extends SpeedMode {
 	public void onTickEventPre(TickEvent.Pre event) {
 		Timer timer = Modules.get().get(Timer.class);
 		timer.setOverride(Timer.OFF);
-		if (!PlayerUtils.isMoving() || mc.player.isTouchingWater() || mc.player.isInLava() ||
-			mc.player.isClimbing() || mc.player.isRiding()) return;
+		if (!PlayerUtils.isMoving() || mc.player.isInWater() || mc.player.isInLava() ||
+			mc.player.onClimbable() || mc.player.isHandsBusy()) return;
 
-		if (mc.player.isOnGround())
-			mc.player.jump();
+		if (mc.player.onGround())
+			mc.player.jumpFromGround();
 		else {
 			if (mc.player.fallDistance <= 0.1)
 				timer.setOverride(1.5);

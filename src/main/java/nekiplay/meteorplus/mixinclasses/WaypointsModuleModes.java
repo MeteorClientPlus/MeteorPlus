@@ -20,6 +20,7 @@ public class WaypointsModuleModes {
 		public DistanceComparator(Map<String, Waypoint> base) {
 			this.base = base;
 		}
+
 		public int compare(String a, String b) {
 			long distance1 = 0;
 			long distance2 = 0;
@@ -29,8 +30,8 @@ public class WaypointsModuleModes {
 				if (awp != null && bwp != null) {
 					if (awp.getPos() != null && bwp.getPos() != null) {
 
-						distance1 = Math.round(mc.player.getEntityPos().distanceTo(awp.getPos().toCenterPos()));
-						distance2 = Math.round(mc.player.getEntityPos().distanceTo(bwp.getPos().toCenterPos()));
+						distance1 = Math.round(mc.player.position().distanceTo(awp.getPos().getCenter()));
+						distance2 = Math.round(mc.player.position().distanceTo(bwp.getPos().getCenter()));
 					}
 				}
 			}
@@ -48,6 +49,7 @@ public class WaypointsModuleModes {
 		public NameComparator(Map<String, Waypoint> base) {
 			this.base = base;
 		}
+
 		public int compare(String a, String b) {
 			if (base.containsKey(a) && base.containsKey(b)) {
 
@@ -61,8 +63,7 @@ public class WaypointsModuleModes {
 					}
 				}
 				return 0;
-			}
-			else {
+			} else {
 				return 0;
 			}
 		}

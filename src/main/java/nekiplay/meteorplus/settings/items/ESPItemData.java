@@ -2,14 +2,13 @@ package nekiplay.meteorplus.settings.items;
 
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.settings.GenericSetting;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
+import meteordevelopment.meteorclient.settings.GenericSetting;
 import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
-import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Item;
 
 public class ESPItemData implements IGeneric<ESPItemData>, IChangeable, IItemData<ESPItemData> {
 	public ShapeMode shapeMode;
@@ -75,8 +74,8 @@ public class ESPItemData implements IGeneric<ESPItemData>, IChangeable, IItemDat
 	}
 
 	@Override
-	public NbtCompound toTag() {
-		NbtCompound tag = new NbtCompound();
+	public CompoundTag toTag() {
+		CompoundTag tag = new CompoundTag();
 
 		tag.putString("shapeMode", shapeMode.name());
 		tag.put("lineColor", lineColor.toTag());
@@ -91,7 +90,7 @@ public class ESPItemData implements IGeneric<ESPItemData>, IChangeable, IItemDat
 	}
 
 	@Override
-	public ESPItemData fromTag(NbtCompound tag) {
+	public ESPItemData fromTag(CompoundTag tag) {
 		shapeMode = ShapeMode.valueOf(tag.getString("shapeMode").get());
 		lineColor.fromTag(tag.getCompound("lineColor").get());
 		sideColor.fromTag(tag.getCompound("sideColor").get());

@@ -3,24 +3,18 @@
 	"gui.world_map.baritone_path_here": "Baritone path Here",
 	"gui.world_map.baritone_elytra_here": "Baritone elytra Here",
 	"gui.world_map.look_at_waypoint": "Look at waypoint",
-
 	"item.meteorplus.logo": "Meteor+ logo",
 	"item.meteorplus.logo_mods": "Meteor+ Integrations logo",
 	"item.meteorplus.star": "Star",
 	"item.meteorplus.diamond": "Diamond",
 	"item.meteorplus.money": "Money",
-
 	"modules.meteor-client.better-tooltips.beehive.honey-level": "§7Honey level: §e%d§7.",
 	"modules.meteor-client.better-tooltips.beehive.bees": "§7Bees: §e%d§7.",
-
 	"modules.meteor-client.better-tooltips.kilobytes": "§7%s kb",
 	"modules.meteor-client.better-tooltips.bytes": "§7%s bytes",
 	"modules.meteor-client.better-tooltips.error-getting-bytes": "§cError getting bytes.",
-
 	"modules.meteor-client.better-tooltips.unknown-inventory": "§4Unknown inventory",
-
 	"modules.meteor-client.better-tooltips.hold-to-preview": "Hold §e%s§r to preview",
-
 	"modules.meteor-client.inventory-tweaks.dump": "Dump",
 	"modules.meteor-client.inventory-tweaks.steal": "Steal"
 }

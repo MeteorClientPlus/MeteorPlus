@@ -7,7 +7,7 @@ import meteordevelopment.meteorclient.systems.modules.render.blockesp.ESPBlockDa
 import meteordevelopment.meteorclient.utils.misc.UnorderedArrayList;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import nekiplay.meteorplus.features.modules.world.XrayBruteforce;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -74,7 +74,8 @@ public class XGroup {
 		remainingBlocks.remove(blocks.get(0));
 		neighbours.remove(blocks.get(0));
 
-		loop: {
+		loop:
+		{
 			while (!blocksToCheck.isEmpty()) {
 				XBlock b = blocksToCheck.poll();
 
@@ -93,7 +94,7 @@ public class XGroup {
 			}
 		}
 
-		if (neighbours.size() > 0) {
+		if (!neighbours.isEmpty()) {
 			XGroup group = search.newGroup(this.block);
 			group.blocks.ensureCapacity(remainingBlocks.size());
 

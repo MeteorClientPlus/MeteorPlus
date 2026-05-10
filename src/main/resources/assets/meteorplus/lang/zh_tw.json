@@ -3,21 +3,15 @@
 	"gui.world_map.baritone_path_here": "Baritone 路徑標記",
 	"gui.world_map.baritone_elytra_here": "Baritone 鞘翅飛行標記",
 	"gui.world_map.look_at_waypoint": "查看標籤",
-
 	"item.meteorplus.logo": "Meteor+ 主標誌",
 	"item.meteorplus.logo_mods": "Meteor+ 整合包標誌",
-
 	"modules.meteor-client.better-tooltips.beehive.honey-level": "§7蜂蜜等級：§e%d§7",
 	"modules.meteor-client.better-tooltips.beehive.bees": "§7蜜蜂數量：§e%d§7",
-
 	"modules.meteor-client.better-tooltips.kilobytes": "§7%s KB",
 	"modules.meteor-client.better-tooltips.bytes": "§7%s 位元組",
 	"modules.meteor-client.better-tooltips.error-getting-bytes": "§c位元組資料獲取失敗",
-
 	"modules.meteor-client.better-tooltips.unknown-inventory": "§4未知容器類型",
-
 	"modules.meteor-client.better-tooltips.hold-to-preview": "按住 §e%s§r 以預覽",
-
 	"modules.meteor-client.inventory-tweaks.dump": "批量丟棄",
 	"modules.meteor-client.inventory-tweaks.steal": "快速拿取"
 }

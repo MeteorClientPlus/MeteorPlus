@@ -2,11 +2,11 @@ package nekiplay.meteorplus.features.modules.movement.nofall.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixin.PlayerMoveC2SPacketAccessor;
-import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
+import meteordevelopment.meteorclient.mixin.ServerboundMovePlayerPacketAccessor;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallMode;
+import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
 import nekiplay.meteorplus.utils.MovementUtils;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 
 public class Vulcan extends NoFallMode {
 	public Vulcan() {
@@ -28,20 +28,20 @@ public class Vulcan extends NoFallMode {
 
 	@Override
 	public void onTickEventPre(TickEvent.Pre event) {
-		if(!vulCanNoFall && mc.player.fallDistance > 3.25) {
+		if (!vulCanNoFall && mc.player.fallDistance > 3.25) {
 			vulCanNoFall = true;
 		}
-		if(vulCanNoFall && mc.player.isOnGround() && vulCantNoFall) {
+		if (vulCanNoFall && mc.player.onGround() && vulCantNoFall) {
 			vulCantNoFall = false;
 		}
-		if(vulCantNoFall) return;
-		if(nextSpoof) {
-			mc.player.getVelocity().add(0, -0.1, 0);
+		if (vulCantNoFall) return;
+		if (nextSpoof) {
+			mc.player.getDeltaMovement().add(0, -0.1, 0);
 			mc.player.fallDistance = -0.1f;
 			MovementUtils.strafe(0.3f);
 			nextSpoof = false;
 		}
-		if(mc.player.fallDistance > 3.5625f) {
+		if (mc.player.fallDistance > 3.5625f) {
 			mc.player.fallDistance = 0.0f;
 			doSpoof = true;
 			nextSpoof = true;
@@ -50,15 +50,14 @@ public class Vulcan extends NoFallMode {
 
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
-		if (event.packet instanceof PlayerMoveC2SPacket) {
-			PlayerMoveC2SPacket packet = (PlayerMoveC2SPacket) event.packet;
-			PlayerMoveC2SPacketAccessor accessor = (PlayerMoveC2SPacketAccessor) packet;
+		if (event.packet instanceof ServerboundMovePlayerPacket packet) {
+			ServerboundMovePlayerPacketAccessor accessor = (ServerboundMovePlayerPacketAccessor) packet;
 
 
 			accessor.meteor$setOnGround(true);
 			doSpoof = false;
-			accessor.meteor$setY((double) Math.round(mc.player.getEntityPos().y * 2) / 2);
-			mc.player.setPosition(mc.player.getEntityPos().x, ((PlayerMoveC2SPacket) event.packet).getY(mc.player.getEntityPos().y), mc.player.getEntityPos().z);
+			accessor.meteor$setY((double) Math.round(mc.player.position().y * 2) / 2);
+			mc.player.setPos(mc.player.position().x, ((ServerboundMovePlayerPacket) event.packet).getY(mc.player.position().y), mc.player.position().z);
 		}
 	}
 }

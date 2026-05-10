@@ -3,7 +3,7 @@ package nekiplay.meteorplus.mixin.whereisit;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import nekiplay.meteorplus.features.modules.integrations.WhereIsIt;
 import nekiplay.meteorplus.utils.ColorRemover;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,32 +17,32 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 public class RenderingMixin {
 	@Unique
 	private static WhereIsIt whereIsIt;
-	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/text/Text;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/client/font/TextRenderer$TextLayerType;II)V"))
+
+	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Font;drawInBatch(Lnet/minecraft/network/chat/Component;FFIZLorg/joml/Matrix4fc;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)V"))
 	private static void changeColor(Args args) {
 		if (whereIsIt == null) {
 			whereIsIt = Modules.get().get(WhereIsIt.class);
 		}
 
 		if (whereIsIt != null && whereIsIt.isActive()) {
-			Text text1 = args.get(0);
+			Component text1 = args.get(0);
 			String text2 = text1.getString();
-			if (whereIsIt.suport_color_symbols.get()) {
+			if (whereIsIt.support_color_symbols.get()) {
 				String text3 = ColorRemover.GetVerbatim(text2);
-				args.set(0, Text.of(text3));
+				args.set(0, Component.nullToEmpty(text3));
 
-				int width = mc.textRenderer.getWidth(text3);
-				float x = (float)(-width) / 2.0F;
+				int width = mc.font.width(text3);
+				float x = (float) (-width) / 2.0F;
 
 				args.set(1, x);
 				args.set(3, getColor(text2));
-			}
-			else {
+			} else {
 				args.set(3, whereIsIt.text_color.get().getPacked());
 			}
 		}
 	}
 
-	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V"))
+	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(DDD)V"))
 	private static void translatePosition(Args args) {
 		if (whereIsIt == null) {
 			whereIsIt = Modules.get().get(WhereIsIt.class);
@@ -50,12 +50,12 @@ public class RenderingMixin {
 
 		if (whereIsIt != null && whereIsIt.isActive()) {
 
-			args.set(1, (double)args.get(1) + whereIsIt.y_offset.get());
+			args.set(1, (double) args.get(1) + whereIsIt.y_offset.get());
 		}
 	}
 
-	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumer;vertex(Lorg/joml/Matrix4fc;FFF)Lnet/minecraft/client/render/VertexConsumer;"))
-	private static void backgroundModifer(Args args) {
+	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;addVertex(Lorg/joml/Matrix4fc;FFF)Lcom/mojang/blaze3d/vertex/VertexConsumer;"))
+	private static void backgroundModifier(Args args) {
 		if (whereIsIt == null) {
 			whereIsIt = Modules.get().get(WhereIsIt.class);
 		}

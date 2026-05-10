@@ -9,6 +9,7 @@ public enum NoFallModes {
 	Elytra_Fly,
 	No_Ground,
 	No_Ground_Elytra;
+
 	@Override
 	public String toString() {
 		return super.toString().replace('_', ' ').replaceAll("dot", ".");

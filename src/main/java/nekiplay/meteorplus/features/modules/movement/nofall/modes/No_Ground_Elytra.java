@@ -2,16 +2,16 @@ package nekiplay.meteorplus.features.modules.movement.nofall.modes;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixininterface.IPlayerMoveC2SPacket;
+import meteordevelopment.meteorclient.mixininterface.IServerboundMovePlayerPacket;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallMode;
 import nekiplay.meteorplus.features.modules.movement.nofall.NoFallModes;
-import nekiplay.meteorplus.mixin.minecraft.entity.PlayerMoveC2SPacketAccessor;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
+import nekiplay.meteorplus.mixin.minecraft.entity.ServerboundMovePlayerPacketAccessor;
+import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Items;
 
 public class No_Ground_Elytra extends NoFallMode {
 	/*
@@ -37,7 +37,7 @@ public class No_Ground_Elytra extends NoFallMode {
 			FindItemResult elytra = InvUtils.find(Items.ELYTRA);
 			if (elytra.found()) {
 				int slot = elytra.slot();
-				if (mc.player.getEquippedStack(EquipmentSlot.CHEST).getItem() != Items.ELYTRA) {
+				if (mc.player.getItemBySlot(EquipmentSlot.CHEST).getItem() != Items.ELYTRA) {
 					InvUtils.move().from(slot).toArmor(2);
 				}
 			}
@@ -46,10 +46,10 @@ public class No_Ground_Elytra extends NoFallMode {
 
 	@Override
 	public void onSendPacket(PacketEvent.Send event) {
-		if (event.packet instanceof IPlayerMoveC2SPacket move) {
-			PlayerMoveC2SPacketAccessor move2 = (PlayerMoveC2SPacketAccessor) move;
+		if (event.packet instanceof IServerboundMovePlayerPacket move) {
+			ServerboundMovePlayerPacketAccessor move2 = (ServerboundMovePlayerPacketAccessor) move;
 			if (move2.getOnGround()) {
-				mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
+				mc.player.connection.send(new ServerboundPlayerCommandPacket(mc.player, ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));
 				move2.setOnGround(false);
 			}
 		}

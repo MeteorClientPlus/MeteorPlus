@@ -2,10 +2,9 @@ package nekiplay.meteorplus.settings.items;
 
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
-import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.Nullable;
 
 public class HighlightItemDataScreen extends WindowScreen {
@@ -15,11 +14,13 @@ public class HighlightItemDataScreen extends WindowScreen {
 
 	public HighlightItemDataScreen(GuiTheme theme, HighlightItemData blockData, Item block, ItemDataSetting<HighlightItemData> setting) {
 		this(theme, blockData, setting, () -> setting.get().put(block, blockData));
-    }
-    public HighlightItemDataScreen(GuiTheme theme, HighlightItemData blockData, GenericSetting<HighlightItemData> setting) {
-        this(theme, blockData, setting, null);
-    }
-    private HighlightItemDataScreen(GuiTheme theme, HighlightItemData blockData, Setting<?> setting, @Nullable Runnable firstChangeConsumer) {
+	}
+
+	public HighlightItemDataScreen(GuiTheme theme, HighlightItemData blockData, GenericSetting<HighlightItemData> setting) {
+		this(theme, blockData, setting, null);
+	}
+
+	private HighlightItemDataScreen(GuiTheme theme, HighlightItemData blockData, Setting<?> setting, @Nullable Runnable firstChangeConsumer) {
 		super(theme, "Configure Items");
 
 		this.blockData = blockData;

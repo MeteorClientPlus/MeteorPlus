@@ -1,6 +1,8 @@
 package nekiplay.meteorplus.mixin.meteorclient.modules;
 
-import meteordevelopment.meteorclient.settings.*;
+import meteordevelopment.meteorclient.settings.BoolSetting;
+import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
@@ -9,6 +11,7 @@ import nekiplay.main.events.hud.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+
 import java.util.List;
 
 @Mixin(value = NoRender.class, remap = false, priority = 1001)
@@ -93,6 +96,7 @@ public class NoRenderMixin extends Module {
 		.defaultValue(false)
 		.build()
 	);
+
 	@Unique
 	@EventHandler
 	private void onMountHealthBarRender(RenderMountHealthBarEvent event) {
@@ -100,6 +104,7 @@ public class NoRenderMixin extends Module {
 			event.setCancelled(true);
 		}
 	}
+
 	@Unique
 	@EventHandler
 	private void onArmorBarRender(RenderArmorBarEvent event) {
@@ -107,6 +112,7 @@ public class NoRenderMixin extends Module {
 			event.setCancelled(true);
 		}
 	}
+
 	@Unique
 	@EventHandler
 	private void onFoodBarRender(RenderFoodBarEvent event) {
@@ -114,6 +120,7 @@ public class NoRenderMixin extends Module {
 			event.setCancelled(true);
 		}
 	}
+
 	@Unique
 	@EventHandler
 	private void onHealthBarRender(RenderHealthBarEvent event) {
@@ -121,6 +128,7 @@ public class NoRenderMixin extends Module {
 			event.setCancelled(true);
 		}
 	}
+
 	@Unique
 	@EventHandler
 	private void onExperienceBarRender(RenderExperienceBarEvent event) {
@@ -128,6 +136,7 @@ public class NoRenderMixin extends Module {
 			event.setCancelled(true);
 		}
 	}
+
 	@Unique
 	@EventHandler
 	private void onExperienceLevelRender(RenderExperienceLevelEvent event) {

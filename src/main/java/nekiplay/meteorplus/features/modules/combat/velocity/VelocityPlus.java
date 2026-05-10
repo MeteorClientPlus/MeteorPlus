@@ -2,7 +2,9 @@ package nekiplay.meteorplus.features.modules.combat.velocity;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.settings.*;
+import meteordevelopment.meteorclient.settings.EnumSetting;
+import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
@@ -14,6 +16,7 @@ public class VelocityPlus extends Module {
 	public VelocityPlus() {
 		super(Categories.Movement, "velocity+", "Bypass velocity.");
 	}
+
 	private final SettingGroup settingsGroup = settings.getDefaultGroup();
 
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
@@ -57,16 +60,19 @@ public class VelocityPlus extends Module {
 	private void onPostTick(TickEvent.Post event) {
 		currentMode.onTickEventPost(event);
 	}
+
 	@EventHandler
 	public void onSendPacket(PacketEvent.Send event) {
 		currentMode.onSendPacket(event);
 	}
+
 	@EventHandler
 	public void onSentPacket(PacketEvent.Sent event) {
 		currentMode.onSentPacket(event);
 	}
+
 	@EventHandler
-	private void onRecivePacket(PacketEvent.Receive event) {
+	private void onReceivePacket(PacketEvent.Receive event) {
 		currentMode.onReceivePacket(event);
 	}
 }

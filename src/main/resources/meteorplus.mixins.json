@@ -8,7 +8,6 @@
 		"meteorclient.modules.BetterTooltipsMixin",
 		"meteorclient.modules.BlockESPMixin",
 		"meteorclient.modules.BreakIndicatorsMixin",
-		"meteorclient.modules.CriticalsMixin",
 		"meteorclient.modules.ESPMixin",
 		"meteorclient.modules.FreecamMixin",
 		"meteorclient.modules.ItemHighlightMixin",
@@ -18,11 +17,10 @@
 		"meteorclient.modules.NoRenderMixin",
 		"meteorclient.modules.TracersMixin",
 		"meteorclient.modules.WaypointsModuleMixin",
-		"minecraft.ClientConnectionAccessor",
+		"minecraft.ConnectionAccessor",
 		"minecraft.ShapelessRecipeAccessor",
-		"minecraft.entity.ShulkerEntityAccessor",
-		"minecraft.hud.DebugHudMixin",
-		"minecraft.hud.InGameHudMixin"
+		"minecraft.hud.DebugScreenOverlayMixin",
+		"minecraft.hud.GuiMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
@@ -32,8 +30,8 @@
 		"meteorclient.gui.TitleScreenCreditsMixin",
 		"meteorclient.utils.misc.KeybindMixin",
 		"minecraft.StringReaderMixin",
-		"minecraft.entity.ClientPlayerEntityMixin",
 		"minecraft.entity.LivingEntityMixin",
-		"minecraft.entity.PlayerMoveC2SPacketAccessor"
+		"minecraft.entity.LocalPlayerMixin",
+		"minecraft.entity.ServerboundMovePlayerPacketAccessor"
 	]
 }

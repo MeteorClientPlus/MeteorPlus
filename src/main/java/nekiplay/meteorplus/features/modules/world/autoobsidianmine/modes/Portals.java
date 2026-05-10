@@ -15,12 +15,12 @@ import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarmMode;
 import nekiplay.meteorplus.features.modules.world.autoobsidianmine.AutoObsidianFarmModes;
 import nekiplay.meteorplus.utils.BlockHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class Portals extends AutoObsidianFarmMode {
 	public Portals() {
-		super(AutoObsidianFarmModes.Portals_Vanila);
+		super(AutoObsidianFarmModes.Portals_Vanilla);
 	}
 
 	private final Shape shape = Shape.Cube;
@@ -41,18 +41,18 @@ public class Portals extends AutoObsidianFarmMode {
 
 	private final SortMode sortMode = SortMode.Closest;
 
-	private final Pool<BlockPos.Mutable> blockPosPool = new Pool<>(BlockPos.Mutable::new);
-	private final List<BlockPos.Mutable> blocks = new ArrayList<>();
+	private final Pool<BlockPos.MutableBlockPos> blockPosPool = new Pool<>(BlockPos.MutableBlockPos::new);
+	private final List<BlockPos.MutableBlockPos> blocks = new ArrayList<>();
 
 	private boolean firstBlock;
-	private final BlockPos.Mutable lastBlockPos = new BlockPos.Mutable();
+	private final BlockPos.MutableBlockPos lastBlockPos = new BlockPos.MutableBlockPos();
 
 	private int timer;
 	private int noBlockTimer;
 
-	private final BlockPos.Mutable pos1 = new BlockPos.Mutable(); // Rendering for cubes
-	private final BlockPos.Mutable pos2 = new BlockPos.Mutable();
-	private Box box;
+	private final BlockPos.MutableBlockPos pos1 = new BlockPos.MutableBlockPos(); // Rendering for cubes
+	private final BlockPos.MutableBlockPos pos2 = new BlockPos.MutableBlockPos();
+	private AABB box;
 	private int maxh = 0;
 	private int maxv = 0;
 	private boolean baritoneBreakSaved = false;
@@ -113,7 +113,9 @@ public class Portals extends AutoObsidianFarmMode {
 		if (commandDelay <= settings.delayCommand.get()) {
 			commandDelay++;
 		}
-		if (mc.player == null || mc.world == null) { return; }
+		if (mc.player == null || mc.level == null) {
+			return;
+		}
 		if ((mc.player.isUsingItem() || (Modules.get().get(AutoEat.class).isActive() && Modules.get().get(AutoEat.class).eating)) && settings.pauseOnEat.get()) {
 			return;
 		}
@@ -135,8 +137,7 @@ public class Portals extends AutoObsidianFarmMode {
 					}
 				}
 			}
-		}
-		else if (settings.workingMode.get() == AutoObsidianFarmModes.Portals_Vanila) {
+		} else if (settings.workingMode.get() == AutoObsidianFarmModes.Portals_Vanilla) {
 			if (PlayerUtils.getDimension() == Dimension.Overworld) {
 
 				BlockPos to = settings.twoPortalPosition.get();
@@ -144,15 +145,13 @@ public class Portals extends AutoObsidianFarmMode {
 				double distance = Math.sqrt(PlayerUtils.squaredDistanceTo(dis.getX(), mc.player.getY(), dis.getZ()));
 				if (distance <= 20) {
 					List<BlockPos> obsidians = getPortalBlocks();
-					Block down = mc.world.getBlockState(mc.player.getBlockPos().add(0, -1, 0)).getBlock();
+					Block down = mc.level.getBlockState(mc.player.blockPosition().offset(0, -1, 0)).getBlock();
 					if (obsidians.isEmpty()) {
 						isMine = false;
-					}
-					else if (down == Blocks.OBSIDIAN) {
+					} else if (down == Blocks.OBSIDIAN) {
 						isMine = true;
 					}
-				}
-				else {
+				} else {
 					isMine = false;
 				}
 
@@ -162,16 +161,14 @@ public class Portals extends AutoObsidianFarmMode {
 						BaritoneAPI.getSettings().allowBreak.value = false;
 					}
 					if (!BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() && !BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing()) {
-						to =  settings.mainPortalPosition.get();
+						to = settings.mainPortalPosition.get();
 						BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("goto " + to.getX() + " " + to.getY() + " " + to.getZ());
 					}
-				}
-				else if (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().getPath().isPresent()) {
+				} else if (BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().hasPath() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().isPathing() || BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().getPath().isPresent()) {
 					BaritoneAPI.getSettings().allowBreak.value = true;
 					BaritoneAPI.getProvider().getPrimaryBaritone().getCommandManager().execute("stop");
 				}
-			}
-			else if (PlayerUtils.getDimension() == Dimension.Nether) {
+			} else if (PlayerUtils.getDimension() == Dimension.Nether) {
 				isMine = false;
 				if (settings.noBaritoneBreaking.get()) {
 					BaritoneAPI.getSettings().allowBreak.value = false;
@@ -210,7 +207,7 @@ public class Portals extends AutoObsidianFarmMode {
 			pos1.set(pX_ - r, pY - r + 1, pZ - r + 1); // down
 			pos2.set(pX_ + r - 1, pY + r, pZ + r); // up
 		} else {
-			int direction = Math.round((mc.player.getRotationClient().y % 360) / 90);
+			int direction = Math.round((mc.player.getRotationVector().y % 360) / 90);
 			direction = (direction == 4 || direction == -4) ? 0 : direction;
 			direction = direction == -2 ? 2 : direction == -1 ? 3 : direction == -3 ? 1 : direction; // stupid java not doing modulo shit
 
@@ -249,7 +246,7 @@ public class Portals extends AutoObsidianFarmMode {
 		if (mode == Mode.Flatten) {
 			pos1.setY((int) Math.floor(pY));
 		}
-		box = new Box(pos1.toCenterPos(), pos2.toCenterPos());
+		box = new AABB(pos1.getCenter(), pos2.getCenter());
 
 
 		// Find blocks to break
@@ -257,7 +254,7 @@ public class Portals extends AutoObsidianFarmMode {
 			// Check for air, unbreakable blocks and distance
 			boolean toofarSphere = Utils.squaredDistance(pX, pY, pZ, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5) > rangeSq;
 			boolean toofarUniformCube = maxDist(Math.floor(pX), Math.floor(pY), Math.floor(pZ), blockPos.getX(), blockPos.getY(), blockPos.getZ()) >= range;
-			boolean toofarCube = !box.contains(Vec3d.ofCenter(blockPos));
+			boolean toofarCube = !box.contains(Vec3.atCenterOf(blockPos));
 
 			if (!BlockUtils.canBreak(blockPos, blockState)
 				|| (toofarSphere && shape == Shape.Sphere)
@@ -321,7 +318,7 @@ public class Portals extends AutoObsidianFarmMode {
 				firstBlock = false;
 
 				// Clear current block positions
-				for (BlockPos.Mutable blockPos : blocks) blockPosPool.free(blockPos);
+				for (BlockPos.MutableBlockPos blockPos : blocks) blockPosPool.free(blockPos);
 				blocks.clear();
 			}
 		});
@@ -337,9 +334,9 @@ public class Portals extends AutoObsidianFarmMode {
 			for (int i2 = -4; i2 < 4; i2++) {
 				for (int i3 = -4; i3 < 4; i3++) {
 					assert mc.player != null;
-					assert mc.world != null;
-					BlockPos pos = mc.player.getBlockPos().add(i2, i, i3);
-					BlockState state = mc.world.getBlockState(pos);
+					assert mc.level != null;
+					BlockPos pos = mc.player.blockPosition().offset(i2, i, i3);
+					BlockState state = mc.level.getBlockState(pos);
 					if (state.getBlock() == Blocks.OBSIDIAN) {
 						temp.add(pos);
 					}

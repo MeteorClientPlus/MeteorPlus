@@ -32,7 +32,7 @@ public class AutoAccept extends Module {
 		.name("Pattern command")
 		.description("Custom pattern.")
 		.defaultValue(".*Игрок (.*) просит телепортироваться к вам!.*")
-		.visible(() ->  mode.get() == Mode.Custom)
+		.visible(() -> mode.get() == Mode.Custom)
 		.build()
 	);
 
@@ -65,14 +65,14 @@ public class AutoAccept extends Module {
 		.build()
 	);
 
-	private  final Setting<Boolean> Debug = AASettings.add(new BoolSetting.Builder()
+	private final Setting<Boolean> Debug = AASettings.add(new BoolSetting.Builder()
 		.name("Debug")
 		.description("Prints all incoming messages in console (raw format).")
 		.defaultValue(false)
 		.build()
 	);
-	public enum Mode
-	{
+
+	public enum Mode {
 		Auto,
 		Custom
 	}
@@ -94,6 +94,7 @@ public class AutoAccept extends Module {
 		patterns.add(DonutSMP);
 
 	}
+
 	@Override
 	public void onDeactivate() {
 		patterns.clear();
@@ -119,18 +120,16 @@ public class AutoAccept extends Module {
 				info("Accepting request from " + "§c" + username);
 				ChatUtils.sendPlayerMsg(accept_command.get().replace("{username}", username));
 			}
-		}
-		else {
+		} else {
 			BetterAccept(username, pattern);
 		}
 	}
 
 	@EventHandler()
-	public void onMessageRecieve(ReceiveMessageEvent event) {
+	public void onMessageReceive(ReceiveMessageEvent event) {
 		if (event.getMessage() != null && mc.player != null) {
 			String message = ColorRemover.GetVerbatim(event.getMessage().getString());
-			if (Debug.get())
-			{
+			if (Debug.get()) {
 				MeteorPlusAddon.LOG.info(message);
 			}
 			Thread th = new Thread(() -> {
@@ -144,10 +143,9 @@ public class AutoAccept extends Module {
 						e.printStackTrace();
 					}
 					Accept(nickname, pattern, message);
-				}
-				else {
+				} else {
 					nickname = getName(custom, message);
-					if (!nickname.equals("")) {
+					if (!nickname.isEmpty()) {
 						try {
 							Thread.sleep(Delay.get());
 						} catch (InterruptedException e) {
@@ -165,35 +163,33 @@ public class AutoAccept extends Module {
 		String nickname = "";
 		for (TPPattern tpPattern : patterns) {
 			String nn = getName(tpPattern, message);
-			if (!nn.equals("")) {
+			if (!nn.isEmpty()) {
 				nickname = nn;
 			}
 		}
 		return nickname;
 	}
 
-	private String getName(TPPattern tpPattern, String message)
-	{
+	private String getName(TPPattern tpPattern, String message) {
 		String nickname = "";
 		Pattern pattern = Pattern.compile(tpPattern.pattern);
 		Matcher matcher = pattern.matcher(message);
 		if (matcher.find()) {
 			String player = matcher.group(tpPattern.group);
-			if (!player.equals("")) {
+			if (!player.isEmpty()) {
 				nickname = player;
 			}
 		}
 		return nickname;
 	}
 
-	private TPPattern getPattern(String message)
-	{
+	private TPPattern getPattern(String message) {
 		for (TPPattern tpPattern : patterns) {
 			Pattern pattern = Pattern.compile(tpPattern.pattern);
 			Matcher matcher = pattern.matcher(message);
 			if (matcher.find()) {
 				String player = matcher.group(tpPattern.group);
-				if (!player.equals("")) {
+				if (!player.isEmpty()) {
 					return tpPattern;
 				}
 			}
@@ -201,8 +197,7 @@ public class AutoAccept extends Module {
 		return null;
 	}
 
-	private boolean isFriend(String username)
-	{
+	private boolean isFriend(String username) {
 		Friends friends = Friends.get();
 		var it = friends.iterator();
 		while (it.hasNext()) {
@@ -213,14 +208,12 @@ public class AutoAccept extends Module {
 		return false;
 	}
 
-	private static class TPPattern
-	{
+	private static class TPPattern {
 		public String pattern;
 		public int group;
 		public String command;
 
-		public TPPattern(String pattern, int group, String command)
-		{
+		public TPPattern(String pattern, int group, String command) {
 			this.pattern = pattern;
 			this.group = group;
 			this.command = command;

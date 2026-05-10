@@ -3,21 +3,15 @@
 	"gui.world_map.baritone_path_here": "Baritone 路径标记",
 	"gui.world_map.baritone_elytra_here": "Baritone 鞘翅飞行标记",
 	"gui.world_map.look_at_waypoint": "查看标签",
-
 	"item.meteorplus.logo": "Meteor+ 主标识",
 	"item.meteorplus.logo_mods": "Meteor+ 整合包标识",
-
 	"modules.meteor-client.better-tooltips.beehive.honey-level": "§7蜂蜜等级：§e%d§7",
 	"modules.meteor-client.better-tooltips.beehive.bees": "§7蜜蜂数量：§e%d§7",
-
 	"modules.meteor-client.better-tooltips.kilobytes": "§7%s KB",
 	"modules.meteor-client.better-tooltips.bytes": "§7%s 字节",
 	"modules.meteor-client.better-tooltips.error-getting-bytes": "§c字节数据获取失败",
-
 	"modules.meteor-client.better-tooltips.unknown-inventory": "§4未知容器类型",
-
 	"modules.meteor-client.better-tooltips.hold-to-preview": "按住 §e%s§r 以预览",
-
 	"modules.meteor-client.inventory-tweaks.dump": "批量丢弃",
 	"modules.meteor-client.inventory-tweaks.steal": "快速拿取"
 }

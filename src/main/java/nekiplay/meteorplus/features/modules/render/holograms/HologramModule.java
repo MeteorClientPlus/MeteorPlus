@@ -2,7 +2,6 @@ package nekiplay.meteorplus.features.modules.render.holograms;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -17,12 +16,12 @@ import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import meteordevelopment.orbit.EventHandler;
-import org.meteordev.starscript.Script;
 import nekiplay.meteorplus.MeteorPlusAddon;
-import net.minecraft.item.Item;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
+import org.meteordev.starscript.Script;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -37,6 +36,7 @@ public class HologramModule extends Module {
 	public HologramModule() {
 		super(Categories.Render, "holograms", "Create own holograms");
 	}
+
 	public Gson gson = new Gson();
 
 	public List<HologramDataListed> allHolograms = new ArrayList<HologramDataListed>();
@@ -65,7 +65,7 @@ public class HologramModule extends Module {
 
 	@EventHandler
 	private void on2DRender(Render2DEvent event) {
-		Vec3d camera_pos = mc.gameRenderer.getCamera().getCameraPos();
+		Vec3 camera_pos = mc.gameRenderer.getMainCamera().position();
 		for (HologramDataListed hologramData : inWorldHolograms) {
 			Vector3d pos = new Vector3d(hologramData.x, hologramData.y, hologramData.z);
 			if (pos.distance(camera_pos.x, camera_pos.y, camera_pos.z) <= hologramData.max_render_distance) {
@@ -90,13 +90,13 @@ public class HologramModule extends Module {
 						for (HologramData hologramData1 : hologramData.other_holograms) {
 							text.render(MeteorStarscript.run(scripts.get(hologramData1.text)), hX - hologramData1.x, hY - hologramData1.y, hologramData1.color, true);
 							if (hologramData1.item_id != 0) {
-								Item item = Item.byRawId(hologramData1.item_id);
-								RenderUtils.drawItem(event.drawContext, item.getDefaultStack(), (int) ((int) hX - hologramData1.x), (int) ((int) 0 - hologramData1.y), hologramData1.item_scale, true);
+								Item item = Item.byId(hologramData1.item_id);
+								RenderUtils.drawItem(event.graphics, item.getDefaultInstance(), (int) ((int) hX - hologramData1.x), (int) (0 - hologramData1.y), hologramData1.item_scale, true);
 							}
 						}
 						if (hologramData.item_id != 0) {
-							Item item = Item.byRawId(hologramData.item_id);
-							RenderUtils.drawItem(event.drawContext, item.getDefaultStack(), (int) hX, (int) 0, hologramData.item_scale, true);
+							Item item = Item.byId(hologramData.item_id);
+							RenderUtils.drawItem(event.graphics, item.getDefaultInstance(), (int) hX, 0, hologramData.item_scale, true);
 						}
 					}
 					text.end();
@@ -140,8 +140,7 @@ public class HologramModule extends Module {
 										allHolograms.add(hologramData);
 										MeteorPlusAddon.LOG.info(MeteorPlusAddon.METEOR_LOGPREFIX + " Success loaded hologram: " + file.getName());
 									}
-								}
-								catch (Exception e) {
+								} catch (Exception e) {
 									MeteorPlusAddon.LOG.error(MeteorPlusAddon.METEOR_LOGPREFIX + " Error in hologram: " + e);
 								}
 							} catch (IOException e) {

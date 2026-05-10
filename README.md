@@ -9,7 +9,7 @@
 	<a href="https://www.minecraft.net/"><img src="https://img.shields.io/github/license/MeteorClientPlus/MeteorPlus?logo=mdBook&color=FF8C00" alt="Minecraft version"/></a>
 	<br>
 	<a href="https://www.meteoraddons.com/?addon=MeteorClientPlus%2FMeteorPlus"><img src="https://img.shields.io/badge/verified%20addon-yes-brightgreen" alt="Verified Addon"></a>
-	<a href="https://www.minecraft.net/"><img src="https://img.shields.io/badge/minecraft%20version-1.20.4 -- 1.21.11-brightgreen" alt="Minecraft version"/></a>
+	<a href="https://www.minecraft.net/"><img src="https://img.shields.io/badge/minecraft%20version-1.20.4 -- 26.1.2-brightgreen" alt="Minecraft version"/></a>
 	<a href="https://github.com/Nekiplay/MeteorClientPlus/releases"><img src="https://img.shields.io/github/downloads/MeteorClientPlus/MeteorPlus/total" alt="Downloads"/></a>
 	<a href="https://github.com/Nekiplay/MeteorClientPlus/stargazers"><img src="https://badgen.net/github/stars/MeteorClientPlus/MeteorPlus" alt="GitHub stars"/></a>
 	<br>
@@ -30,7 +30,7 @@
 | **Spider+**            | **Spider for Anti-Cheats**                    | **Matrix, Vulcan**            |
 | **Jesus+**             | **Jesus for Anti-Cheats**                     | **Matrix, Vulcan**            |
 | **No Slow+**           | **No Slow for Anti-Cheats**                   | **Matrix, Vulcan, Grim, NCP** |
-| **Fast Climb+** 	     | **Fast Climb for Anti-Cheats**                | **Spartan**                   |
+| **Fast Climb+** 	      | **Fast Climb for Anti-Cheats**                | **Spartan**                   |
 | **Gui Move+**          | **Gui Move for Anti-Cheats**                  | **Matrix, NCP**               |
 | **Timer+**             | **Timer for Anti-Cheats**                     | **NCP, Intave, Vulcan**       |
 | **Safe mine**          | **Prevents player from lava**                 | **Matrix**                    |
@@ -46,10 +46,10 @@
 | **Teams**     | **Does not beat teammates on BedWars and other modes** |                      |
 
 ## Integrations
-| Module              					| Description                                       |
-|---------------------------------------|---------------------------------------------------|
-| **Chest Tracker (Unofficial Port)**   | **Colors support, background disabler, y offset** |
-| **Xaero's MiniMap** 					| **Support baritone control on context**           |
+| Module              					           | Description                                       |
+|-------------------------------------|---------------------------------------------------|
+| **Chest Tracker (Unofficial Port)** | **Colors support, background disabler, y offset** |
+| **Xaero's MiniMap** 					           | **Support baritone control on context**           |
 
 ## Commands
 | Command        | Description                                       | Bypasses anti cheats                    |
@@ -77,9 +77,9 @@
 
 # Installation Guide
 1. Install [Minecraft](https://www.minecraft.net)
-2. Install [Fabric](https://fabricmc.net) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) for your version of minecraft
-3. Download [Meteor Client](https://meteorclient.com) for your version of minecraft
-4. Download [Meteor Plus](https://github.com/MeteorClientPlus/MeteorPlus/releases) for your version of minecraft
+2. Install [Fabric](https://fabricmc.net) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) for your version of Minecraft
+3. Download [Meteor Client](https://meteorclient.com) for your version of Minecraft
+4. Download [Meteor Plus](https://github.com/MeteorClientPlus/MeteorPlus/releases) for your version of Minecraft
 5. Place the Meteor Client and Meteor Plus in your mods folder
 
     A: Make Commit we welcome anyone who makes a useful contribution to our free open source product

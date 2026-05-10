@@ -6,8 +6,8 @@ import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import nekiplay.meteorplus.MeteorPlusAddon;
 import nekiplay.MixinPlugin;
+import nekiplay.meteorplus.MeteorPlusAddon;
 
 public class MapIntegration extends Module {
 	public MapIntegration() {
@@ -48,7 +48,7 @@ public class MapIntegration extends Module {
 	public final Setting<Boolean> showBlock = fullMap.add(new BoolSetting.Builder()
 		.name("Show block")
 		.description("Shows the name of the block in the clicked position.")
-		.visible(() -> MixinPlugin.isXaeroWorldMapresent)
+		.visible(() -> MixinPlugin.isXaeroWorldMapPresent)
 		.defaultValue(true)
 		.build()
 	);

@@ -9,33 +9,29 @@ import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InvUtils;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.command.CommandSource;
-import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.math.BlockPos;
 import nekiplay.meteorplus.utils.ElytraUtils;
-
-import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class EclipCommand extends Command {
 	public EclipCommand() {
-		super("eclip", "Elyta clip need elytra bypass most anticheats");
+		super("eclip", "Elytra clip need elytra bypass most anticheats");
 	}
 
-	public void build(LiteralArgumentBuilder<CommandSource> builder) {
+	public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {
 		builder.then(argument("blocks", DoubleArgumentType.doubleArg()).executes(context -> {
-			ClientPlayerEntity player = mc.player;
+			LocalPlayer player = mc.player;
 			assert player != null;
 			double blocks2 = context.getArgument("blocks", Double.class);
 			if (work()) {
 				blocks = blocks2;
 				MeteorClient.EVENT_BUS.subscribe(this);
-			}
-			else {
+			} else {
 				ticks = 0;
 			}
 			return SINGLE_SUCCESS;
@@ -44,8 +40,7 @@ public class EclipCommand extends Command {
 			if (work()) {
 				blocks = findBlock(true, 15);
 				MeteorClient.EVENT_BUS.subscribe(this);
-			}
-			else {
+			} else {
 				ticks = 0;
 			}
 			return SINGLE_SUCCESS;
@@ -54,49 +49,48 @@ public class EclipCommand extends Command {
 			if (work()) {
 				blocks = findBlock(false, 15);
 				MeteorClient.EVENT_BUS.subscribe(this);
-			}
-			else {
+			} else {
 				ticks = 0;
 			}
 			return SINGLE_SUCCESS;
 		}));
 
 	}
+
 	private boolean work() {
-		ClientPlayerEntity player = mc.player;
+		LocalPlayer player = mc.player;
 		assert player != null;
 		FindItemResult elytra = InvUtils.find(Items.ELYTRA);
 		if (elytra.found()) {
 			ticks = 0;
 			return true;
-		}
-		else {
+		} else {
 			error(Names.get(Items.ELYTRA) + " not found");
 			return false;
 		}
 	}
+
 	private Block getBlock(BlockPos pos) {
-		return mc.world.getBlockState(pos).getBlock();
+		return mc.level.getBlockState(pos).getBlock();
 	}
 
 	private double findBlock(boolean up, int maximum) {
 		if (up) {
-			BlockPos pos = mc.player.getBlockPos();
+			BlockPos pos = mc.player.blockPosition();
 			for (int i = maximum; i >= 0; i--) {
-				if (getBlock(pos.add(0, i, 0)) == Blocks.AIR
-					&& getBlock(pos.add(0, i + 1, 0)) == Blocks.AIR
-					&& getBlock(pos.add(0, i - 1, 0)) != Blocks.AIR
+				if (getBlock(pos.offset(0, i, 0)) == Blocks.AIR
+					&& getBlock(pos.offset(0, i + 1, 0)) == Blocks.AIR
+					&& getBlock(pos.offset(0, i - 1, 0)) != Blocks.AIR
 				) {
 					return i;
 				}
 			}
-		}
-		else {
-			BlockPos pos = mc.player.getBlockPos();
+		} else {
+			BlockPos pos = mc.player.blockPosition();
 			for (int i = -maximum; i <= 0; i++) {
-				if (getBlock(pos.add(0, i, 0)) == Blocks.AIR
-					&& getBlock(pos.add(0, i + 1, 0)) == Blocks.AIR
-					&& getBlock(pos.add(0, i - 1, 0)) != Blocks.AIR
+				if (getBlock(pos.offset(0, i, 0)) == Blocks.AIR
+					&& getBlock(pos.offset(0, i + 1, 0)) == Blocks.AIR
+					&& getBlock(pos.offset(0, i - 1, 0)) != Blocks.AIR
 				) {
 					return i;
 				}
@@ -116,7 +110,7 @@ public class EclipCommand extends Command {
 
 	private void clip(double blocks) {
 		if (blocks != 0) {
-			ClientPlayerEntity player = mc.player;
+			LocalPlayer player = mc.player;
 			assert player != null;
 			switch (ticks) {
 				case 0: {
@@ -126,11 +120,11 @@ public class EclipCommand extends Command {
 					ticks++;
 				}
 				case 1: {
-					mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false, mc.player.horizontalCollision));
+					mc.player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(false, mc.player.horizontalCollision));
 					ticks++;
 				}
 				case 2: {
-					mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false, mc.player.horizontalCollision));
+					mc.player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(false, mc.player.horizontalCollision));
 					ticks++;
 				}
 				case 3: {
@@ -138,8 +132,8 @@ public class EclipCommand extends Command {
 					ticks++;
 				}
 				case 4: {
-					player.setPosition(player.getX(), player.getY() + blocks, player.getZ());
-					mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(player.getX(), player.getY() + blocks, player.getZ(), false, mc.player.horizontalCollision));
+					player.setPos(player.getX(), player.getY() + blocks, player.getZ());
+					mc.player.connection.send(new ServerboundMovePlayerPacket.Pos(player.getX(), player.getY() + blocks, player.getZ(), false, mc.player.horizontalCollision));
 					ticks++;
 				}
 				case 5: {
@@ -152,8 +146,7 @@ public class EclipCommand extends Command {
 					MeteorClient.EVENT_BUS.unsubscribe(this);
 				}
 			}
-		}
-		else {
+		} else {
 			MeteorClient.EVENT_BUS.unsubscribe(this);
 		}
 	}

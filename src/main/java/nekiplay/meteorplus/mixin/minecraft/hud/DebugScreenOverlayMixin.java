@@ -2,10 +2,9 @@ package nekiplay.meteorplus.mixin.minecraft.hud;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import nekiplay.main.events.hud.DebugDrawTextEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.DebugHud;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.DebugScreenOverlay;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,20 +15,20 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 
-@Mixin(value = DebugHud.class, priority = 1001)
-public class DebugHudMixin {
+@Mixin(value = DebugScreenOverlay.class, priority = 1001)
+public class DebugScreenOverlayMixin {
 	@Shadow
 	@Final
-	private MinecraftClient client;
+	private Minecraft minecraft;
 
 	@Inject(
-		method = "drawText",
+		method = "extractLines",
 		at = @At(
 			value = "HEAD"
 		),
 		locals = LocalCapture.CAPTURE_FAILHARD
 	)
-	private void modifyDrawLeftText(DrawContext context, List<String> text, boolean left, CallbackInfo ci) {
+	private void modifyDrawLeftText(GuiGraphicsExtractor context, List<String> text, boolean left, CallbackInfo ci) {
 		DebugDrawTextEvent debugDrawTextEvent = DebugDrawTextEvent.get(text, left);
 		MeteorClient.EVENT_BUS.post(debugDrawTextEvent);
 	}

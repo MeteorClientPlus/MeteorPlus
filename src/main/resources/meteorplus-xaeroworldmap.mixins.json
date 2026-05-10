@@ -4,9 +4,9 @@
 	"compatibilityLevel": "JAVA_17",
 	"plugin": "nekiplay.MixinPlugin",
 	"client": [
-		"WaypointRendererMixin",
 		"GuiMapMixin",
-		"MapPixelAccessor"
+		"MapPixelAccessor",
+		"WaypointRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

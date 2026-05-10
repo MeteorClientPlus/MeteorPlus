@@ -1,23 +1,20 @@
 package nekiplay.meteorplus.mixin.xaero.worldmap;
 
 import baritone.api.BaritoneAPI;
-import baritone.api.IBaritone;
 import baritone.api.pathing.goals.GoalBlock;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.meteorplus.features.modules.integrations.MapIntegration;
-import nekiplay.meteorplus.utils.RotationUtils;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xaero.map.common.config.option.WorldMapProfiledConfigOptions;
 import xaero.map.WorldMap;
+import xaero.map.common.config.option.WorldMapProfiledConfigOptions;
 import xaero.map.gui.GuiMap;
 import xaero.map.gui.IRightClickableElement;
 import xaero.map.gui.dropdown.rightclick.RightClickOption;
@@ -32,7 +29,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 @Mixin(WaypointReader.class)
 public class WaypointRendererMixin {
 	@Inject(method = "getRightClickOptions(Lxaero/map/mods/gui/Waypoint;Lxaero/map/gui/IRightClickableElement;)Ljava/util/ArrayList;", at = @At("HEAD"), remap = false, cancellable = true)
-	private void rightClickOptins(Waypoint element, IRightClickableElement target, CallbackInfoReturnable<ArrayList<RightClickOption>> cir) {
+	private void rightClickOptions(Waypoint element, IRightClickableElement target, CallbackInfoReturnable<ArrayList<RightClickOption>> cir) {
 		Modules modules = Modules.get();
 		if (modules != null) {
 			MapIntegration mapIntegration = modules.get(MapIntegration.class);
@@ -43,7 +40,7 @@ public class WaypointRendererMixin {
 						SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
 					}
 				});
-				if ((Boolean)WorldMap.INSTANCE.getConfigs().getClientConfigManager().getEffective(WorldMapProfiledConfigOptions.COORDINATES) && !SupportMods.xaeroMinimap.hidingWaypointCoordinates()) {
+				if (WorldMap.INSTANCE.getConfigs().getClientConfigManager().getEffective(WorldMapProfiledConfigOptions.COORDINATES) && !SupportMods.xaeroMinimap.hidingWaypointCoordinates()) {
 					rightClickOptions.add(new RightClickOption(String.format("X: %d, Y: %s, Z: %d", element.getX(), element.isyIncluded() ? "" + element.getY() : "~", element.getZ()), rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
 							SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
@@ -55,7 +52,7 @@ public class WaypointRendererMixin {
 					public void onAction(Screen screen) {
 						SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);
 					}
-				}).setNameFormatArgs(new Object[]{"E"}));
+				}).setNameFormatArgs("E"));
 
 				if (mapIntegration != null && mapIntegration.baritoneGoto.get()) {
 					rightClickOptions.add((new RightClickOption("gui.world_map.baritone_goal_here", rightClickOptions.size(), target) {
@@ -67,34 +64,34 @@ public class WaypointRendererMixin {
 						public boolean isActive() {
 							return true;
 						}
-					}).setNameFormatArgs(new Object[]{"G"}));
+					}).setNameFormatArgs("G"));
 
 					rightClickOptions.add((new RightClickOption("gui.world_map.look_at_waypoint", rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
-							Vec3d playerPos = mc.player.getEntityPos();
-							Vec3d blockCenter = new Vec3d(
+							Vec3 playerPos = mc.player.position();
+							Vec3 blockCenter = new Vec3(
 								element.getX() + 0.5,
 								element.getY() + 0.5,
 								element.getZ() + 0.5
 							);
 
 							// Вычисляем вектор направления от игрока к блоку
-							Vec3d direction = blockCenter.subtract(playerPos).normalize();
+							Vec3 direction = blockCenter.subtract(playerPos).normalize();
 
 							// Преобразуем вектор направления в углы поворота (yaw и pitch)
 							double distanceXZ = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
-							float yaw = (float)Math.toDegrees(Math.atan2(direction.z, direction.x)) - 90.0F;
-							float pitch = (float)Math.toDegrees(-Math.atan2(direction.y, distanceXZ));
+							float yaw = (float) Math.toDegrees(Math.atan2(direction.z, direction.x)) - 90.0F;
+							float pitch = (float) Math.toDegrees(-Math.atan2(direction.y, distanceXZ));
 
 							// Устанавливаем поворот игрока
-							mc.player.setYaw(yaw);
-							mc.player.setPitch(pitch);
+							mc.player.setYRot(yaw);
+							mc.player.setXRot(pitch);
 						}
 
 						public boolean isActive() {
 							return true;
 						}
-					}).setNameFormatArgs(new Object[]{"L"}));
+					}).setNameFormatArgs("L"));
 
 					rightClickOptions.add((new RightClickOption("gui.world_map.baritone_path_here", rightClickOptions.size(), target) {
 						public void onAction(Screen screen) {
@@ -105,7 +102,7 @@ public class WaypointRendererMixin {
 						public boolean isActive() {
 							return true;
 						}
-					}).setNameFormatArgs(new Object[]{"P"}));
+					}).setNameFormatArgs("P"));
 
 					if (mapIntegration.baritoneElytra.get() && PlayerUtils.getDimension() == Dimension.Nether) {
 						rightClickOptions.add((new RightClickOption("gui.world_map.baritone_elytra_here", rightClickOptions.size(), target) {
@@ -118,7 +115,7 @@ public class WaypointRendererMixin {
 							public boolean isActive() {
 								return true;
 							}
-						}).setNameFormatArgs(new Object[]{"P"}));
+						}).setNameFormatArgs("P"));
 					}
 				}
 
@@ -130,7 +127,7 @@ public class WaypointRendererMixin {
 					public boolean isActive() {
 						return SupportMods.xaeroMinimap.canTeleport(SupportMods.xaeroMinimap.getWaypointWorld());
 					}
-				}).setNameFormatArgs(new Object[]{"T"}));
+				}).setNameFormatArgs("T"));
 				rightClickOptions.add(new RightClickOption("gui.xaero_right_click_waypoint_share", rightClickOptions.size(), target) {
 					public void onAction(Screen screen) {
 						SupportMods.xaeroMinimap.shareWaypoint(element, (GuiMap) screen, SupportMods.xaeroMinimap.getWaypointWorld());
@@ -149,7 +146,7 @@ public class WaypointRendererMixin {
 						}
 
 					}
-				}).setNameFormatArgs(new Object[]{"H"}));
+				}).setNameFormatArgs("H"));
 				rightClickOptions.add((new RightClickOption("", rightClickOptions.size(), target) {
 					public String getName() {
 						return element.isTemporary() ? "gui.xaero_right_click_waypoint_delete_confirm" : "gui.xaero_right_click_waypoint_delete";
@@ -163,7 +160,7 @@ public class WaypointRendererMixin {
 						}
 
 					}
-				}).setNameFormatArgs(new Object[]{"DEL"}));
+				}).setNameFormatArgs("DEL"));
 				cir.setReturnValue(rightClickOptions);
 			}
 		}
