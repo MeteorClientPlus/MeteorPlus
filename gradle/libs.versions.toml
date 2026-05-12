@@ -17,7 +17,7 @@ baritone = "26.1-SNAPSHOT"
 
 # Xaero's Mods
 # XaeroLib
-xlib = "1.1.13"
+xlib = "1.1.15"
 # Xaero's World Map (https://modrinth.com/mod/xaeros-world-map/versions)
 xwm = "1.40.14"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
