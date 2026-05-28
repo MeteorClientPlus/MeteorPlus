@@ -26,7 +26,7 @@ xmm = "25.3.12"
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
 whereisit = "2.7.3+"
 # YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/26.1/gradle.properties)
-yacl = "3.9.0+26.1-fabric"
+yacl = "3.9.3+"
 
 [libraries]
 # Fabric base
