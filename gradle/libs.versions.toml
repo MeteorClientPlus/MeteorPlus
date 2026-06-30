@@ -21,7 +21,7 @@ xlib = "1.1.16"
 # Xaero's World Map (https://modrinth.com/mod/xaeros-world-map/versions)
 xwm = "1.41.2"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
-xmm = "26.1.4"
+xmm = "26.1.5"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
 whereisit = "2.7.3+"
