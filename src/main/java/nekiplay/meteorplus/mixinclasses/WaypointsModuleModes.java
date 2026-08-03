@@ -1,6 +1,7 @@
 package nekiplay.meteorplus.mixinclasses;
 
 import meteordevelopment.meteorclient.systems.waypoints.Waypoint;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -30,8 +31,8 @@ public class WaypointsModuleModes {
 				if (awp != null && bwp != null) {
 					if (awp.getPos() != null && bwp.getPos() != null) {
 
-						distance1 = Math.round(mc.player.position().distanceTo(awp.getPos().getCenter()));
-						distance2 = Math.round(mc.player.position().distanceTo(bwp.getPos().getCenter()));
+						distance1 = Math.round(mc.player.position().distanceTo(new Vec3(awp.getPos().getX() + 0.5, awp.getPos().getY() + 0.5, awp.getPos().getZ() + 0.5)));
+						distance2 = Math.round(mc.player.position().distanceTo(new Vec3(bwp.getPos().getX() + 0.5, bwp.getPos().getY() + 0.5, bwp.getPos().getZ() + 0.5)));
 					}
 				}
 			}
