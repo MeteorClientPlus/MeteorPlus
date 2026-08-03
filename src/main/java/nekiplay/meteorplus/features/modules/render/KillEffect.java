@@ -8,10 +8,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 
 import java.util.ArrayList;
 
@@ -50,7 +47,7 @@ public class KillEffect extends Module {
 					if (!entityList.contains(entity)) {
 						switch (mode.get()) {
 							case Lighting_Bolt -> {
-								LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, mc.level);
+								LightningBolt lightning = new LightningBolt(EntityTypes.LIGHTNING_BOLT, mc.level);
 								lightning.snapTo(livingEntity.position());
 								mc.level.addEntity(lightning);
 							}

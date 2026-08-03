@@ -10,6 +10,7 @@ import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.orbit.EventHandler;
 import nekiplay.meteorplus.features.modules.combat.killaura.modes.Matrix;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.util.Set;
@@ -63,7 +64,7 @@ public class KillAuraPlus extends Module {
 		.name("entities")
 		.description("Entities to attack.")
 		.onlyAttackable()
-		.defaultValue(EntityType.PLAYER)
+		.defaultValue(EntityTypes.PLAYER)
 		.build()
 	);
 

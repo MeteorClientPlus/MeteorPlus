@@ -71,7 +71,7 @@ public class ItemDataSettingScreen extends WindowScreen {
 				T data = blockData;
 				if (data == null) data = (T) setting.defaultData.get().copy();
 
-				mc.setScreen(data.createScreen(theme, block, (ItemDataSetting<T>) setting));
+				mc.gui.setScreen(data.createScreen(theme, block, (ItemDataSetting<T>) setting));
 			};
 
 			WButton reset = table.add(theme.button(GuiRenderer.RESET)).widget();

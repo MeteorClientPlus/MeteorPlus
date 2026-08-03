@@ -99,7 +99,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 			return;
 		}
 		BlockPos placing = settings.lavaPlaceLocation.get();
-		if (mc.player.distanceToSqr(placing.getCenter()) >= settings.range.get() + settings.range.get() + 1) {
+		if (mc.player.distanceToSqr(placing.getX() + 0.5, placing.getY() + 0.5, placing.getZ() + 0.5) >= settings.range.get() + settings.range.get() + 1) {
 			return;
 		}
 		BlockIterator.register(settings.range.get(), settings.range.get(), (blockPos, blockState) -> {
@@ -145,7 +145,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 			} else {
 				FindItemResult bucket = InvUtils.findInHotbar(Items.BUCKET);
 				FindItemResult lavaBucket = InvUtils.findInHotbar(Items.LAVA_BUCKET);
-				if (lavaBucket.found() && mc.player.position().distanceTo(placing.getCenter()) <= settings.range.get() + 1) {
+				if (lavaBucket.found() && mc.player.position().distanceTo(new Vec3(placing.getX() + 0.5, placing.getY() + 0.5, placing.getZ() + 0.5)) <= settings.range.get() + 1) {
 					if (state.getBlock() != Blocks.LAVA) {
 						if (lavaPlaceTimer >= settings.lavaPlaceDelay.get()) {
 							double yaw = Rotations.getYaw(placing);
@@ -175,7 +175,7 @@ public class Cauldrons extends AutoObsidianFarmMode {
 				} else if (bucket.found()) {
 					for (BlockPos block : blocks) {
 						BlockState state2 = mc.level.getBlockState(block);
-						if (state2.getBlock() == Blocks.LAVA_CAULDRON && mc.player.position().distanceTo(block.getCenter()) <= settings.range.get() + 1) {
+						if (state2.getBlock() == Blocks.LAVA_CAULDRON && mc.player.position().distanceTo(new Vec3(block.getX() + 0.5, block.getY() + 0.5, block.getZ() + 0.5)) <= settings.range.get() + 1) {
 							if (collectTimer >= settings.collectDelay.get()) {
 								mc.player.getInventory().setSelectedSlot(bucket.slot());
 								mc.player.connection.send(new ServerboundSetCarriedItemPacket(bucket.slot()));

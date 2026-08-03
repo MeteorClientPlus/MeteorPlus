@@ -19,6 +19,7 @@ import nekiplay.meteorplus.features.modules.movement.fly.FlyPlus;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
@@ -117,7 +118,7 @@ public class KillAuraMixin extends Module {
 		.name("ignore-delay-for-one-hit-entities")
 		.description("Ignore attack delay for shulker bullet and fireball.")
 		.defaultValue(true)
-		.visible(() -> entities.get().contains(EntityType.SHULKER_BULLET) || entities.get().contains(EntityType.FIREBALL))
+		.visible(() -> entities.get().contains(EntityTypes.SHULKER_BULLET) || entities.get().contains(EntityTypes.FIREBALL))
 		.build()
 	);
 
@@ -134,7 +135,7 @@ public class KillAuraMixin extends Module {
 	private final Setting<Boolean> customDelayOneHit = sgTimingPlus.add(new BoolSetting.Builder()
 		.name("custom-delay-for-one-hit-entities")
 		.defaultValue(true)
-		.visible(() -> entities.get().contains(EntityType.SHULKER_BULLET) || entities.get().contains(EntityType.FIREBALL))
+		.visible(() -> entities.get().contains(EntityTypes.SHULKER_BULLET) || entities.get().contains(EntityTypes.FIREBALL))
 		.build()
 	);
 
@@ -210,7 +211,7 @@ public class KillAuraMixin extends Module {
 	@Unique
 	private boolean oneHitEntity() {
 		if (getTarget() != null) {
-			return ignoreSmartDelayForShulkerBulletAndGhastCharge.get() && (getTarget().getType() == EntityType.FIREBALL || getTarget().getType() == EntityType.SHULKER_BULLET);
+			return ignoreSmartDelayForShulkerBulletAndGhastCharge.get() && (getTarget().getType() == EntityTypes.FIREBALL || getTarget().getType() == EntityTypes.SHULKER_BULLET);
 		}
 		return false;
 	}

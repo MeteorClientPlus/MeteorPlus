@@ -246,7 +246,7 @@ public class Portals extends AutoObsidianFarmMode {
 		if (mode == Mode.Flatten) {
 			pos1.setY((int) Math.floor(pY));
 		}
-		box = new AABB(pos1.getCenter(), pos2.getCenter());
+		box = new AABB(pos1.getX() + 0.5, pos1.getY() + 0.5, pos1.getZ() + 0.5, pos2.getX() + 0.5, pos2.getY() + 0.5, pos2.getZ() + 0.5);
 
 
 		// Find blocks to break

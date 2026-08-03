@@ -192,7 +192,7 @@ public class FreecamMixin {
 
 	@Unique
 	private void Work(Cancellable event) {
-		if (baritoneMoveBlinkKey.get().isPressed() && mc.screen == null) {
+		if (baritoneMoveBlinkKey.get().isPressed() && mc.gui.screen() == null) {
 			BlockPos clicked = rayCastClicked();
 
 			if (blinkBaritoneControl.get()) {
@@ -212,7 +212,7 @@ public class FreecamMixin {
 				event.cancel();
 			}
 		}
-		if (baritoneMoveKey.get().isPressed() && mc.screen == null) {
+		if (baritoneMoveKey.get().isPressed() && mc.gui.screen() == null) {
 			BlockPos clicked = rayCastClicked();
 			if (clicked == null) return;
 
@@ -233,7 +233,7 @@ public class FreecamMixin {
 			event.cancel();
 		}
 
-		if (baritoneStopKey.get().isPressed() && mc.screen == null) {
+		if (baritoneStopKey.get().isPressed() && mc.gui.screen() == null) {
 			BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().forceCancel();
 			if (blink != null) {
 				if (blink.isActive()) {

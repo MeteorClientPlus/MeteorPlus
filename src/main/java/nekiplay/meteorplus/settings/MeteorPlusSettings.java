@@ -29,6 +29,6 @@ public class MeteorPlusSettings {
 
 	private void stringMapW(WTable table, ItemDataSetting<?> setting) {
 		WButton button = table.add(theme.button(GuiRenderer.EDIT)).expandCellX().widget();
-		button.action = () -> mc.setScreen(new ItemDataSettingScreen(theme, setting));
+		button.action = () -> mc.gui.setScreen(new ItemDataSettingScreen(theme, setting));
 	}
 }
