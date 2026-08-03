@@ -16,12 +16,12 @@ import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import meteordevelopment.orbit.EventHandler;
+import org.meteordev.starscript.Script;
 import nekiplay.meteorplus.MeteorPlusAddon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
-import org.meteordev.starscript.Script;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -84,7 +84,7 @@ public class HologramModule extends Module {
 					double hY = -heightDown;
 
 					var script = scripts.get(hologram_text);
-					text.beginBig();
+					text.beginBig(event.graphics);
 					if (script != null) {
 						text.render(MeteorStarscript.run(script), hX, hY, hologramData.color, true);
 						for (HologramData hologramData1 : hologramData.other_holograms) {

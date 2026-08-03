@@ -1,7 +1,6 @@
 package nekiplay.meteorplus.mixin.meteorclient.modules;
 
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
-import meteordevelopment.meteorclient.mixin.LevelRendererAccessor;
 import meteordevelopment.meteorclient.mixin.MultiPlayerGameModeAccessor;
 import meteordevelopment.meteorclient.renderer.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.BoolSetting;
@@ -28,6 +27,7 @@ import org.spongepowered.asm.mixin.Unique;
 
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 
 @Mixin(BreakIndicators.class)
 public class BreakIndicatorsMixin extends Module {
@@ -69,9 +69,6 @@ public class BreakIndicatorsMixin extends Module {
 	@Unique
 	@EventHandler
 	private void on2DRender(Render2DEvent event) {
-
-		Map<Integer, BlockDestructionProgress> blocks = ((LevelRendererAccessor) mc.levelRenderer).meteor$getDestroyingBlocks();
-
 		float ownBreakingStage = ((MultiPlayerGameModeAccessor) mc.gameMode).meteor$getBreakingProgress();
 		BlockPos ownBreakingPos = ((MultiPlayerGameModeAccessor) mc.gameMode).meteor$getCurrentBreakingBlockPos();
 
@@ -83,31 +80,13 @@ public class BreakIndicatorsMixin extends Module {
 
 			BlockState state = mc.level.getBlockState(ownBreakingPos);
 			VoxelShape shape = state.getShape(mc.level, ownBreakingPos);
-			if (shape == null || shape.isEmpty()) return;
+			if (shape.isEmpty()) return;
 
 			AABB orig = shape.bounds();
 
 			renderBlock(event, ownBreakingPos, shrinkFactor, orig);
 
 		}
-
-		blocks.values().forEach(info -> {
-			BlockPos pos = info.getPos();
-			int stage = info.getProgress();
-			if (pos.equals(ownBreakingPos)) return;
-
-			BlockState state = mc.level.getBlockState(pos);
-			VoxelShape shape = state.getShape(mc.level, pos);
-			if (shape == null || shape.isEmpty()) return;
-
-			AABB orig = shape.bounds();
-
-			double shrinkFactor = (9 - (stage + 1)) / 9d;
-			double progress = 1d - shrinkFactor;
-
-			renderBlock(event, pos, shrinkFactor, orig);
-		});
-
 		if (packetMine.get() && !Modules.get().get(PacketMine.class).blocks.isEmpty()) {
 			renderPacket(event, Modules.get().get(PacketMine.class).blocks);
 		}
@@ -120,7 +99,7 @@ public class BreakIndicatorsMixin extends Module {
 			if (NametagUtils.to2D(vector3d, 1, true)) {
 				TextRenderer text = TextRenderer.get();
 				NametagUtils.begin(vector3d, event.graphics);
-				text.beginBig();
+				text.beginBig(event.graphics);
 				String label = String.format("%1$,.0f", shrinkFactor * 100) + "%";
 
 				double hologramWidth = text.getWidth(label, true);
