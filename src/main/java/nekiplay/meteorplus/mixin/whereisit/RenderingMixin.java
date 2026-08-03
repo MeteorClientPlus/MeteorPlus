@@ -18,7 +18,7 @@ public class RenderingMixin {
 	@Unique
 	private static WhereIsIt whereIsIt;
 
-	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Font;drawInBatch(Lnet/minecraft/network/chat/Component;FFIZLorg/joml/Matrix4fc;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)V"))
+	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Font;prepareText(Lnet/minecraft/util/FormattedCharSequence;FFIZZI)Lnet/minecraft/client/gui/Font$PreparedText;"))
 	private static void changeColor(Args args) {
 		if (whereIsIt == null) {
 			whereIsIt = Modules.get().get(WhereIsIt.class);

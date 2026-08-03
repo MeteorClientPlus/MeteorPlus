@@ -3,13 +3,13 @@ mod-version = "26.1.2_1.0.9.5"
 
 # Fabric (https://fabricmc.net/develop)
 jdk = "25"
-minecraft = "26.1.2"
-fabric-loader = "0.19.2"
-fabric-api = "0.147.0+26.1.2"
+minecraft = "26.2"
+fabric-loader = "0.19.3"
+fabric-api = "0.156.0+26.2"
 
 # Plugins
 # Loom (https://github.com/FabricMC/fabric-loom)
-loom = "1.16-SNAPSHOT"
+loom = "1.17-SNAPSHOT"
 
 # Meteor (https://github.com/MeteorDevelopment/meteor-client)
 meteor = "26.1.2-SNAPSHOT"
@@ -24,7 +24,7 @@ xwm = "1.44.2"
 xmm = "26.4.2"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
-whereisit = "2.7.3+"
+whereisit = "2.7.5.2+26.2"
 # YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/26.1/gradle.properties)
 yacl = "3.9.3+"
 

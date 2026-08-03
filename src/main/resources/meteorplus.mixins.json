@@ -20,7 +20,7 @@
 		"minecraft.ConnectionAccessor",
 		"minecraft.ShapelessRecipeAccessor",
 		"minecraft.hud.DebugScreenOverlayMixin",
-		"minecraft.hud.GuiMixin"
+      "minecraft.hud.HudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
