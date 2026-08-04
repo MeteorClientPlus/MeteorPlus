@@ -54,7 +54,7 @@ dependencies {
 	// Meteor Client
 	//implementation(libs.baritone)
 	//implementation(libs.meteor.client)
-	implementation("meteordevelopment:orbit:0.2.3")
+	implementation("meteordevelopment:orbit:0.2.4")
 	implementation(files("libs/meteor-client-26.2-local.jar"))
 	implementation(files("libs/baritone-api-fabric-1.11.1-17-g57758940.jar"))
 	implementation("org.meteordev:starscript:0.2.5")
