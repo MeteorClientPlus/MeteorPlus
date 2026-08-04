@@ -15,12 +15,26 @@
     "1.21.6",
     "1.21.8",
     "1.21.9",
-		"1.21.10",
+    "1.21.10",
     "1.21.11",
-		"26.1.2",
-		"26.2"
+    "26.1.2",
+    "26.2"
   ],
   "icon": "https://github.com/MeteorClientPlus/MeteorPlus/blob/1.21.9/src/main/resources/assets/meteorplus/logo.png?raw=true",
   "discord": "https://discord.gg/N3gqYc7GRS",
-  "homepage": "https://meteorclientplus.github.io/"
+  "homepage": "https://meteorclientplus.github.io/",
+  "feature_directories": {
+    "commands": [
+      "features/commands"
+    ],
+    "modules": [
+      "features/modules/combat",
+      "features/modules/integrations",
+      "features/modules/misc",
+      "features/modules/movement",
+      "features/modules/player",
+      "features/modules/render",
+      "features/modules/world"
+    ]
+  }
 }
