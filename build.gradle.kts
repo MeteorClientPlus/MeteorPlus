@@ -22,19 +22,6 @@ repositories {
 			includeGroup("maven.modrinth")
 		}
 	}
-	// YACL
-	maven {
-		url = uri("https://maven.isxander.dev/releases")
-	}
-	// YACL Snapshots
-	maven {
-		name = "Xander Snapshot Maven"
-		url = uri("https://maven.isxander.dev/snapshots")
-	}
-	// Where Is It, JackFredLib
-	maven {
-		url = uri("https://maven.jackf.red/releases/")
-	}
 	// Meteor Client
 	maven {
         name = "meteor-maven"

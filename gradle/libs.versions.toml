@@ -29,8 +29,6 @@ xmm = "26.4.2_Fabric_1.21.11"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
 whereisit = "2.7.5.2+1.21.11"
-# YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/1.21.11/gradle.properties)
-yacl = "3.8.1+1.21.11-fabric"
 
 [libraries]
 # Fabric base
@@ -54,8 +52,6 @@ xmm = { module = "xaero.minimap:xaerominimap-fabric-1.21.11", version.ref = "xmm
 
 # Where Is It
 whereisit = { module = "maven.modrinth:where-is-it-port", version.ref = "whereisit" }
-# YetAnotherConfigLib
-yacl = { module = "dev.isxander.yacl:yet-another-config-lib-fabric", version.ref = "yacl" }
 
 [plugins]
 fabric-loom = { id = "fabric-loom", version.ref = "loom" }
