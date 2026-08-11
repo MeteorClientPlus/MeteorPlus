@@ -19,6 +19,8 @@ starscript = "0.2.5"
 orbit = "0.2.4"
 
 # Xaero's Mods
+# XaeroLib
+xlib = "1.7.1"
 # Xaero's World Map (https://modrinth.com/mod/xaeros-world-map/versions)
 xwm = "1.44.2_Fabric_1.21.11"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
@@ -47,8 +49,9 @@ starscript = { module = "org.meteordev:starscript", version.ref = "starscript" }
 orbit = { module = "meteordevelopment:orbit", version.ref = "orbit" }
 
 # Xaero's Mods
-xwm = { module = "maven.modrinth:xaeros-world-map", version.ref = "xwm" }
-xmm = { module = "maven.modrinth:xaeros-minimap", version.ref = "xmm" }
+xlib = { module = "xaero.lib:xaerolib-fabric-1.21.11", version.ref = "xlib" }
+xwm = { module = "xaero.map:xaeroworldmap-fabric-1.21.11", version.ref = "xwm" }
+xmm = { module = "xaero.minimap:xaerominimap-fabric-1.21.11", version.ref = "xmm" }
 
 # Where Is It
 whereisit = { module = "maven.modrinth:where-is-it-port", version.ref = "whereisit" }

@@ -21,6 +21,7 @@ repositories {
 			includeGroup("info.journeymap")
 		}
 	}
+	// Modrinth
 	maven {
 		url = uri("https://api.modrinth.com/maven/")
 		content {
@@ -28,10 +29,10 @@ repositories {
 		}
 	}
 	maven {
-        url = uri("https://www.cursemaven.com") 
+        url = uri("https://www.cursemaven.com")
     }
-	maven { 
-        url = uri("https://masa.dy.fi/maven") 
+	maven {
+        url = uri("https://masa.dy.fi/maven")
         }
 	// YACL
 	maven {
@@ -55,6 +56,11 @@ repositories {
         name = "meteor-maven-snapshots"
         url = uri("https://maven.meteordev.org/snapshots")
     }
+	// XaeroLib
+	maven {
+		name = "Xaero's Maven"
+		url = uri("https://chocolateminecraft.com/maven")
+	}
 	mavenCentral()
 	gradlePluginPortal()
 }
@@ -78,9 +84,9 @@ dependencies {
 	implementation(libs.orbit)
 
 	// Xaero's Mods
+	modCompileOnly(libs.xlib)
 	modCompileOnly(libs.xwm) // Xaero's World Map
 	modCompileOnly(libs.xmm) // Xaero's Minimap
-	modCompileOnly(files("libs\\xaerolib-fabric-1.21.11-1.0.38.jar"))
 
 	// Chest Tracker
 	modImplementation(libs.whereisit)
@@ -97,7 +103,7 @@ tasks {
             "mc_version" to libs.versions.minecraft.get(),
             "gh_hash" to (System.getenv("GITHUB_SHA") ?: ""),
         )
-        
+
 	    filesMatching("fabric.mod.json") {
 		    expand (propertyMap)
         }
