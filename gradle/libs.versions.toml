@@ -32,9 +32,6 @@ whereisit = "2.7.5.2+1.21.11"
 # YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/1.21.11/gradle.properties)
 yacl = "3.8.1+1.21.11-fabric"
 
-# MaLiLib (https://www.curseforge.com/minecraft/mc-mods/malilib)
-malilib = "7130809"
-
 [libraries]
 # Fabric base
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -59,9 +56,6 @@ xmm = { module = "xaero.minimap:xaerominimap-fabric-1.21.11", version.ref = "xmm
 whereisit = { module = "maven.modrinth:where-is-it-port", version.ref = "whereisit" }
 # YetAnotherConfigLib
 yacl = { module = "dev.isxander.yacl:yet-another-config-lib-fabric", version.ref = "yacl" }
-
-# MaLiLib
-malilib = { module = "curse.maven:malilib-303119", version.ref = "malilib" }
 
 [plugins]
 fabric-loom = { id = "fabric-loom", version.ref = "loom" }

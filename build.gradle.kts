@@ -15,12 +15,6 @@ configurations.all {
 }
 
 repositories {
-	maven {
-		url = uri("https://jm.gserv.me/repository/maven-public/")
-		content {
-			includeGroup("info.journeymap")
-		}
-	}
 	// Modrinth
 	maven {
 		url = uri("https://api.modrinth.com/maven/")
@@ -28,12 +22,6 @@ repositories {
 			includeGroup("maven.modrinth")
 		}
 	}
-	maven {
-        url = uri("https://www.cursemaven.com")
-    }
-	maven {
-        url = uri("https://masa.dy.fi/maven")
-        }
 	// YACL
 	maven {
 		url = uri("https://maven.isxander.dev/releases")
