@@ -13,6 +13,7 @@ loom = "1.17-SNAPSHOT"
 
 # Meteor (https://github.com/MeteorDevelopment/meteor-client)
 meteor = "1.21.11-SNAPSHOT"
+baritone = "1.21.11-SNAPSHOT"
 # Starscript (https://github.com/MeteorDevelopment/starscript)
 starscript = "0.2.5"
 # Orbit (https://github.com/MeteorDevelopment/orbit)
@@ -45,6 +46,7 @@ fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fab
 
 # Meteor Client
 meteor-client = { module = "meteordevelopment:meteor-client", version.ref = "meteor" }
+baritone = { module = "meteordevelopment:baritone", version.ref = "baritone" }
 starscript = { module = "org.meteordev:starscript", version.ref = "starscript" }
 orbit = { module = "meteordevelopment:orbit", version.ref = "orbit" }
 
