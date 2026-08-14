@@ -3,34 +3,32 @@ mod-version = "1.21.11_1.0.9.5"
 
 # Fabric (https://fabricmc.net/develop)
 minecraft = "1.21.11"
-yarn-mappings = "1.21.11+build.3"
-fabric-loader = "0.18.4"
-fabric-api = "0.140.2+1.21.11"
+yarn-mappings = "1.21.11+build.6"
+fabric-loader = "0.19.3"
+fabric-api = "0.141.6+1.21.11"
 
 # Plugins
 # Loom (https://github.com/FabricMC/fabric-loom)
-loom = "1.14-SNAPSHOT"
+loom = "1.16-SNAPSHOT"
 
 # Meteor (https://github.com/MeteorDevelopment/meteor-client)
 meteor = "1.21.11-SNAPSHOT"
+baritone = "1.21.11-SNAPSHOT"
 # Starscript (https://github.com/MeteorDevelopment/starscript)
 starscript = "0.2.5"
 # Orbit (https://github.com/MeteorDevelopment/orbit)
 orbit = "0.2.4"
 
 # Xaero's Mods
+# XaeroLib
+xlib = "1.7.1"
 # Xaero's World Map (https://modrinth.com/mod/xaeros-world-map/versions)
-xwm = "1.40.2_Fabric_1.21.11"
+xwm = "1.44.2"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
-xmm = "25.3.2_Fabric_1.21.11"
+xmm = "26.4.2"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
-whereisit = "2.7.3+"
-# YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/1.21.11/gradle.properties)
-yacl = "3.8.1+1.21.11-fabric"
-
-# MaLiLib (https://www.curseforge.com/minecraft/mc-mods/malilib)
-malilib = "7130809"
+whereisit = "2.7.5.2+1.21.11"
 
 [libraries]
 # Fabric base
@@ -43,20 +41,17 @@ fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fab
 
 # Meteor Client
 meteor-client = { module = "meteordevelopment:meteor-client", version.ref = "meteor" }
+baritone = { module = "meteordevelopment:baritone", version.ref = "baritone" }
 starscript = { module = "org.meteordev:starscript", version.ref = "starscript" }
 orbit = { module = "meteordevelopment:orbit", version.ref = "orbit" }
 
 # Xaero's Mods
-xwm = { module = "maven.modrinth:xaeros-world-map", version.ref = "xwm" }
-xmm = { module = "maven.modrinth:xaeros-minimap", version.ref = "xmm" }
+xlib = { module = "xaero.lib:xaerolib-fabric-1.21.11", version.ref = "xlib" }
+xwm = { module = "xaero.map:xaeroworldmap-fabric-1.21.11", version.ref = "xwm" }
+xmm = { module = "xaero.minimap:xaerominimap-fabric-1.21.11", version.ref = "xmm" }
 
 # Where Is It
 whereisit = { module = "maven.modrinth:where-is-it-port", version.ref = "whereisit" }
-# YetAnotherConfigLib
-yacl = { module = "dev.isxander.yacl:yet-another-config-lib-fabric", version.ref = "yacl" }
-
-# MaLiLib
-malilib = { module = "curse.maven:malilib-303119", version.ref = "malilib" }
 
 [plugins]
 fabric-loom = { id = "fabric-loom", version.ref = "loom" }

@@ -20,7 +20,6 @@
 		"meteorclient.modules.WaypointsModuleMixin",
 		"minecraft.ClientConnectionAccessor",
 		"minecraft.ShapelessRecipeAccessor",
-		"minecraft.entity.ShulkerEntityAccessor",
 		"minecraft.hud.DebugHudMixin",
 		"minecraft.hud.InGameHudMixin"
 	],

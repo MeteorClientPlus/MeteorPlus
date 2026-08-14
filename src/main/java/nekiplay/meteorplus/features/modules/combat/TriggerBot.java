@@ -109,7 +109,7 @@ public class TriggerBot extends Module {
 		if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) return false;
 		if (!entities.get().contains(entity.getType())) return false;
 		if (entity instanceof Tameable tameable
-			&& tameable.getOwner().getUuid() != null
+			&& tameable.getOwner() != null
 			&& tameable.getOwner().getUuid().equals(mc.player.getUuid())) return false;
 		if (entity instanceof PlayerEntity player) {
 			if (player.isCreative()) return false;

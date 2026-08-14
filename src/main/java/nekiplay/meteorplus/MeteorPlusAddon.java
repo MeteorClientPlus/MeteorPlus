@@ -77,17 +77,6 @@ public class MeteorPlusAddon extends MeteorAddon {
 		else {
 			notFoundIntegrations.add("Xaero's World Map");
 		}
-		if (isJourneyMapPresent) {
-			if (!isBaritonePresent) {
-				notFoundBaritoneIntegrations.add("Journey Map");
-			}
-			else {
-				enabledIntegrations.add("Journey Map");
-			}
-		}
-		else {
-			notFoundIntegrations.add("Journey Map");
-		}
 
 		if (!isWhereIsIt) {
 			notFoundIntegrations.add("Where is it");
@@ -185,7 +174,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 		}
 		modules.add(new NoSlowPlus());
 		if (isBaritonePresent) {
-			if (isXaeroWorldMapresent || isJourneyMapPresent) {
+			if (isXaeroWorldMapresent) {
 				modules.add(new MapIntegration());
 			}
 		}
@@ -210,8 +199,6 @@ public class MeteorPlusAddon extends MeteorAddon {
 	public void onRegisterCategories() {
 		LOG.info(METEOR_LOGPREFIX + " registering categories...");
 		if (isXaeroWorldMapresent ||
-			isJourneyMapPresent ||
-			MixinPlugin.isLitematicaMapresent ||
 			MixinPlugin.isWhereIsIt
 		) {
 			Modules.registerCategory(CATEGORYMODS);
