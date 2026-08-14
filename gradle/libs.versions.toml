@@ -1,5 +1,5 @@
 [versions]
-mod-version = "26.1.2_1.0.9.5"
+mod-version = "26.2_1.0.9.5"
 
 # Fabric (https://fabricmc.net/develop)
 jdk = "25"
@@ -12,7 +12,7 @@ fabric-api = "0.156.0+26.2"
 loom = "1.17-SNAPSHOT"
 
 # Meteor (https://github.com/MeteorDevelopment/meteor-client)
-meteor = "26.1.2-SNAPSHOT"
+meteor = "26.2-SNAPSHOT"
 baritone = "26.1-SNAPSHOT"
 
 # Xaero's Mods
@@ -25,8 +25,6 @@ xmm = "26.4.2"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
 whereisit = "2.7.5.2+26.2"
-# YetAnotherConfigLib (https://github.com/ponuing/WhereIsIt/blob/26.1/gradle.properties)
-yacl = "3.9.3+"
 
 [libraries]
 # Fabric base
@@ -41,14 +39,12 @@ meteor-client = { module = "meteordevelopment:meteor-client", version.ref = "met
 baritone = { module = "meteordevelopment:baritone", version.ref = "baritone" }
 
 # Xaero's Mods
-xlib = { module = "xaero.lib:xaerolib-fabric-26.1.2", version.ref = "xlib" }
-xwm = { module = "xaero.map:xaeroworldmap-fabric-26.1.2", version.ref = "xwm" }
-xmm = { module = "xaero.minimap:xaerominimap-fabric-26.1.2", version.ref = "xmm" }
+xlib = { module = "xaero.lib:xaerolib-fabric-26.2", version.ref = "xlib" }
+xwm = { module = "xaero.map:xaeroworldmap-fabric-26.2", version.ref = "xwm" }
+xmm = { module = "xaero.minimap:xaerominimap-fabric-26.2", version.ref = "xmm" }
 
 # Where Is It
 whereisit = { module = "maven.modrinth:where-is-it-port", version.ref = "whereisit" }
-# YetAnotherConfigLib
-yacl = { module = "maven.modrinth:yacl", version.ref = "yacl" }
 
 [plugins]
 fabric-loom = { id = "net.fabricmc.fabric-loom", version.ref = "loom" }
