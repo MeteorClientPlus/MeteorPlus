@@ -13,7 +13,7 @@ loom = "1.17-SNAPSHOT"
 
 # Meteor (https://github.com/MeteorDevelopment/meteor-client)
 meteor = "26.2-SNAPSHOT"
-baritone = "26.1-SNAPSHOT"
+baritone = "26.2-SNAPSHOT"
 
 # Xaero's Mods
 # XaeroLib
