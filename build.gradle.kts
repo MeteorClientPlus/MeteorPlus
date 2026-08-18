@@ -56,8 +56,7 @@ dependencies {
 
 	// Meteor Client
 	implementation(libs.meteor.client)
-	//implementation(libs.baritone)
-	implementation(files("libs/baritone-api-fabric-1.11.1-17-g57758940.jar"))
+	implementation(libs.baritone)
 
 	// Xaero's Mods
 	compileOnly(libs.xlib) // XaeroLib
