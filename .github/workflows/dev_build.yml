@@ -27,7 +27,7 @@ jobs:
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
           automatic_release_tag: "26.2_1.0.9.5"
-          prerelease: true
+          prerelease: false
           title: "26.2 | 1.0.9.5"
           files: |
             ./build/libs/*.jar
