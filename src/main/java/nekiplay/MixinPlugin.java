@@ -1,9 +1,9 @@
 package nekiplay;
 
+import com.mojang.logging.LogUtils;
 import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 public class MixinPlugin implements IMixinConfigPlugin {
-	public static final Logger LOG = LoggerFactory.getLogger(MixinPlugin.class);
+	public static final Logger LOG = LogUtils.getLogger();
 	public static final String METEOR_LOGPREFIX_MIXIN = "[Meteor+ Mixins]";
 
 	private static final String mixinPackageMeteorPlus = "nekiplay.meteorplus.mixin";
