@@ -5,7 +5,7 @@ mod-version = "26.2_1.0.9.5"
 jdk = "25"
 minecraft = "26.2"
 fabric-loader = "0.19.3"
-fabric-api = "0.156.0+26.2"
+fabric-api = "0.158.0+26.2"
 
 # Plugins
 # Loom (https://github.com/FabricMC/fabric-loom)
@@ -19,7 +19,7 @@ baritone = "26.2-SNAPSHOT"
 # XaeroLib
 xlib = "1.7.1"
 # Xaero's World Map (https://modrinth.com/mod/xaeros-world-map/versions)
-xwm = "1.44.2"
+xwm = "1.45.0"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
 xmm = "26.4.2"
 
