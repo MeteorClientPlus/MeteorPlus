@@ -23,7 +23,7 @@ import java.util.*;
 
 public class AntiBotPlus extends Module {
 	public AntiBotPlus() {
-		super(Categories.Combat, "Anti Bot", "Remove bots.");
+		super(Categories.Combat, "anti-bot", "Remove bots.");
 	}
 
 	/* Thanks LiquidBounce

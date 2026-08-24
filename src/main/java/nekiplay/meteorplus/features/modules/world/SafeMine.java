@@ -29,7 +29,7 @@ import java.util.Iterator;
 
 public class SafeMine extends Module {
 	public SafeMine() {
-		super(Categories.World, "Safe Mine", "Save you from lava.");
+		super(Categories.World, "safe-mine", "Save you from lava.");
 	}
 
 	private final SettingGroup ALSettings = settings.getDefaultGroup();

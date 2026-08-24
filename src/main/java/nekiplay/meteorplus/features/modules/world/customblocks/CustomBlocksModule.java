@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 public class CustomBlocksModule extends Module {
 	public CustomBlocksModule() {
-		super(Categories.World, "Custom Blocks", "Place custom blocks in world, extension for Holograms");
+		super(Categories.World, "custom-blocks", "Place custom blocks in world, extension for Holograms");
 	}
 
 	public Gson gson = new Gson();

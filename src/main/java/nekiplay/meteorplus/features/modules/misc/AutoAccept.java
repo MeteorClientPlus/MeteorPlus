@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class AutoAccept extends Module {
 	public AutoAccept() {
-		super(Categories.Misc, "Auto Accept", "Automatically accepts incoming teleport requests.");
+		super(Categories.Misc, "auto-accept", "Automatically accepts incoming teleport requests.");
 	}
 
 	private final SettingGroup AASettings = settings.getDefaultGroup();
