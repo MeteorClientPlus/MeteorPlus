@@ -51,9 +51,6 @@ dependencies {
 	// Fabric API
 	implementation(libs.fabric.api)
 
-	// Mixin extras
-	annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.4")
-
 	// Meteor Client
 	implementation(libs.meteor.client)
 	implementation(libs.baritone)

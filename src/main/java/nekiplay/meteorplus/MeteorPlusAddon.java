@@ -142,7 +142,6 @@ public class MeteorPlusAddon extends MeteorAddon {
 		if (isBaritonePresent) {
 			modules.add(new Hunt());
 		}
-		//modules.add(new KillAuraPlus());
 		//modules.add(new ZonesModule());
 		modules.add(new CustomBlocksModule());
 		modules.add(new Teams());

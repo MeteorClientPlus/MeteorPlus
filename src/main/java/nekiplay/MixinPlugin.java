@@ -16,18 +16,11 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
 	private static final String mixinPackageMeteorPlus = "nekiplay.meteorplus.mixin";
 
-
 	public static boolean isMeteorClient = false;
 	public static boolean isMeteorRejects = false; // Meteor Client Addon
-	public static boolean isNumbyHack = false; // Meteor Client Addon
-	public static boolean isZewo2 = false; // Meteor Client Addon
-
-	public static boolean isBozeAPI = false; // Client API
-	public static boolean isFutureClient = false; // Other cheat client
 
 	public static boolean isBaritonePresent = false; // Baritone for auto walking
 	public static boolean isXaeroWorldMapPresent = false; // Extension for map and baritone
-	public static boolean isXaeroMiniMapPresent = false; // Extension for map and baritone
 	public static boolean isXaeroPlusMapPresent = false; // other extension for map and baritone
 	public static boolean isWhereIsIt = false; // Utility for ChestTracker for render 3d text
 
@@ -36,16 +29,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
 		FabricLoader loader = FabricLoader.getInstance();
 
 		isMeteorClient = loader.isModLoaded("meteor-client");
-		isBozeAPI = loader.isModLoaded("boze-api");
-		isFutureClient = loader.isModLoaded("future");
-
 		isMeteorRejects = loader.isModLoaded("meteor-rejects");
-		isNumbyHack = loader.isModLoaded("numbyhack");
-		isZewo2 = loader.isModLoaded("zewo2");
 
 		isBaritonePresent = loader.isModLoaded("baritone-meteor") || loader.isModLoaded("baritone");
 		isXaeroWorldMapPresent = loader.isModLoaded("xaeroworldmap");
-		isXaeroMiniMapPresent = loader.isModLoaded("xaerominimap");
 		isXaeroPlusMapPresent = loader.isModLoaded("xaeroplus");
 		isWhereIsIt = loader.isModLoaded("whereisit");
 	}
