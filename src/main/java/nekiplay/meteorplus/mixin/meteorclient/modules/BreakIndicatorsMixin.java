@@ -44,7 +44,7 @@ public class BreakIndicatorsMixin extends Module {
 	);
 
 	@Unique
-	public final Setting<Boolean> packetMine = sgPercentageRenderPlus.add(new BoolSetting.Builder()
+	public final Setting<Boolean> packetMinePlus = sgPercentageRenderPlus.add(new BoolSetting.Builder()
 		.name("packet-mine")
 		.description("Render packet mine blocks.")
 		.defaultValue(true)
@@ -87,7 +87,7 @@ public class BreakIndicatorsMixin extends Module {
 			renderBlock(event, ownBreakingPos, shrinkFactor, orig);
 
 		}
-		if (packetMine.get() && !Modules.get().get(PacketMine.class).blocks.isEmpty()) {
+		if (packetMinePlus.get() && !Modules.get().get(PacketMine.class).blocks.isEmpty()) {
 			renderPacket(event, Modules.get().get(PacketMine.class).blocks);
 		}
 	}

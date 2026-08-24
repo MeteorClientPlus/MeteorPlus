@@ -4,14 +4,11 @@ package nekiplay.meteorplus.mixin.meteorclient.modules;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.player.MiddleClickExtra;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,13 +22,8 @@ public class MiddleClickExtraMixin extends Module {
 		super(Categories.Player, "middle-click-extra", "Perform various actions when you middle click.");
 	}
 
-	@Final
-	@Shadow
-	private final SettingGroup sgGeneral = settings.getDefaultGroup();
-
-
 	@Unique
-	private final Setting<Boolean> noInventory = sgGeneral.add(new BoolSetting.Builder()
+	private final Setting<Boolean> noInventory = settings.getDefaultGroup().add(new BoolSetting.Builder()
 		.name("Anti-inventory")
 		.description("Not work in inventory.")
 		.defaultValue(true)

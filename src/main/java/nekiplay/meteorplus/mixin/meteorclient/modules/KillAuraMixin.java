@@ -31,7 +31,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -46,19 +45,11 @@ public class KillAuraMixin extends Module {
 
 	@Final
 	@Shadow
-	private final SettingGroup sgTargeting = settings.getGroup("Targeting");
+	private Setting<Set<EntityType<?>>> entities;
 
 	@Final
 	@Shadow
-	private final SettingGroup sgTiming = settings.getGroup("Timing");
-
-	@Final
-	@Shadow
-	private final Setting<Set<EntityType<?>>> entities = (Setting<Set<EntityType<?>>>) sgTargeting.get("entities");
-
-	@Final
-	@Shadow
-	private final List<Entity> targets = new ArrayList<>();
+	private List<Entity> targets;
 
 	@Shadow
 	public Entity getTarget() {
@@ -68,7 +59,7 @@ public class KillAuraMixin extends Module {
 
 	@Shadow
 	@Final
-	private final Setting<Boolean> customDelay = (Setting<Boolean>) sgTiming.get("custom-delay");
+	private Setting<Boolean> customDelay;
 
 	@Unique
 	private final Setting<Boolean> smartDelayv2 = sgTimingPlus.add(new BoolSetting.Builder()

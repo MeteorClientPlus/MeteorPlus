@@ -1,7 +1,6 @@
 package nekiplay.meteorplus.mixin.meteorclient.modules;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -18,7 +17,7 @@ public class BlockESPMixin extends Module {
 
 	@Final
 	@Shadow
-	private final Long2ObjectMap<ESPChunk> chunks = new Long2ObjectOpenHashMap<>();
+	private Long2ObjectMap<ESPChunk> chunks;
 
 	public BlockESPMixin(Category category, String name, String description) {
 		super(category, name, description);
