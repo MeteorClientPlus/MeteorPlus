@@ -19,8 +19,7 @@
 	<p>Thanks some russian paid clients and <a href="https://github.com/CCBlueX/LiquidBounce">LiquidBounce</a> 🤫</p>
 	<br>
 	<br>
-	Recommended lua scripting engine for your cheat/mod pack
-[Neo Scripts Lua](https://modrinth.com/mod/neo-scripts)
+	Recommended lua scripting engine for your cheat/mod pack <a href="https://modrinth.com/mod/neo-scripts">Neo Scripts Lua</a> that adds many features for interact with cliet/other mods/baritone/minimap
 </div>
 
 ## PvE Modules
