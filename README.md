@@ -19,9 +19,6 @@
 	<p>Thanks some russian paid clients and <a href="https://github.com/CCBlueX/LiquidBounce">LiquidBounce</a> 🤫</p>
 	<br>
 	<br>
-	Recommended server for the game
-3b3t.org - analog of 2b2t - https://discord.gg/3b3t-org
-	<br>
 	Recommended lua scripting engine for game
 Neo Scripts Lua - https://modrinth.com/mod/neo-scripts
 </div>
