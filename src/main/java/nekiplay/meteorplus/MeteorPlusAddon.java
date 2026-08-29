@@ -5,6 +5,7 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
+import meteordevelopment.meteorclient.utils.render.DisplayItemUtils;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
@@ -56,7 +57,7 @@ import static nekiplay.MixinPlugin.*;
 public class MeteorPlusAddon extends MeteorAddon {
 	public static final Logger LOG = LogUtils.getLogger();
 
-	public static final Category CATEGORYMODS = new Category("Integrations", () -> ModItems.METEOR_PLUS_LOGO_MODS_ITEM.getDefaultInstance());
+	public static final Category CATEGORYMODS = new Category("Integrations", () -> DisplayItemUtils.toStack(ModItems.METEOR_PLUS_LOGO_MODS_ITEM));
 	public static final String HUD_TITLE = "Meteor+";
 
 	private static MeteorPlusAddon instance;
