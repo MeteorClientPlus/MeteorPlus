@@ -52,7 +52,10 @@ dependencies {
 	implementation(libs.fabric.api)
 
 	// Meteor Client
-	implementation(libs.meteor.client)
+	//implementation(libs.meteor.client)
+	implementation(files("libs/meteor-client-26.3-pre-1-local.jar"))
+	implementation("meteordevelopment:orbit:0.2.4")
+	implementation("org.meteordev:starscript:0.2.5")
 	implementation(libs.baritone)
 
 	// Xaero's Mods
