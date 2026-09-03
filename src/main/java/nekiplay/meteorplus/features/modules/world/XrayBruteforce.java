@@ -53,7 +53,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
+import static com.mojang.blaze3d.platform.InputConstants.KEY_X;
 
 public class XrayBruteforce extends Module {
 	public XrayBruteforce() {
@@ -389,7 +389,7 @@ public class XrayBruteforce extends Module {
 	private final Setting<Keybind> pausekeybind = sgGeneral.add(new KeybindSetting.Builder()
 		.name("pause-keybind")
 		.description("The bind for pause.")
-		.defaultValue(Keybind.fromKey(GLFW_KEY_X))
+		.defaultValue(Keybind.fromKey(KEY_X))
 		.visible(pauseBind::get)
 		.build()
 	);
@@ -921,13 +921,13 @@ public class XrayBruteforce extends Module {
 
 	private ServerboundPlayerActionPacket getPacket(BlockPos blockpos, Setting<PacketMode> setting) {
 		if (setting.get() == PacketMode.Abort) {
-			ServerboundPlayerActionPacket abort = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
+			ServerboundPlayerActionPacket abort = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, new BlockPos(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Direction.UP, 0);
 			return abort;
 		} else if (setting.get() == PacketMode.Start) {
-			ServerboundPlayerActionPacket start = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
+			ServerboundPlayerActionPacket start = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK, new BlockPos(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Direction.UP, 0);
 			return start;
 		} else if (setting.get() == PacketMode.Stop) {
-			ServerboundPlayerActionPacket stop = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, new BlockPos(blockpos), Direction.UP, 0);
+			ServerboundPlayerActionPacket stop = new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, new BlockPos(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Direction.UP, 0);
 			return stop;
 		}
 		return null;

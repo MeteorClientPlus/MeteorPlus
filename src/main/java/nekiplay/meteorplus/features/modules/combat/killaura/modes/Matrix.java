@@ -17,7 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.wolf.Wolf;
-import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enderman;
 import net.minecraft.world.entity.monster.zombie.ZombifiedPiglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
@@ -88,7 +88,7 @@ public class Matrix extends KillAuraPlusMode {
 	private void attack(Entity target) {
 
 		mc.gameMode.attack(mc.player, target);
-		mc.player.swing(InteractionHand.MAIN_HAND);
+		mc.player.swing(InteractionHand.MAIN_HAND, mc.player.getItemInHand(InteractionHand.MAIN_HAND).getAttackAnimation(), false);
 	}
 
 	private boolean entityCheck(Entity entity) {
@@ -113,7 +113,7 @@ public class Matrix extends KillAuraPlusMode {
 			) return false;
 		}
 		if (settings.ignorePassive.get()) {
-			if (entity instanceof EnderMan enderman && !enderman.isCreepy()) return false;
+			if (entity instanceof Enderman enderman && !enderman.isCreepy()) return false;
 			if (entity instanceof ZombifiedPiglin piglin && !piglin.isAggressive()) return false;
 			if (entity instanceof Wolf wolf && !wolf.isAggressive()) return false;
 		}

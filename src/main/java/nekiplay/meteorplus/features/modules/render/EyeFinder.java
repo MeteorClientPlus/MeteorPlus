@@ -65,7 +65,7 @@ public class EyeFinder extends Module {
 	public void renderBlock(Render3DEvent event, Entity entity, HitResult result) {
 		if (result instanceof BlockHitResult blockHitResult) {
 			if (blockHitResult.getType() == HitResult.Type.BLOCK || blockHitResult.getType() == HitResult.Type.MISS) {
-				BlockPos bp = new BlockPos(blockHitResult.getBlockPos());
+				BlockPos bp = blockHitResult.getBlockPos();
 				BlockState state = mc.level.getBlockState(bp);
 				Direction side = blockHitResult.getDirection();
 				VoxelShape shape = state.getShape(mc.level, bp);
