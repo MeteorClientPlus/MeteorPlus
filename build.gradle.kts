@@ -102,7 +102,7 @@ tasks {
     processResources {
         val propertyMap = mapOf(
             "version" to project.version,
-            "minecraft_version" to libs.versions.minecraft.get(),
+            "minecraft_version" to toMinecraftCompat(libs.versions.minecraft.get()),
 			"jdk_version" to libs.versions.jdk.get(),
             "gh_hash" to (System.getenv("GITHUB_SHA") ?: ""),
         )
