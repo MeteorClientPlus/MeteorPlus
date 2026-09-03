@@ -118,4 +118,13 @@ tasks {
 			rename { "${it}_$archivesBaseName" }
         }
     }
+
+	withType<JavaCompile>().configureEach {
+		options.compilerArgs.addAll(
+			listOf(
+				"-Xlint:deprecation",
+				"-Xlint:unchecked"
+			)
+		)
+	}
 }
