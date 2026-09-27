@@ -18,6 +18,7 @@ configurations.all {
 }
 
 repositories {
+    mavenLocal()
 	// Modrinth
 	maven {
 		url = uri("https://api.modrinth.com/maven/")
