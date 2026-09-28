@@ -138,7 +138,7 @@ public class TriggerBot extends Module {
 			}
 		}
 
-		if (smartDelay.get()) return mc.player.getAttackStrengthScale(0.5f) >= 1;
+		if (smartDelay.get()) return mc.player.getAttackStrengthScale(0.5f) >= 2;
 
 		if (hitDelayTimer > 0) {
 			hitDelayTimer--;
@@ -152,6 +152,7 @@ public class TriggerBot extends Module {
 
 	@EventHandler
 	private void onTick(Render3DEvent event) {
+		if (mc.player.isUsingitem()) return;
 		if (!mc.player.isAlive() || PlayerUtils.getGameMode() == GameType.SPECTATOR) return;
 		if (mc.crosshairPickEntity == null) return;
 
