@@ -138,7 +138,7 @@ public class TriggerBot extends Module {
 			}
 		}
 
-		if (smartDelay.get()) return mc.player.getAttackStrengthScale(0.5f) >= 2;
+		if (smartDelay.get()) return mc.player.getAttackStrengthScale(0.5f) >= 1;
 
 		if (hitDelayTimer > 0) {
 			hitDelayTimer--;
