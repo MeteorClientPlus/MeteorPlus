@@ -52,10 +52,7 @@ dependencies {
 	implementation(libs.fabric.api)
 
 	// Meteor Client
-	//implementation(libs.meteor.client)
-	implementation(files("libs/meteor-client-26.3-pre-1-local.jar"))
-	implementation("meteordevelopment:orbit:0.2.4")
-	implementation("org.meteordev:starscript:0.2.5")
+	implementation(libs.meteor.client)
 	implementation(libs.baritone)
 
 	// Xaero's Mods
@@ -113,9 +110,10 @@ tasks {
 	}
     jar {
 		inputs.property("archivesName", archivesBaseName)
+		val licenseName = "LICENSE_$archivesBaseName"
 
 		from("LICENSE") {
-			rename { "${it}_$archivesBaseName" }
+			rename("LICENSE", licenseName)
         }
     }
 

@@ -5,26 +5,26 @@ mod-version = "1.0.9.5+26.3"
 jdk = "25"
 minecraft = "26.3"
 fabric-loader = "0.19.5"
-fabric-api = "0.160.5+26.3"
+fabric-api = "0.163.0+26.3"
 
 # Plugins
 # Loom (https://github.com/FabricMC/fabric-loom)
-loom = "1.17-SNAPSHOT"
+loom = "1.18-SNAPSHOT"
 
 # Meteor (https://github.com/MeteorDevelopment/meteor-client)
-meteor = "26.2-SNAPSHOT"
-baritone = "26.2-SNAPSHOT"
+meteor = "26.3-SNAPSHOT"
+baritone = "26.3-SNAPSHOT"
 
 # Xaero's Mods
 # XaeroLib
-xlib = "1.7.8"
+xlib = "1.7.17"
 # Xaero's World Map (https://modrinth.com/mod/xaeros-world-map/versions)
-xwm = "1.46.2"
+xwm = "1.47.0"
 # Xaero's Minimap (https://modrinth.com/mod/xaeros-minimap/versions)
-xmm = "26.5.1"
+xmm = "26.6.0"
 
 # Where Is It (https://modrinth.com/mod/where-is-it-port/versions)
-whereisit = "2.7.5.2+26.2"
+whereisit = "2.7.5.2+26.3"
 
 [libraries]
 # Fabric base
