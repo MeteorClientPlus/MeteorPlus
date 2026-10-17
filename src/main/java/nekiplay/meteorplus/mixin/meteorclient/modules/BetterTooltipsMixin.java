@@ -42,8 +42,10 @@ public class BetterTooltipsMixin extends Module {
 	private final SettingGroup sgGeneral = settings.getDefaultGroup();
 	private final SettingGroup sgPreviews = settings.getGroup("Previews");
 
+	@SuppressWarnings("unchecked")
 	public final Setting<Boolean> echest = (Setting<Boolean>) sgPreviews.get("echests");
 
+	@SuppressWarnings("unchecked")
 	private final Setting<BetterTooltips.DisplayWhen> displayWhen = (Setting<BetterTooltips.DisplayWhen>) sgGeneral.get("display-when");
 
 

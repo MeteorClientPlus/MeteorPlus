@@ -54,15 +54,14 @@ public class RenderingMixin {
 		}
 	}
 
-	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;addVertex(Lorg/joml/Matrix4fc;FFF)Lcom/mojang/blaze3d/vertex/VertexConsumer;"))
+	@ModifyArgs(method = "renderLabel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Font;prepareBackground(FFFFI)Lnet/minecraft/client/gui/font/TextRenderable;"))
 	private static void backgroundModifier(Args args) {
 		if (whereIsIt == null) {
 			whereIsIt = Modules.get().get(WhereIsIt.class);
 		}
 
 		if (whereIsIt != null && whereIsIt.isActive() && !whereIsIt.background.get()) {
-			args.set(1, 0f);
-			args.set(2, 0f);
+			args.set(4, 0);
 		}
 	}
 

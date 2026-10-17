@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +49,7 @@ public class ItemDataSettingScreen extends WindowScreen {
 		initTable();
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends ICopyable<T> & ISerializable<T> & IChangeable & IItemData<T>> void initTable() {
 		for (Item Item : BuiltInRegistries.ITEM) {
 			T blockData = (T) setting.get().get(Item);
@@ -59,7 +60,7 @@ public class ItemDataSettingScreen extends WindowScreen {
 
 		for (Item block : BLOCKS) {
 			String name = Names.get(block);
-			if (!StringUtils.containsIgnoreCase(name, filterText)) continue;
+			if (!Strings.CI.contains(name, filterText)) continue;
 
 			T blockData = (T) setting.get().get(block);
 

@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AutoDropPlus extends Module {
 	public AutoDropPlus() {
@@ -38,8 +39,8 @@ public class AutoDropPlus extends Module {
 			.build()
 		);
 
-		// First declare workInstant without initialization
-		final Setting<Boolean>[] workInstantRef = new Setting[1];
+		// Holder avoids illegal forward reference to blank final field workInstant
+		final AtomicReference<Setting<Boolean>> workInstantRef = new AtomicReference<>();
 
 		// Initialize delay with onChanged callback
 		delay = defaultGroup.add(new IntSetting.Builder()
@@ -48,22 +49,23 @@ public class AutoDropPlus extends Module {
 			.defaultValue(5)
 			.min(0)
 			.onChanged(value -> {
-				if (value != 0 && workInstantRef[0] != null && workInstantRef[0].get()) {
-					workInstantRef[0].set(false);
+				Setting<Boolean> workInstantSetting = workInstantRef.get();
+				if (value != 0 && workInstantSetting != null && workInstantSetting.get()) {
+					workInstantSetting.set(false);
 				}
 			})
 			.build()
 		);
 
 		// Then initialize workInstant
-		workInstantRef[0] = defaultGroup.add(new BoolSetting.Builder()
+		workInstantRef.set(defaultGroup.add(new BoolSetting.Builder()
 			.name("instant-work")
 			.description("Drop or remove items instant.")
 			.defaultValue(false)
 			.visible(() -> delay.get() == 0)
 			.build()
-		);
-		workInstant = workInstantRef[0];
+		));
+		workInstant = workInstantRef.get();
 
 		// Initialize other settings
 		removeContainersItems = defaultGroup.add(new BoolSetting.Builder()
