@@ -4,8 +4,7 @@
 	"compatibilityLevel": "JAVA_17",
 	"plugin": "nekiplay.MixinPlugin",
 	"client": [
-		"GuiMapMixin",
-		"MapPixelAccessor",
+		"RightClickMenuMixin",
 		"WaypointRendererMixin"
 	],
 	"injectors": {
