@@ -11,6 +11,7 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
 import nekiplay.MixinPlugin;
 import nekiplay.main.items.ModItems;
+import nekiplay.meteorplus.features.commands.BlockRawIdCommand;
 import nekiplay.meteorplus.features.commands.ClearInventoryCommand;
 import nekiplay.meteorplus.features.commands.EclipCommand;
 import nekiplay.meteorplus.features.commands.GotoPlusCommand;
@@ -122,6 +123,7 @@ public class MeteorPlusAddon extends MeteorAddon {
 		//region Commands
 		LOG.info(METEOR_LOGPREFIX + " Initializing commands...");
 
+		Commands.add(new BlockRawIdCommand());
 		Commands.add(new ItemRawIdCommand());
 		Commands.add(new EclipCommand());
 		Commands.add(new ClearInventoryCommand());
