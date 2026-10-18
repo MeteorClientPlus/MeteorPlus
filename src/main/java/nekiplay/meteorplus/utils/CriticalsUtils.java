@@ -1,7 +1,5 @@
-package nekiplay.meteorplus.features.modules.combat.criticals;
+package nekiplay.meteorplus.utils;
 
-import meteordevelopment.meteorclient.systems.modules.Categories;
-import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.combat.Criticals;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
@@ -9,11 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
-public class CriticalsPlus extends Module {
-	public CriticalsPlus() {
-		super(Categories.Combat, "Criticals+", "Better criticals module");
-	}
-
+public class CriticalsUtils {
 	private static final Minecraft mc = Minecraft.getInstance();
 
 	public static boolean canCrit() {

@@ -8,7 +8,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
-import nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus;
+import nekiplay.meteorplus.utils.CriticalsUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.Objects;
 import java.util.Set;
 
-import static nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus.needCrit;
+import static nekiplay.meteorplus.utils.CriticalsUtils.needCrit;
 
 public class TriggerBot extends Module {
 	public TriggerBot() {
@@ -130,7 +130,7 @@ public class TriggerBot extends Module {
 	}
 
 	private boolean delayCheck() {
-		if (onlyCrits.get() && !CriticalsPlus.allowCrit() && needCrit(mc.crosshairPickEntity)) {
+		if (onlyCrits.get() && !CriticalsUtils.allowCrit() && needCrit(mc.crosshairPickEntity)) {
 			if (ignoreOnlyCritsOnLevitation.get() && !Objects.requireNonNull(mc.player).hasEffect(MobEffects.LEVITATION)) {
 				return false;
 			} else if (!ignoreOnlyCritsOnLevitation.get()) {

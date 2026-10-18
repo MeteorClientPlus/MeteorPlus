@@ -35,8 +35,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import static nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus.allowCrit;
-import static nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus.needCrit;
+import static nekiplay.meteorplus.utils.CriticalsUtils.allowCrit;
+import static nekiplay.meteorplus.utils.CriticalsUtils.needCrit;
 
 @Mixin(value = KillAura.class, remap = false, priority = 1001)
 public class KillAuraMixin extends Module {

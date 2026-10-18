@@ -10,7 +10,6 @@ import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import nekiplay.meteorplus.features.modules.world.timer.TimerPlus;
 import nekiplay.meteorplus.mixinclasses.SpoofMode;
-import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -408,13 +407,6 @@ public class ConfigModifier {
 		if (itemStack.isEmpty()) itemStack = mc.player.getOffhandItem();
 
 		return itemStack != null ? wrap(itemStack) : Value.null_();
-	}
-
-	private static Value ping() {
-		if (mc.getConnection() == null || mc.player == null) return Value.number(0);
-
-		PlayerInfo playerListEntry = mc.getConnection().getPlayerInfo(mc.player.getUUID());
-		return Value.number(playerListEntry != null ? playerListEntry.getLatency() : 0);
 	}
 
 	private Value posString(boolean opposite, boolean camera) {

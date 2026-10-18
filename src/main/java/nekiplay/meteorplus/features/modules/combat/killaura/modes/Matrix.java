@@ -10,7 +10,6 @@ import meteordevelopment.meteorclient.utils.player.Rotations;
 import nekiplay.meteorplus.features.modules.combat.killaura.KillAuraPlusMode;
 import nekiplay.meteorplus.features.modules.combat.killaura.KillAuraPlusModes;
 import nekiplay.meteorplus.utils.GameSensitivityUtils;
-import nekiplay.meteorplus.utils.math.StopWatch;
 import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -26,8 +25,8 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 
-import static nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus.allowCrit;
-import static nekiplay.meteorplus.features.modules.combat.criticals.CriticalsPlus.needCrit;
+import static nekiplay.meteorplus.utils.CriticalsUtils.allowCrit;
+import static nekiplay.meteorplus.utils.CriticalsUtils.needCrit;
 import static nekiplay.meteorplus.utils.RaycastUtils.raycastEntity;
 import static net.minecraft.util.Mth.*;
 
@@ -125,7 +124,6 @@ public class Matrix extends KillAuraPlusMode {
 		return true;
 	}
 
-	private final StopWatch stopWatch = new StopWatch();
 	private UVPair rotateVector = new UVPair(0, 0);
 	private LivingEntity target;
 	private Entity selected;

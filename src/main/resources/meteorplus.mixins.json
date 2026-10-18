@@ -17,10 +17,8 @@
 		"meteorclient.modules.NoRenderMixin",
 		"meteorclient.modules.TracersMixin",
 		"meteorclient.modules.WaypointsModuleMixin",
-		"minecraft.ConnectionAccessor",
-		"minecraft.ShapelessRecipeAccessor",
 		"minecraft.hud.DebugScreenOverlayMixin",
-      "minecraft.hud.HudMixin"
+		"minecraft.hud.HudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
