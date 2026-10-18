@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 
@@ -25,10 +24,9 @@ public class DebugScreenOverlayMixin {
 		method = "extractLines",
 		at = @At(
 			value = "HEAD"
-		),
-		locals = LocalCapture.CAPTURE_FAILHARD
+		)
 	)
-	private void modifyDrawLeftText(GuiGraphicsExtractor context, List<String> text, boolean left, CallbackInfo ci) {
+	private void modifyDrawLeftText(GuiGraphicsExtractor context, List<String> text, boolean left, int width, CallbackInfo ci) {
 		DebugDrawTextEvent debugDrawTextEvent = DebugDrawTextEvent.get(text, left);
 		MeteorClient.EVENT_BUS.post(debugDrawTextEvent);
 	}

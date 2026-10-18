@@ -34,7 +34,7 @@ public class WaypointRendererMixin {
 		if (modules != null) {
 			MapIntegration mapIntegration = modules.get(MapIntegration.class);
 			if (mapIntegration != null && mapIntegration.isActive()) {
-				ArrayList<RightClickOption> rightClickOptions = new ArrayList();
+				ArrayList<RightClickOption> rightClickOptions = new ArrayList<>();
 				rightClickOptions.add(new RightClickOption(element.getName(), rightClickOptions.size(), target) {
 					public void onAction(Screen screen) {
 						SupportMods.xaeroMinimap.openWaypoint((GuiMap) screen, element);

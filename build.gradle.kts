@@ -99,7 +99,7 @@ tasks {
     processResources {
         val propertyMap = mapOf(
             "version" to project.version,
-            "minecraft_version" to libs.versions.minecraft.get(),
+            "minecraft_version" to toMinecraftCompat(libs.versions.minecraft.get()),
 			"jdk_version" to libs.versions.jdk.get(),
             "gh_hash" to (System.getenv("GITHUB_SHA") ?: ""),
         )
@@ -110,9 +110,19 @@ tasks {
 	}
     jar {
 		inputs.property("archivesName", archivesBaseName)
+		val licenseName = "LICENSE_$archivesBaseName"
 
 		from("LICENSE") {
-			rename { "${it}_$archivesBaseName" }
+			rename("LICENSE", licenseName)
         }
     }
+
+	withType<JavaCompile>().configureEach {
+		options.compilerArgs.addAll(
+			listOf(
+				"-Xlint:deprecation",
+				"-Xlint:unchecked"
+			)
+		)
+	}
 }
