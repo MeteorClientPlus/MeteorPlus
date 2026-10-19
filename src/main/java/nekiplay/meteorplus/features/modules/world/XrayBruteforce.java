@@ -1122,6 +1122,7 @@ public class XrayBruteforce extends Module {
 			for (int dz = -radius; dz <= radius; dz++) {
 				for (int dx = -radius; dx <= radius; dx++) {
 					BlockPos blockPos = startPos.offset(dx, dy, dz);
+					assert mc.level != null;
 					BlockState state = mc.level.getBlockState(blockPos);
 					boolean isInRenderDistance = EntityUtils.isInRenderDistance(blockPos);
 					boolean isBlockPosNotInList = !scanned.contains(blockPos);

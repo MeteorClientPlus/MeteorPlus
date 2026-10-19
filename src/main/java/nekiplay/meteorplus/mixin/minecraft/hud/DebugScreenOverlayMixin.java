@@ -26,8 +26,8 @@ public class DebugScreenOverlayMixin {
 			value = "HEAD"
 		)
 	)
-	private void modifyDrawLeftText(GuiGraphicsExtractor context, List<String> text, boolean left, int width, CallbackInfo ci) {
-		DebugDrawTextEvent debugDrawTextEvent = DebugDrawTextEvent.get(text, left);
+	private void modifyDrawLeftText(GuiGraphicsExtractor graphics, List<String> lines, boolean alignLeft, int scaledScreenWidth, CallbackInfo ci) {
+		DebugDrawTextEvent debugDrawTextEvent = DebugDrawTextEvent.get(lines, alignLeft);
 		MeteorClient.EVENT_BUS.post(debugDrawTextEvent);
 	}
 }

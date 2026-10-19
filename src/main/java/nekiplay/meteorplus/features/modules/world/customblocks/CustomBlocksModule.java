@@ -64,6 +64,7 @@ public class CustomBlocksModule extends Module {
 			for (int z = chunk.getPos().getMinBlockZ(); z <= chunk.getPos().getMaxBlockZ(); z++) {
 				int height = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE).getFirstAvailable(x - chunk.getPos().getMinBlockX(), z - chunk.getPos().getMinBlockZ());
 
+				assert mc.level != null;
 				for (int y = mc.level.getMinY(); y < height; y++) {
 
 					BlockPos pos = new BlockPos(x, y, z);

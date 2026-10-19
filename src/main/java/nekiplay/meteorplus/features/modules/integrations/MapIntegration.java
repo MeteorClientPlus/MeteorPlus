@@ -30,7 +30,7 @@ public class MapIntegration extends Module {
 		.visible(() -> {
 			boolean allow = false;
 			for (IBaritone baritone : BaritoneAPI.getProvider().getAllBaritones()) {
-				if (!baritone.getCommandManager().getRegistry().stream().filter((a) -> a.getNames().get(0).equalsIgnoreCase("elytra")).findAny().isEmpty()) {
+				if (baritone.getCommandManager().getRegistry().stream().anyMatch((a) -> a.getNames().getFirst().equalsIgnoreCase("elytra"))) {
 					allow = true;
 					break;
 				}

@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class LocalPlayerMixin {
 
 	@WrapOperation(method = "modifyInput", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec2;scale(F)Lnet/minecraft/world/phys/Vec2;", ordinal = 1))
-	private Vec2 hookCustomMultiplier(Vec2 instance, float value, Operation<Vec2> original) {
-		PlayerUseMultiplierEvent playerUseMultiplier = new PlayerUseMultiplierEvent(value, value);
+	private Vec2 hookCustomMultiplier(Vec2 instance, float s, Operation<Vec2> original) {
+		PlayerUseMultiplierEvent playerUseMultiplier = new PlayerUseMultiplierEvent(s, s);
 		MeteorClient.EVENT_BUS.post(playerUseMultiplier);
 		return new Vec2(
 			instance.x * playerUseMultiplier.getSideways(),

@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Hud.class)
 public class HudMixin {
 	@Inject(method = "extractHearts", at = @At("HEAD"), cancellable = true)
-	private void onRenderHealthBar(GuiGraphicsExtractor graphics, Player player, int xLeft, int yLineBase, int healthRowHeight, int heartOffsetIndex, float maxHealth, int currentHealth, int oldHealth, int absorption, boolean blinking, CallbackInfo ci) {
-		RenderHealthBarEvent healthBarRenderEvent = RenderHealthBarEvent.get(graphics, player, xLeft, yLineBase, healthRowHeight, heartOffsetIndex, maxHealth, currentHealth, oldHealth, absorption, blinking);
+	private void onRenderHealthBar(GuiGraphicsExtractor graphics, Player player, int xLeft, int yLineBase, int healthRowHeight, int heartOffsetIndex, float maxHealth, int currentHealth, int oldHealth, int absorption, boolean blink, CallbackInfo ci) {
+		RenderHealthBarEvent healthBarRenderEvent = RenderHealthBarEvent.get(graphics, player, xLeft, yLineBase, healthRowHeight, heartOffsetIndex, maxHealth, currentHealth, oldHealth, absorption, blink);
 		MeteorClient.EVENT_BUS.post(healthBarRenderEvent);
 		if (healthBarRenderEvent.isCancelled()) {
 			ci.cancel();
@@ -43,8 +43,8 @@ public class HudMixin {
 	}
 
 	@Inject(method = "extractVehicleHealth", at = @At("HEAD"), cancellable = true)
-	private void onRenderMountHealth(GuiGraphicsExtractor context, CallbackInfo ci) {
-		RenderMountHealthBarEvent renderMountHealthBarEvent = RenderMountHealthBarEvent.get(context);
+	private void onRenderMountHealth(GuiGraphicsExtractor graphics, CallbackInfo ci) {
+		RenderMountHealthBarEvent renderMountHealthBarEvent = RenderMountHealthBarEvent.get(graphics);
 		MeteorClient.EVENT_BUS.post(renderMountHealthBarEvent);
 		if (renderMountHealthBarEvent.isCancelled()) {
 			ci.cancel();

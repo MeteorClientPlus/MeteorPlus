@@ -151,11 +151,10 @@ public class Cauldrons extends AutoObsidianFarmMode {
 							double yaw = Rotations.getYaw(placing);
 							double pitch = Rotations.getPitch(placing);
 							Vec3 pos = mc.player.getEyePosition();
-							HitResult result = RaycastUtils.bucketRaycast(pos, (float) pitch, (float) yaw, ClipContext.Fluid.NONE);
+							BlockHitResult result = RaycastUtils.bucketRaycast(pos, (float) pitch, (float) yaw, ClipContext.Fluid.NONE);
 							if (result.getType() == HitResult.Type.BLOCK) {
-								BlockHitResult blockHitResult = (BlockHitResult) result;
-								BlockPos blockPos = blockHitResult.getBlockPos();
-								Direction direction = blockHitResult.getDirection();
+								BlockPos blockPos = result.getBlockPos();
+								Direction direction = result.getDirection();
 								BlockPos blockPos2 = blockPos.relative(direction);
 
 								if (blockPos2.equals(placing)) {

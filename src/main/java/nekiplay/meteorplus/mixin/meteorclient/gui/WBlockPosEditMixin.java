@@ -95,6 +95,7 @@ public class WBlockPosEditMixin extends WHorizontalList {
 		ci.cancel();
 	}
 
+	@Unique
 	private void updateRender(WTextBox textBox) {
 		textBoxX.setFocused(true);
 		textBoxX.setFocused(false);

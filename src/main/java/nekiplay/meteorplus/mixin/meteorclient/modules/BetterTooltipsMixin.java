@@ -2,7 +2,6 @@ package nekiplay.meteorplus.mixin.meteorclient.modules;
 
 import meteordevelopment.meteorclient.events.render.TooltipDataEvent;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.render.BetterTooltips;
@@ -39,14 +38,13 @@ public class BetterTooltipsMixin extends Module {
 		super(category, name, description, aliases);
 	}
 
-	private final SettingGroup sgGeneral = settings.getDefaultGroup();
-	private final SettingGroup sgPreviews = settings.getGroup("Previews");
+	@Shadow
+	@Final
+	private Setting<Boolean> echest;
 
-	@SuppressWarnings("unchecked")
-	public final Setting<Boolean> echest = (Setting<Boolean>) sgPreviews.get("echests");
-
-	@SuppressWarnings("unchecked")
-	private final Setting<BetterTooltips.DisplayWhen> displayWhen = (Setting<BetterTooltips.DisplayWhen>) sgGeneral.get("display-when");
+	@Shadow
+	@Final
+	private Setting<BetterTooltips.DisplayWhen> displayWhen;
 
 
 	@ModifyArgs(method = "appendTooltip", at = @At(value = "INVOKE", target = "Lmeteordevelopment/meteorclient/events/game/ItemStackTooltipEvent;appendStart(Lnet/minecraft/network/chat/Component;)V"))
