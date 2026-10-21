@@ -5,13 +5,14 @@
 	"name": "Meteor+",
 	"description": "An addon for Meteor client that adds many blatant features.",
 	"authors": [
-		"Neki_play"
+		"Neki_play",
+		"Merennor"
 	],
 	"contact": {
 		"homepage": "https://github.com/MeteorClientPlus/MeteorPlus",
 		"issues": "https://github.com/MeteorClientPlus/MeteorPlus/issues",
-		"sources": "https://github.com/MeteorClientPlus/MeteorPlus/MeteorPlus",
-		"discord": "https://www.guilded.gg/i/27dAlJKk"
+		"sources": "https://github.com/MeteorClientPlus/MeteorPlus",
+		"discord": "https://discord.gg/N3gqYc7GRS"
 	},
 	"license": "GPL-3.0",
 	"icon": "assets/meteorplus/icon.png",
@@ -43,6 +44,7 @@
 	"depends": {
 		"java": ">=${jdk_version}",
 		"minecraft": "${minecraft_version}",
+		"meteor-client": "*",
 		"fabric-api": "*"
 	}
 }

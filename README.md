@@ -3,7 +3,7 @@
 	<img src="https://github.com/Nekiplay/MeteorPlus/assets/35975332/5fa04a11-0de7-4423-8c9d-0b6fe9142df4" alt="meteor-plus" width="200px"/>
 	<h1>Meteor+</h1>
 	<br>
-		An addon for <a href="https://github.com/MeteorDevelopment/meteor-client">Meteor client</a> that adds many blatant features.
+		An addon for <a href="https://github.com/MeteorDevelopment/meteor-client">Meteor Client</a> that adds many blatant features.
 	<br>
 	<a href="https://www.meteoraddons.com/?addon=MeteorClientPlus%2FMeteorPlus"><img src="https://img.shields.io/static/v1?label=Made%20with&message=Java&logo=java&labelColor=FFA500&color=FF8C00" alt="Verified Addon"></a>
 	<a href="https://www.minecraft.net/"><img src="https://img.shields.io/github/license/MeteorClientPlus/MeteorPlus?logo=mdBook&color=FF8C00" alt="Minecraft version"/></a>
